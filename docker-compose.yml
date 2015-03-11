@@ -11,8 +11,12 @@ api:
     working_dir: /data/src
     links:
         - db
+        - mopidy
     ports:
         - "8080:5000"
 db:
     image: postgres
 
+mopidy:
+    build: ./mopidy
+    command: mopidy
