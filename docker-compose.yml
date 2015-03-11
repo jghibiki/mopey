@@ -1,0 +1,18 @@
+client:
+    build: ./client
+    command: http-server /data/client -c-1 --cors
+    ports:
+        - "8081:8080"
+
+api:
+    build: ./api
+    command: python server.py
+    #command: gunicorn -w 2 -b 0.0.0.0:5000 server:app
+    working_dir: /data/src
+    links:
+        - db
+    ports:
+        - "8080:5000"
+db:
+    image: postgres
+
