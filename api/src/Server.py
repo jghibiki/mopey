@@ -81,7 +81,7 @@ def CreateUser():
         md5.update(request.json["password"])
     except:
         return jsonify({"Error": "failed to hash password"})
-    
+
     try:
         returnedUser = User.create(userName=request.json["userName"], password=md5.hexdigest(), firstName=request.json["firstName"], lastName=request.json["lastName"], email=request.json["email"], group=returnedGroup, registrationDate=datetime.utcnow())
     except Exception,e:
