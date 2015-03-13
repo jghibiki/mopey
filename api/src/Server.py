@@ -24,6 +24,22 @@ CORS(app, headers=['Content-Type'])
 ## Errror Handler ##
 ####################
 
+class GeneralApiException(Exception):
+    status_code = 400
+
+    def __init__(self, message, status_code=None, payload=None):
+        Exception.__init__(self)
+        self.message = message
+        if status_code is not None:
+            self.status_code = status_code
+        self.payload = payload
+
+    def to_dict(self):
+        rv = dict(self.payload or ())
+        rv['Error'] = self.message
+        return rv
+
+
 @app.errorhandler(GeneralApiException)
 def handle_invalid_usage(error):
     response = jsonify(error.to_dict())
@@ -52,6 +68,8 @@ def CreateUser():
         "firstName":"john",
         "lastName": "doe",
         "email": "jdoe@jdoe.com",
+        "karma": "0",
+        "strikes": "0"
     }
     """
     return jsonify(_createUser(request))
