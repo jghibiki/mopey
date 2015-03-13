@@ -1,4 +1,68 @@
-def getUserDatabase(key):
+####################
+## Public Methods ##
+####################
+
+def _editUser(request):
+    returnedUser = __getUserDatabase(request.json["user"])
+    __validateUserAuthentication(returnedUser, request.json["access_token"])
+
+    returnedUser.password = request.json["password"]
+    returnedUser.firstName = request.json["firstName"]
+    returnedUser.lastName = request.json["lastName"]
+    returnedUser.email = request.json["email"]
+
+    try:
+        returnedUser.save()
+    except:
+        raise GeneralApiException("Failed to save user", status_code=405)
+
+    returnedUser.save()
+
+    return {"Success":"Changed user with " + str(returnedUser.key)}
+
+
+def _createUser(request):
+    returnedUser = None
+
+    try:
+        md5 = hashlib.md5()
+        md5.update(request.json["password"])
+    except:
+        return jsonify({"Error": "failed to hash password"})
+
+    try:
+        returnedUser = User.create(
+                userName=request.json["userName"],
+                password=md5.hexdigest(),
+                firstName=request.json["firstName"],
+                lastName=request.json["lastName"],
+                email=request.json["email"],
+                group=returnedGroup,
+                registrationDate=datetime.utcnow())
+
+    except Exception,e:
+        return jsonify({"Error":"Failed to create user. error: "+ str(e)})
+
+    return {"key":returnedUser.key}
+
+
+
+def _getUser(request):
+    returnedUser = getUserDatabase(key)
+    return {
+            "userName":returnedUser.userName,
+            "firstName":returnedUser.firstName,
+            "lastName":returnedUser.lastName,
+            "email":returnedUser.email,
+            "group":returnedUser.group.key
+            }
+
+
+#####################
+## Private Methods ##
+#####################
+
+def __getUserDatabase(key):
     returnedUser = None
     if(key == None):
         return 400
@@ -19,12 +83,12 @@ def getUserDatabase(key):
     return returnedUser
 
 
-def getUserEmailDatabase(key):
+def __getUserEmailDatabase(key):
     returnedUser = getUserDatabase(key)
     return jsonify(returnedUser.email)
 
 
-def getAccessTokenDatabase(key):
+def __getAccessTokenDatabase(key):
     returnedAuth = None
     if(key == None):
         return 400
@@ -36,7 +100,7 @@ def getAccessTokenDatabase(key):
     return returnedAuth
 
 
-def validateUserAuthentication(returnedUser, accessTokenPassed):
+def __validateUserAuthentication(returnedUser, accessTokenPassed):
     validAccessToken = False
 
     for access_token in returnedUser.accessTokens:

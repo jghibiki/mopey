@@ -8,6 +8,7 @@ from uuid import uuid4
 import hashlib
 from nocache import nocache
 from User import *
+from GeneralApiHandler import GeneralApiException
 
 ##################
 ## Server SetUp ##
@@ -18,48 +19,27 @@ app = Flask(__name__)
 app.wsgi_app = ProxyFix(app.wsgi_app)
 CORS(app, headers=['Content-Type'])
 
+
 ####################
 ## Errror Handler ##
 ####################
 
-class GeneralApiException(Exception):
-    status_code = 400
-
-    def __init__(self, message, status_code=None, payload=None):
-        Exception.__init__(self)
-        self.message = message
-        if status_code is not None:
-            self.status_code = status_code
-        self.payload = payload
-
-    def to_dict(self):
-        rv = dict(self.payload or ())
-        rv['Error'] = self.message
-        return rv
-
-
 @app.errorhandler(GeneralApiException)
 def handle_invalid_usage(error):
     response = jsonify(error.to_dict())
-    response.status_code = error.status_code
+    response.status_code = 200
     return response
+
 
 ###########
 ## Users ##
 ###########
 
-@app.route('/users/<int:key>')
+@app.route('/users/<string:key>')
 @nocache
 def getUser(key):
-    returnedUser = getUserDatabase(key)
-    return jsonify({"userName":returnedUser.userName, "firstName":returnedUser.firstName, "lastName":returnedUser.lastName, "email":returnedUser.email, "group":returnedUser.group.key})
+    return jsonify(_getUser(request))
 
-
-@app.route('/users/username/<string:key>')
-@nocache
-def getUsername(key):
-    user = getUserDatabase(key)
-    return jsonify({"key": user.key})
 
 
 @app.route('/users', methods=["POST"])
@@ -74,40 +54,13 @@ def CreateUser():
         "email": "jdoe@jdoe.com",
     }
     """
-    returnedUser = None
-
-    try:
-        md5 = hashlib.md5()
-        md5.update(request.json["password"])
-    except:
-        return jsonify({"Error": "failed to hash password"})
-
-    try:
-        returnedUser = User.create(userName=request.json["userName"], password=md5.hexdigest(), firstName=request.json["firstName"], lastName=request.json["lastName"], email=request.json["email"], group=returnedGroup, registrationDate=datetime.utcnow())
-    except Exception,e:
-        return jsonify({"Error":"Failed to create user. error: "+ str(e)})
-
-    return jsonify({"key":returnedUser.key})
+    return jsonify(_createUser(request))
 
 
 @app.route('/users/editUser', methods=["POST"])
 @nocache
 def EditUser():
-    returnedUser = getUserDatabase(request.json["user"])
-    validateUserAuthentication(returnedUser, request.json["access_token"])
-
-    returnedUser.password = request.json["password"]
-    returnedUser.firstName = request.json["firstName"]
-    returnedUser.lastName = request.json["lastName"]
-    returnedUser.email = request.json["email"]
-
-    try:
-        returnedUser.save()
-    except:
-        raise GeneralApiException("Failed to save user", status_code=405)
-
-    returnedUser.save()
-    return jsonify({"Success":"Changed user with " + str(returnedUser.key)})
+    return jsonify(_editUser(request))
 
 
 ####################
@@ -123,23 +76,7 @@ def Authentication():
         "password":"boi",
     }
     """
-    returnedUser = getUserDatabase(request.json["username"])
-    #return returnedUserpage
-
-    if(returnedUser == None):
-        raise GeneralApiException("Invalid user name and password combination.", status_code=400)
-
-    md5 = hashlib.md5()
-    md5.update(request.json["password"])
-
-    if(returnedUser.password != str(md5.hexdigest())):
-        raise GeneralApiException("Invalid user name and password combination.", status_code=400)
-
-    returnedAccessToken = AccessToken.create(token=str(uuid4()), expirationDate=datetime.utcnow() + timedelta(hours=1), user=returnedUser)
-
-    payload = {"access_token" : returnedAccessToken.token, "expiration_date" : returnedAccessToken.expirationDate}
-
-    return jsonify(payload)
+    return  jsonify(_authentication(request))
 
 ####################
 ## Build Database ##
@@ -150,7 +87,8 @@ def Authentication():
 def BuildDb():
     tables = [
         User,
-        AccessToken
+        AccessToken,
+        Admin
         ]
     db.drop_tables(tables, safe=True)
     db.create_tables(tables, safe=True)
