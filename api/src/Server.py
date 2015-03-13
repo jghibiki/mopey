@@ -52,7 +52,7 @@ def handle_invalid_usage(error):
 @nocache
 def getUser(key):
     returnedUser = getUserDatabase(key)
-    return jsonify({"userName":returnedUser.userName, "firstName":returnedUser.firstName, "lastName":returnedUser.lastName, "email":returnedUser.email, "group":returnedUser.group.key})
+    return jsonify({"username":returnedUser.username, "firstName":returnedUser.firstName, "lastName":returnedUser.lastName, "email":returnedUser.email, "karma":returnedUser.karma, "strikes":returnedUser.strikes})
 
 
 @app.route('/users/username/<string:key>')
@@ -72,6 +72,8 @@ def CreateUser():
         "firstName":"john",
         "lastName": "doe",
         "email": "jdoe@jdoe.com",
+        "karma": "0",
+        "strikes": "0"
     }
     """
     returnedUser = None
@@ -83,7 +85,7 @@ def CreateUser():
         return jsonify({"Error": "failed to hash password"})
 
     try:
-        returnedUser = User.create(userName=request.json["userName"], password=md5.hexdigest(), firstName=request.json["firstName"], lastName=request.json["lastName"], email=request.json["email"], group=returnedGroup, registrationDate=datetime.utcnow())
+        returnedUser = User.create(username=request.json["username"], password=md5.hexdigest(), firstName=request.json["firstName"], lastName=request.json["lastName"], email=request.json["email"], karma=request.json["karma"], strikes=request.json["strikes"])
     except Exception,e:
         return jsonify({"Error":"Failed to create user. error: "+ str(e)})
 
@@ -100,6 +102,8 @@ def EditUser():
     returnedUser.firstName = request.json["firstName"]
     returnedUser.lastName = request.json["lastName"]
     returnedUser.email = request.json["email"]
+    returnedUser.karma = request.json["karma"]
+    returnedUser.strikes = request.json["strikes"]
 
     try:
         returnedUser.save()

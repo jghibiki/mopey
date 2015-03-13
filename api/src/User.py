@@ -1,3 +1,5 @@
+from Server import *
+
 def getUserDatabase(key):
     returnedUser = None
     if(key == None):
@@ -6,7 +8,7 @@ def getUserDatabase(key):
         returnedUser = User.get(User.key == key)
     except:
         try:
-            returnedUser = User.get(User.userName == key)
+            returnedUser = User.get(User.username == key)
         except:
             try:
                 returnedUser = User.get(User.email == key)
