@@ -1,0 +1,31 @@
+<div>
+    <h1 class="sectionTitle"> 
+        Conference  
+    </h1>
+    <h2 class="sectionSubTitle">
+        Speakers
+    </h2>
+    <div data-bind="foreach : speakers" class="speakerContainer"/>
+        <div class="speakerSubContainer">
+            <div data-bind="text : name" class="speakerName alignLeft"></div>
+            <div data-bind="text : jobTitle" class="speakerJobTitle alignLeft"></div>
+            <div data-bind="text : bio" class="speakerBio alignLeft"></div>
+            <div data-bind="text : talkTopic" class="speakerTalkTopic alignLeft"></div>
+            <div data-bind="text : talkDescription" class="speakerTalkDescription alignLeft"></div>
+        </div>
+        <div class="speakerImageContainer alignLeft">
+            <img src="" data-bind="attr: { src : image }" class="speakerImage alignLeft"/>
+        </div>
+    </div>
+    <hr>
+    <h2 class="sectionSubTitle">
+        Resume Review
+    </h2>
+    <p data-bind="text : resumeReview"></p>
+    <hr>
+    <h2 class="sectionSubTitle">
+        Concessions
+    </h2>
+    <p data-bind="text : concessions"></p>
+
+</div>

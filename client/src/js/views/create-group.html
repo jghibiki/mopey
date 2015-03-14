@@ -1,0 +1,7 @@
+<div>
+	Name: <input data-bind="textInput: nameField"><br>
+	<button data-bind="click: submit">Submit</button>
+	<div data-bind="foreach: error">
+		<div data-bind="text: $data"></div>
+	</div>
+</div>

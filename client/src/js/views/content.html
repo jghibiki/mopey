@@ -1,0 +1,17 @@
+<div id="content-wrapper" >
+    <div id="left" data-bind="if : showLeftLink" >
+        <a href="" data-bind="attr:{href : leftLink}" class="vertCenter link">
+            <div class="icon ion-chevron-left"></div>
+        </a>
+    </div>
+    <div id="content" data-bind="if : viewModelLoaded" class="fill">
+        <!-- ko content : subViewModel -->
+        Main Container 
+        <!-- /ko -->
+    </div>
+    <div id="right" data-bind="if : showRightLink" >
+        <a href="" data-bind="attr:{href : rightLink }" class="vertCenter link">
+            <div class="icon ion-chevron-right"></div>
+        </a>
+    </div>
+</div>

@@ -1,0 +1,84 @@
+<div >
+	<h1 class="sectionTitle">Hackathon Registration Form</h1>
+    <br>
+    <div class="alignLeft formSection">
+        To register fill in all fields below. All information is required.
+        <br>
+        <table id="registerUserForm">
+            <tr>
+                <td>
+                    <table>
+                        <tr>
+                            <td>
+                                Username: 
+                            </td>
+                            <td>
+                                <input type="text" data-bind="textInput : username"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Password: 
+                            </td>
+                            <td>
+                                <input type="password" data-bind="textInput : password"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Confirm Password: 
+                            </td>
+                            <td>
+                                <input type="password" data-bind="textInput : confirmPassword"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Email: 
+                            </td>
+                            <td>
+                                <input type="text" data-bind="textInput : email"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Confirm Email: 
+                            </td>
+                            <td>
+                                <input type="text" data-bind="textInput : confirmEmail"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                First Name: 
+                            </td>
+                            <td>
+                                <input type="text" data-bind="textInput : firstName"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Last Name: 
+                            </td>
+                            <td>
+                                <input type="text" data-bind="textInput : lastName"/>
+                            </td>
+                        </tr>
+                    </table>
+                    <div id="registerUserButtonWrapper">
+                        <button data-bind="click : submit">Submit</button>
+                    </div>
+                </td>
+                <td>
+                    <div data-bind="if : areThereErrors" id="registerUserErrors">
+                        <h3>Errors:</h3>
+                        <div data-bind="foreach: error">
+                                <div data-bind="text: $data"></div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+</div>

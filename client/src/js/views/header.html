@@ -1,0 +1,30 @@
+<div id="header" >
+    <div id="logoWrapper">
+        <img id="logo" src="images/su_hack_v2.png"/>
+    </div>
+    <div id="optionWrapper">
+        <ul class="options" data-bind="if : loggedIn">
+            <li>
+                <a href="#account-settings">Account Settings</a>
+            </li>
+            <li>
+                <a href="#log-out">Log Out</a>
+            </li>
+            <li data-bind="if : started">
+                <a href="#chat">Chat</a>
+            </li>
+        </ul>
+        <ul class="options" data-bind="ifnot : loggedIn">
+            <li data-bind="ifnot: started">
+                <a href="#group-portal">Register</a>
+            </li>
+            <li>
+                <a href="#log-in">Log In</a>
+            </li>
+            <li data-bind="if : started">
+                <a href="#chat">Chat</a>
+            </li>
+        </ul>
+    </div>
+
+<div>

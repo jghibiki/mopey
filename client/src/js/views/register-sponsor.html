@@ -1,0 +1,11 @@
+<div>
+	Name: <input data-bind="textInput: nameField"><br>
+	Description: <textarea data-bind="textInput: descriptionField"></textarea><br>
+	Representative: <input data-bind="textInput: representativeField"><br>
+	Phone Number: <input data-bind="textInput: phoneNumberField"><br>
+	Website: <input data-bind="textInput: websiteField"><br>
+	<button data-bind="click: submit">Submit</button>
+	<div data-bind="foreach: error">
+		<div data-bind="text: $data"></div>
+	</div>
+</div>
