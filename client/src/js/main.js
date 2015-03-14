@@ -8,13 +8,14 @@ requirejs.config({
     paths:{
 
         //require plugins 
-        "viewModel" : "plugins/viewModel",
-        "singleton" : "plugins/singleton",
-        //"service" : "plugins/service",
-        "domReady" : "plugins/domReady",
-        "text" : "plugins/text",
-        "path" : "plugins/path",
-        "underscore" : "libs/underscore",
+        "viewModel" : "require-plugins/viewModel",
+        "singleton" : "require-plugins/singleton",
+        "domReady" : "require-plugins/domReady",
+        "text" : "require-plugins/text",
+        "path" : "require-plugins/path",
+
+        //third party libs
+        "underscore" : "third-party/underscore",
 
         
     },

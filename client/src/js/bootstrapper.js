@@ -1,18 +1,17 @@
-define(["ko", "mainWindowViewModel", "applicationState", "navigationManager", "domReady!"], function(ko, MainWindowVMModule, ApplicationStateModule, NavigationManagerModule){
-   "use strict";
+define(["ko", "mainWindowViewModel", "applicationState", "domReady!"], function(ko, MainWindowVMModule, ApplicationStateModule){
+    "use strict";
 
-   var UI_READY = false;
-   var MainWindowVM = MainWindowVMModule.get();
-   var ApplicationState = ApplicationStateModule.get();
-   var NavigationManager = NavigationManagerModule.get();
+    var UI_READY = false;
+    var MainWindowVM = MainWindowVMModule.get();
+    var ApplicationState = ApplicationStateModule.get();
 
-   function InitializeUIComponents(){
+    function InitializeUIComponents(){
         require(["ko-content", "domReady!"], function(koContentPlugin){
             UI_READY = true;
         });
     }
-   
-   function CheckForExistingCredentials(){
+
+    function CheckForExistingCredentials(){
         if(localStorage.hasOwnProperty("access_token")){
             if(localStorage.hasOwnProperty("expiration_date")){
                 if((new Date(localStorage["expiration_date"])).valueOf() > (new Date()).getTime()){
@@ -24,9 +23,7 @@ define(["ko", "mainWindowViewModel", "applicationState", "navigationManager", "d
                 }
             }
         }
-   }
-
-   
+    }
 
     InitializeUIComponents();
     CheckForExistingCredentials();
@@ -44,17 +41,9 @@ define(["ko", "mainWindowViewModel", "applicationState", "navigationManager", "d
                 ApplicationState.currentRoute("");
             }
            
-            NavigationManager.initialize();
-            NavigationManager.start();
 
-            
             ko.applyBindings(MainWindowVM);
             MainWindowVM.shown();
-
-
-
         }
     }, 100);
-    
-   
 });
