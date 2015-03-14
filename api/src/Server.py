@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, abort
+from flask import Flask, request, abort, jsonify
 from flask.ext.cors import CORS
 from werkzeug.contrib.fixers import ProxyFix
 from Models import *
@@ -7,8 +7,10 @@ from datetime import datetime, timedelta
 from uuid import uuid4
 import hashlib
 from nocache import nocache
-from User import *
-from GeneralApiHandler import GeneralApiException
+from GeneralApiException import GeneralApiException
+import UserApi
+import AuthenticationApi
+
 
 ##################
 ## Server SetUp ##
@@ -23,21 +25,6 @@ CORS(app, headers=['Content-Type'])
 ####################
 ## Errror Handler ##
 ####################
-
-class GeneralApiException(Exception):
-    status_code = 400
-
-    def __init__(self, message, status_code=None, payload=None):
-        Exception.__init__(self)
-        self.message = message
-        if status_code is not None:
-            self.status_code = status_code
-        self.payload = payload
-
-    def to_dict(self):
-        rv = dict(self.payload or ())
-        rv['Error'] = self.message
-        return rv
 
 
 @app.errorhandler(GeneralApiException)
@@ -54,8 +41,7 @@ def handle_invalid_usage(error):
 @app.route('/users/<string:key>')
 @nocache
 def getUser(key):
-    return jsonify(_getUser(request))
-
+    return UserApi.getUser(key)
 
 
 @app.route('/users', methods=["POST"])
@@ -72,13 +58,13 @@ def CreateUser():
         "strikes": "0"
     }
     """
-    return jsonify(_createUser(request))
+    return UserApi.createUser(request.json)
 
 
 @app.route('/users/editUser', methods=["POST"])
 @nocache
 def EditUser():
-    return jsonify(_editUser(request))
+    return UserApi.editUser(request.json)
 
 
 ####################
@@ -94,7 +80,7 @@ def Authentication():
         "password":"boi",
     }
     """
-    return  jsonify(_authentication(request))
+    return AuthenticationApi.authentication(request.json)
 
 ####################
 ## Build Database ##

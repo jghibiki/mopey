@@ -16,7 +16,6 @@ class User(BaseModel):
     email = TextField(unique=True)
     karma = IntegerField()
     strikes = IntegerField()
-
     #ghost property accessTokens
 
 class AccessToken(BaseModel):
