@@ -3,7 +3,6 @@ from flask.ext.cors import CORS
 from werkzeug.contrib.fixers import ProxyFix
 from Models import *
 import peewee
-from datetime import datetime, timedelta
 from uuid import uuid4
 import hashlib
 from nocache import nocache

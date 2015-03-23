@@ -1,6 +1,6 @@
 client:
     build: ./client
-    command: http-server /data/client -c-1 --cors
+    command: http-server /data/src -c-1 --cors
     ports:
         - "8081:8080"
 
