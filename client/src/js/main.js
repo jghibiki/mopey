@@ -25,7 +25,6 @@ requirejs.config({
        '*': {
 
             //view-models
-            "headerViewModel": "singleton!viewModel!views/header.html:view-models/header-view-model",
             "contentViewModel" : "singleton!viewModel!views/content.html:view-models/content-view-model",
             "footerViewModel" : "singleton!viewModel!views/footer.html:view-models/footer-view-model",
             "mainWindowViewModel" : "singleton!view-models/main-window-view-model",
@@ -39,8 +38,8 @@ requirejs.config({
             "ko-content" : "plugins/ko-content",
 
             //third party libs
-            "ko" : "libs/knockout-3.2.0",
-            "sammy" : "libs/sammy",
+            "ko" : "third-party/knockout-3.2.0",
+            "sammy" : "third-party/sammy",
 
             //application state
             "applicationState" : "singleton!application-state",

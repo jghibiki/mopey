@@ -54,3 +54,6 @@ docs/_build/
 target/
 
 venv/
+
+.sass-cache/
+client/src/css
