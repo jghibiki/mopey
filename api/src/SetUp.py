@@ -29,7 +29,7 @@ if __name__ == "__main__":
            firstName = "Jordan",
            lastName = "Goetze",
            email = "jghibiki.games@gmail.com",
-           karma = 0,
+           karma = 100000,
            strikes = 0,
         )
     if(jghibiki == None):
@@ -44,11 +44,11 @@ if __name__ == "__main__":
     print "Adding user jpisabrony"
     jpisabrony = User.create(
            username = "jpisabrony",
-           password = "",
+           password = "9c4faf82d5d151461fe18b818f4a09f6",
            firstName = "Josh",
            lastName = "Pohl",
            email = "josh.pohl17@gmail.com",
-           karma = 0,
+           karma = 100000,
            strikes = 0,
         )
     if(jpisabrony == None):
