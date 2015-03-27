@@ -12,10 +12,8 @@ def authentication(json):
     if(returnedUser == None):
         raise GeneralApiException("Invalid user name and password combination.", status_code=200)
 
-    md5 = hashlib.md5()
-    md5.update(json["password"])
-
-    if(returnedUser.password != str(md5.hexdigest())):
+    md5 = hashlib.md5(json["password"]).hexdigest()
+    if(returnedUser.password != str(md5)):
         raise GeneralApiException("Invalid user name and password combination.", status_code=200)
 
     returnedAccessToken = AccessToken.create(token=str(uuid4()), expirationDate=datetime.utcnow() + timedelta(hours=1), user=returnedUser)

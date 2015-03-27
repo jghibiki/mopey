@@ -24,7 +24,7 @@ def main():
     print "Adding user jghibiki..."
     jghibiki = User.create(
            username = "jghibiki",
-           password = "cf719217b63d276f7e74047df2539449",
+           password = "7418acc26027cf4a026c35d21f468329",
            firstName = "Jordan",
            lastName = "Goetze",
            email = "jghibiki.games@gmail.com",

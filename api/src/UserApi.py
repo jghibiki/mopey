@@ -31,15 +31,14 @@ def createUser(json):
     returnedUser = None
 
     try:
-        md5 = hashlib.md5()
-        md5.update(json["password"])
+        md5 = hashlib.md5(json["password"])
     except:
         return jsonify({"Error": "failed to hash password"})
 
     try:
         returnedUser = User.create(
                 username = json["username"],
-                password = md5.hexdigest(),
+                password = md5,
                 firstName = json["firstName"],
                 lastName = json["lastName"],
                 email = json["email"],
