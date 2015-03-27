@@ -3,8 +3,7 @@ from Models import *
 from uuid import uuid4
 import hashlib
 
-if __name__ == "__main__":
-
+def main():
     print "###########################"
     print "## Starting Server Setup ##"
     print "###########################"
@@ -36,7 +35,7 @@ if __name__ == "__main__":
         raise "Failed to add user jghibiki"
 
     print "Making jghibiki an admin..."
-    jghibiki_admin = Admin.create(jghibiki.key)
+    jghibiki_admin = Admin.create(user=jghibiki)
     if(jghibiki_admin == None):
         raise "Failed to make use jghibiki an admin"
     print "Success!"
@@ -55,7 +54,7 @@ if __name__ == "__main__":
         raise "Failed to add user jpisabrony"
 
     print "Making jghibiki an admin..."
-    jpisabrony_admin = Admin.create(jp_isabrony.key)
+    jpisabrony_admin = Admin.create(user=jpisabrony)
     if(jpisabrony == None):
         raise "Failed to make use jpisabrony an admin"
     print "Success!"
@@ -63,5 +62,6 @@ if __name__ == "__main__":
     print "############################"
     print "## Completed Server Setup ##"
     print "############################"
+
 
 

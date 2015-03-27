@@ -9,6 +9,7 @@ from nocache import nocache
 from GeneralApiException import GeneralApiException
 import UserApi
 import AuthenticationApi
+import SetUp
 
 
 ##################
@@ -88,13 +89,7 @@ def Authentication():
 @app.route('/buildDb')
 @nocache
 def BuildDb():
-    tables = [
-        User,
-        AccessToken,
-        Admin
-        ]
-    db.drop_tables(tables, safe=True)
-    db.create_tables(tables, safe=True)
+    SetUp.main()
     return "Database rebuilt"
 
 
