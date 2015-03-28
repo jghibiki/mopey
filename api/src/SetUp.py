@@ -14,7 +14,8 @@ def main():
     tables = [
         User,
         AccessToken,
-        Admin
+        Admin,
+        Regex
         ]
     db.drop_tables(tables, safe=True)
     db.create_tables(tables, safe=True)

@@ -29,3 +29,7 @@ class AccessToken(BaseModel):
 class Admin(BaseModel):
     key = PrimaryKeyField()
     user = ForeignKeyField(rel_model=User)
+
+class Regex(BaseModel):
+    key = PrimaryKeyField()
+    pattern = TextField(unique=True, index=True)
