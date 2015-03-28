@@ -10,6 +10,7 @@ from GeneralApiException import GeneralApiException
 import UserApi
 import AuthenticationApi
 import SetUp
+from SearchApi import youtubeSearch
 
 
 ##################
@@ -82,11 +83,20 @@ def Authentication():
     """
     return AuthenticationApi.authentication(request.json)
 
+############
+## Search ##
+############
+
+@app.route('/search/<string:query>', methods=["GET"])
+@nocache
+def Search(query):
+    return youtubeSearch(query)
+
 ####################
 ## Build Database ##
 ####################
 
-@app.route('/buildDb')
+app.route('/buildDb')
 @nocache
 def BuildDb():
     SetUp.main()
