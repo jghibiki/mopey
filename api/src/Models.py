@@ -29,3 +29,11 @@ class AccessToken(BaseModel):
 class Admin(BaseModel):
     key = PrimaryKeyField()
     user = ForeignKeyField(rel_model=User)
+
+class RequestQue(BaseModel):
+    key = PrimaryKeyField()
+
+    song = TextField()
+    time = TextField()
+    user = ForeignKeyField(rel_model=User)
+
