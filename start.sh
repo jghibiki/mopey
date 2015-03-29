@@ -5,6 +5,6 @@ compass compile
 
 cd ./../../
 cp ./search-api.key ./api/src/search-api.key
-sudo docker-compose build;
-sudo docker-compose stop;
-sudo docker-compose up -d;
+docker-compose build;
+docker-compose stop;
+docker-compose up -d;
