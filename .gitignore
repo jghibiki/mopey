@@ -57,3 +57,5 @@ venv/
 
 .sass-cache/
 client/src/css
+
+search-api.key

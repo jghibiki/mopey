@@ -10,6 +10,8 @@ from GeneralApiException import GeneralApiException
 import UserApi
 import AuthenticationApi
 import SetUp
+from SearchApi import youtubeSearch
+from RegexApi import *
 
 
 ##################
@@ -81,6 +83,46 @@ def Authentication():
     }
     """
     return AuthenticationApi.authentication(request.json)
+
+############
+## Search ##
+############
+
+@app.route('/search/<string:query>', methods=["GET"])
+@nocache
+def Search(query):
+    return youtubeSearch(query)
+
+#############
+## Regexes ##
+#############
+
+@app.route('/regex/<string:key>', methods=["GET"])
+@nocache
+def GetRegex(key):
+    return getRegex(key)
+
+@app.route('/regex', methods=["POST"])
+@nocache
+def AddRegex():
+    """
+    Example Request Object:
+    {
+        "pattern":"a*b*c*"
+    }
+    """
+    return addRegex(request.json["pattern"])
+
+@app.route('/regex', methods=["DELETE"])
+@nocache
+def RemoveRegex():
+    """
+    Example Request Objexts:
+    {
+        "key":"1234"
+    }
+    """
+    return removeRegex(request.json["key"])
 
 ####################
 ## Build Database ##
