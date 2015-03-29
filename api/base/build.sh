@@ -1,1 +1,1 @@
-sudo docker build -t jghibiki/mopey-api-base .
+docker build -t jghibiki/mopey-api-base .
