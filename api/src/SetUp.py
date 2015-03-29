@@ -15,7 +15,7 @@ def main():
         User,
         AccessToken,
         Admin,
-        RequestQue
+        RequestQue,
         Regex
         ]
     db.drop_tables(tables, safe=True)
