@@ -14,11 +14,7 @@ api:
         - mopidy
     ports:
         - "8080:5000"
+        - "6680:6680"
 db:
     image: postgres
 
-mopidy:
-    build: ./mopidy
-    command: /usr/bin/mopidy 
-    ports:
-        - "8082:6680"
