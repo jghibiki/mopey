@@ -19,4 +19,6 @@ db:
 
 mopidy:
     build: ./mopidy
-    command: mopidy
+    command: /bin/bash #/usr/bin/mopidy 
+    ports:
+        - "8082:6680"
