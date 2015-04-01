@@ -10,8 +10,9 @@ from GeneralApiException import GeneralApiException
 import UserApi
 import AuthenticationApi
 import SetUp
-from SearchApi import youtubeSearch
+#from SearchApi import youtubeSearch
 from RegexApi import *
+from ApiCalls import *
 
 
 ##################
@@ -123,6 +124,48 @@ def RemoveRegex():
     }
     """
     return removeRegex(request.json["key"])
+
+###############
+## Api Calls ##
+###############
+
+@app.route('/song', methods=["POST"])
+@nocache
+def AddSong():
+    song = request.json['song']
+    return addSong(song)
+
+@app.route('/song/play', methods=["GET"])
+@nocache
+def PlaySong():
+    return playSong()
+
+@app.route('/song/pause', methods=["GET"])
+@nocache
+def PauseSong():
+    return pauseSong()
+
+@app.route('/song/stop', methods=["GET"])
+@nocache
+def StopSong():
+    return stopSong()
+
+@app.route('/song/next', methods=["GET"])
+@nocache
+def NextSong():
+    return nextSong()
+
+@app.route('/song/clear', methods=["GET"])
+@nocache
+def ClearSongs():
+    return clearSongs()
+
+@app.route('/song/state', methods=["GET"])
+@nocache
+def GetState():
+    return getState()
+
+
 
 ####################
 ## Build Database ##
