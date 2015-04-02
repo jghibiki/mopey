@@ -160,6 +160,11 @@ def NextSong():
 def ClearSongs():
     return clearSongs()
 
+@app.route('/song/list', methods=["GET"])
+@nocache
+def GetTracks():
+    return getTracks()
+
 @app.route('/song/state', methods=["GET"])
 @nocache
 def GetState():

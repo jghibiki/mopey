@@ -30,6 +30,10 @@ def clearSongs():
     song = blankCommand + '"core.tracklist.clear"}'
     return jsonify(sendRequest(song))
 
+def getTracks():
+    tracks = blankCommand + '"core.tracklist.get_tracks"}'
+    return jsonify(sendRequest(tracks))
+
 def getState():
     state = blankCommand + '"core.playback.get_state"}'
     return jsonify(sendRequest(state))
