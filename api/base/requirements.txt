@@ -12,3 +12,4 @@ six==1.9.0
 Werkzeug==0.9.6
 psycopg2
 google-api-python-client
+sh

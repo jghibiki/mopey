@@ -10,7 +10,7 @@ from GeneralApiException import GeneralApiException
 import UserApi
 import AuthenticationApi
 import SetUp
-#from SearchApi import youtubeSearch
+from SearchApi import youtubeSearch
 from RegexApi import *
 from ApiCalls import *
 

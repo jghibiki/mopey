@@ -9,16 +9,17 @@ api:
     command: python /data/src/Server.py
     #command: gunicorn -w 2 -b 0.0.0.0:5000 Server:app
     working_dir: /data/src
-    links:
-        - db
     ports:
         - "8080:5000"
+    links:
+        - db
+        - mopidy
 db:
     image: postgres
 
 mopidy:
     build: ./mopidy
     command: /usr/bin/mopidy -v 
-    ports:
-        - "8082:6680"
+    expose:
+        - "6680"
     privileged: true
