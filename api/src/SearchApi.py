@@ -23,11 +23,6 @@ def youtubeSearch(query, maxResults=50):
     q=query,
     type="video",
     maxResults=maxResults,
-    safeSearch="moderate", #could also be strict
-    videoSyndicated="true",
-    eventType="completed",
-    videoDefinition="high", #could also be standard
-    videoDuration="short", #max length of video 4mins, medium:4min-20min long
     order="relevance"
     )
 
