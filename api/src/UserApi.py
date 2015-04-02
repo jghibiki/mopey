@@ -16,6 +16,8 @@ def editUser(json):
     returnedUser.firstName = json["firstName"]
     returnedUser.lastName = json["lastName"]
     returnedUser.email = json["email"]
+    returnedUser.karma = json["karma"]
+    returnedUser.strikes = json["strikes"]
 
     try:
         returnedUser.save()
@@ -52,7 +54,6 @@ def createUser(json):
     return jsonify({"key":returnedUser.key})
 
 
-
 def getUser(key):
     returnedUser = getUserDatabase(key)
     return jsonify({
@@ -63,6 +64,16 @@ def getUser(key):
             "karma" : returnedUser.karma,
             "strikes" : returnedUser.strikes
             })
+
+
+def banUser(key):
+    returnedUser = getUserDatabase(key)
+    returnedUser.strikes = 3
+
+
+def unbanUser(key):
+    returnedUser = getUserDatabase(key)
+    returnedUser.strikes = 0
 
 
 #####################
