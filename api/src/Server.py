@@ -8,7 +8,7 @@ import hashlib
 from nocache import nocache
 from GeneralApiException import GeneralApiException
 import UserApi
-import AuthenticationApi
+from AuthenticationApi import *
 import SetUp
 from SearchApi import youtubeSearch
 from RegexApi import *
@@ -47,8 +47,9 @@ def getUser(key):
     return UserApi.getUser(key)
 
 
-@app.route('/users', methods=["POST"])
+@app.route('/user', methods=["POST"])
 @nocache
+@requireAdmin
 def CreateUser():
     """
     {
@@ -57,16 +58,20 @@ def CreateUser():
         "firstName":"john",
         "lastName": "doe",
         "email": "jdoe@jdoe.com",
-        "karma": "0",
-        "strikes": "0"
     }
+
+    Requires admin authentication
     """
     return UserApi.createUser(request.json)
 
 
-@app.route('/users/editUser', methods=["POST"])
+@app.route('/user/edit', methods=["POST"])
 @nocache
+@requireAuth
 def EditUser():
+    """
+    Requires authentication
+    """
     return UserApi.editUser(request.json)
 
 
@@ -83,7 +88,36 @@ def Authentication():
         "password":"boi",
     }
     """
-    return AuthenticationApi.authentication(request.json)
+    return authentication(request.json)
+
+@app.route('/authenticate/verify', methods=["POST"])
+@nocache
+def VerifyToken():
+    """
+    {
+    Verifies that a user token is valid.
+
+    Example Call:
+
+        "token": "83f72e63-2e9a-4bba-9b1f-f386f0c633c7"
+    }
+    """
+    return jsonify({'result': validateAuthToken(request.json["token"], False)})
+
+
+@app.route('/authenticate/verify/admin', methods=["POST"])
+@nocache
+def VerifyAdminToken():
+    """
+    {
+    Verifies that a user token is a valid admin token.
+
+    Example Call:
+
+        "token": "83f72e63-2e9a-4bba-9b1f-f386f0c633c7"
+    }
+    """
+    return jsonify({'result': validateAuthToken(request.json["token"], True)})
 
 ############
 ## Search ##
@@ -91,37 +125,53 @@ def Authentication():
 
 @app.route('/search/<string:query>', methods=["GET"])
 @nocache
+@requireAuth
 def Search(query):
+    """
+    Requires authentication
+    """
     return youtubeSearch(query)
 
 #############
 ## Regexes ##
 #############
 
+
 @app.route('/regex/<string:key>', methods=["GET"])
 @nocache
+@requireAdmin
 def GetRegex(key):
+    """
+    Requires authentication
+    """
     return getRegex(key)
+
 
 @app.route('/regex', methods=["POST"])
 @nocache
+@requireAdmin
 def AddRegex():
     """
     Example Request Object:
     {
         "pattern":"a*b*c*"
     }
+    Requires admin authentication
     """
-    return addRegex(request.json["pattern"])
+    regex = addRegex(request.json["pattern"])
+    return regex
+
 
 @app.route('/regex', methods=["DELETE"])
 @nocache
+@requireAdmin
 def RemoveRegex():
     """
     Example Request Objexts:
     {
         "key":"1234"
     }
+    Require admin authentication
     """
     return removeRegex(request.json["key"])
 
@@ -129,45 +179,78 @@ def RemoveRegex():
 ## Api Calls ##
 ###############
 
+
 @app.route('/song', methods=["POST"])
 @nocache
+@requireAuth
 def AddSong():
+    """
+    Requires Auth
+    """
     song = request.json['song']
     return addSong(song)
 
 @app.route('/song/play', methods=["GET"])
 @nocache
+@requireAdmin
 def PlaySong():
+    """
+    Requires Admin Authentication
+    """
     return playSong()
 
 @app.route('/song/pause', methods=["GET"])
 @nocache
+@requireAdmin
 def PauseSong():
+    """
+    Requires Admin Authentication
+    """
     return pauseSong()
 
 @app.route('/song/stop', methods=["GET"])
 @nocache
+@requireAdmin
 def StopSong():
+    """
+    Requires Admin Authentication
+    """
     return stopSong()
 
 @app.route('/song/next', methods=["GET"])
 @nocache
+@requireAdmin
 def NextSong():
+    """
+    Requires Admin Authenciation
+    """
     return nextSong()
 
 @app.route('/song/clear', methods=["GET"])
 @nocache
+@requireAdmin
 def ClearSongs():
+    """
+    Requires Admin Authentication
+    """
     return clearSongs()
 
 @app.route('/song/list', methods=["GET"])
 @nocache
+@requireAdmin
 def GetTracks():
+    """
+    Require Admin Authentication
+    """
     return getTracks()
 
 @app.route('/song/state', methods=["GET"])
 @nocache
+@requireAdmin
 def GetState():
+    """
+    Require Admin Authentication
+    """
     return getState()
 
 
@@ -178,10 +261,15 @@ def GetState():
 
 @app.route('/buildDb')
 @nocache
+#@requireAdmin
 def BuildDb():
+    """
+    Requires Admin Authentication
+    """
     SetUp.main()
     return "Database rebuilt"
 
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)
+

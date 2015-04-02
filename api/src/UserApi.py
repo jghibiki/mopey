@@ -40,7 +40,7 @@ def createUser(json):
     try:
         returnedUser = User.create(
                 username = json["username"],
-                password = md5,
+                password = md5.hexdigest(),
                 firstName = json["firstName"],
                 lastName = json["lastName"],
                 email = json["email"],
