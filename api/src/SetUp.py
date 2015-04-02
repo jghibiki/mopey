@@ -47,17 +47,17 @@ def main():
        password="4c56ff4ce4aaf9573aa5dff913df997a",
        firstName="Josh",
        lastName="Pohl",
-       email="josh.pohl17@gmail.com",
+       email="jdpohl789@gmail.com",
        karma=100000,
        strikes=0,
     )
     if(jpisabrony is None):
-        raise "Failed to add user jpisabrony"
+        raise "Failed to add user JPisaBrony"
 
-    print "Making jghibiki an admin..."
+    print "Making JPisaBrony an admin..."
     jpisabrony_admin = Admin.create(user=jpisabrony)
     if(jpisabrony is None):
-        raise "Failed to make use jpisabrony an admin"
+        raise "Failed to make use JPisaBrony an admin"
     print "Success!"
 
     print "############################"
