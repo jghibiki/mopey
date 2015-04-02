@@ -26,10 +26,25 @@ def youtubeSearch(query, maxResults=50):
     order="relevance"
     )
 
-    search_response = json.dumps(search_request.execute(), separators=[',',':'])
+    searchResponse = json.dumps(search_request.execute(), separators=[',',':'])
+    searchData = json.loads(searchResponse)
 
-    return search_response
+    filteredData = filterData(searchData)
+    filteredResponse = json.dumps(filteredData)
 
-if __name__ == "__main__":
-    print youtubeSearch("paramore", 5)
+    return filteredResponse
+
+def filterData(original):
+    filtered = []
+
+    for item in original["items"]:
+        temp = {}
+        temp["title"] = item["snippet"]["title"]
+        temp["descriptipn"] = item["snippet"]["description"]
+        temp["uploader"] = item["snippet"]["channelTitle"]
+        temp["id"] = item["id"]["videoId"]
+        filtered.append(temp)
+
+
+    return filtered
 
