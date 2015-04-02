@@ -41,23 +41,23 @@ def main():
         raise "Failed to make use jghibiki an admin"
     print "Success!"
 
-    print "Adding user jpisabrony"
+    print "Adding user JPisaBrony"
     jpisabrony = User.create(
-       username="jpisabrony",
-       password="9c4faf82d5d151461fe18b818f4a09f6",
+       username="JPisaBrony",
+       password="4c56ff4ce4aaf9573aa5dff913df997a",
        firstName="Josh",
        lastName="Pohl",
-       email="josh.pohl17@gmail.com",
+       email="jdpohl789@gmail.com",
        karma=100000,
        strikes=0,
     )
     if(jpisabrony is None):
-        raise "Failed to add user jpisabrony"
+        raise "Failed to add user JPisaBrony"
 
-    print "Making jghibiki an admin..."
+    print "Making JPisaBrony an admin..."
     jpisabrony_admin = Admin.create(user=jpisabrony)
     if(jpisabrony is None):
-        raise "Failed to make use jpisabrony an admin"
+        raise "Failed to make use JPisaBrony an admin"
     print "Success!"
 
     print "############################"
