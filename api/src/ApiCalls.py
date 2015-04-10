@@ -38,7 +38,18 @@ def getState():
     state = blankCommand + '"core.playback.get_state"}'
     return jsonify(sendRequest(state))
 
+def setConsume():
+    consume = blankCommand + '"core.tracklist.set_consume", "params":{"value":"true"}}'
+    response = sendRequest(consume)
+    return jsonify(response)
+
+#####################
+## Private Methods ##
+#####################
+
 def sendRequest(payload):
     psub = curl("-d " + payload, endpoint)
     data = json.loads(str(psub))
     return {"result": data['result']}
+
+

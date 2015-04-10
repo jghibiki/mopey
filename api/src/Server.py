@@ -23,6 +23,7 @@ db = peewee.PostgresqlDatabase('postgres', host='db', user='postgres')
 app = Flask(__name__)
 app.wsgi_app = ProxyFix(app.wsgi_app)
 CORS(app, headers=['Content-Type'])
+app.hasSetConsume = False # a bool to set consome songs the first time an add song request is made
 
 
 ####################
@@ -188,6 +189,10 @@ def AddSong():
     Requires Auth
     """
     song = request.json['song']
+    if not app.hasSetConsume:
+        setConsume()
+        app.hasSetConsume = True
+
     return addSong(song)
 
 @app.route('/song/play', methods=["GET"])
