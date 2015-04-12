@@ -37,11 +37,16 @@ requirejs.config({
             "navigationManager" : "managers/navigation-manager",
             
             //plugins
-            "ko-content" : "plugins/ko-content",
+            "ko-content" : "ko-plugins/ko-content",
 
             //third party libs
             "ko" : "third-party/knockout-3.2.0",
             "sammy" : "third-party/sammy",
+            "fetch": "third-party/fetch",
+            "is": "this-pary/is.min",
+
+            //utils
+            "chain": "utils/chain.js",
 
             //application state
             "applicationState" : "singleton!application-state",
