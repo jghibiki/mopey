@@ -1,9 +1,9 @@
-export PATH=~/.gem/ruby/2.2.0/bin:$PATH
+#export PATH=~/.gem/ruby/2.2.0/bin:$PATH
 
-cd ./client/src
-compass compile
+#cd ./client/src
+#compass compile
 
-cd ./../../
+#cd ./../../
 cp ./search-api.key ./api/src/search-api.key
 
 /usr/local/bin/docker-compose build;

@@ -19,7 +19,6 @@ db:
 
 mopidy:
     build: ./mopidy
-    command: /usr/bin/mopidy -v 
     expose:
         - "6680"
     privileged: true
