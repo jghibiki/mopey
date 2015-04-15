@@ -1,4 +1,5 @@
 #1 [[*]] <<12-04-15 21:00>> ((jgoetze)) {{Talk about pure.css with jp}}
+#10 [[*]] <<15-04-15 18:04>> ((jgoetze)) {{Review  https://flask-oauthlib.readthedocs.org/en/latest/oauth2.html for replacing authentication for applications. This would allow future oauth applications to authenticate against mopey as well.}}
 #3 [[+]] <<12-04-15 21:03>> ((jgoetze)) {{Re-work authorization/authentication to use follow true OAuth2 Spec}}
 #2 [[#]] <<12-04-15 21:00>> ((jgoetze)) {{Talk over authentication/authorization with jp}}
 #5 [[*]] <<12-04-15 21:07>> ((jgoetze)) {{Talk to JP about dodo}}
