@@ -1,9 +1,0 @@
-#1 [[*]] <<12-04-15 21:00>> ((jgoetze)) {{Talk about pure.css with jp}}
-#3 [[+]] <<12-04-15 21:03>> ((jgoetze)) {{Re-work authorization/authentication to use follow true OAuth2 Spec}}
-#2 [[#]] <<12-04-15 21:00>> ((jgoetze)) {{Talk over authentication/authorization with jp}}
-#5 [[*]] <<12-04-15 21:07>> ((jgoetze)) {{Talk to JP about dodo}}
-#4 [[*]] <<12-04-15 21:07>> ((jgoetze)) {{Add chain.js to client}}
-#7 [[.]] <<12-04-15 21:14>> ((jgoetze)) {{Add github/fetch polyfill implementation to project in lou of jquery.ajax}}
-#6 [[*]] <<12-04-15 21:08>> ((jgoetze)) {{Add touch-tap ko binding along with hand.js}}
-#9 [[*]] <<13-04-15 21:15>> ((jgoetze)) {{Add some form of documentation, auto genorated or not.}}
-#8 [[.]] <<12-04-15 21:49>> ((jgoetze)) {{add is.js}}
