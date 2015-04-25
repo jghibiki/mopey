@@ -33,10 +33,10 @@ class Admin(BaseModel):
 class Regex(BaseModel):
     key = PrimaryKeyField()
     pattern = TextField(unique=True, index=True)
-    
+
 class RequestQue(BaseModel):
     key = PrimaryKeyField()
 
     song = TextField()
     time = TextField()
-    user = ForeignKeyField(rel_model=User)
+    user = ForeignKeyField(rel_model=User, related_name="songsRequested")

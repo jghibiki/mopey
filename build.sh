@@ -6,7 +6,7 @@ chmod 755 mopidy/base/build.sh
 
 cd api/base/ && ./build.sh
 cd ../..
-cd client/base/ && ./build.sh
+cd ./client/base/ && ./build.sh
 cd ../..
-cd mopidy/base/ && ./build.sh
+cd ./mopidy/base/ && ./build.sh
 cd ../..
