@@ -8,6 +8,7 @@ Notes:
 
 
 Example Authentication Calls:
+
 1. To get an authentication token call:
     - Request:
         - httpie:
