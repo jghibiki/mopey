@@ -14,7 +14,6 @@ Example Authentication Calls:
             ```shell
             $ http POST :8080/authenticate username="jdoe" password="pass"
             ```
-
         - curl:
             ```shell
             $ curl -X POST -d '{"username":"jdoe", "password":"pass"}' localhost:8080/authenticate
@@ -26,6 +25,7 @@ Example Authentication Calls:
             "expiration_date": "Thu, 02 Apr 2015 19:00:00 GMT"
         }
         ```
+        
 2. To determine if an access token is still valid and not expired:
     - Request:
         - httpie:
