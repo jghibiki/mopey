@@ -1,6 +1,6 @@
 from apiclient.discovery import build
 from Models import *
-from GeneralApiException imort GeneralApiException
+from GeneralApiException import GeneralApiException
 import re
 import json
 
@@ -19,8 +19,7 @@ def youtubeSearch(query, maxResults=50):
     youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
     developerKey=DEVELOPER_KEY)
 
-    regexes = GetRegexes()
-    validateQuery(query, regexes)
+    validateQuery(query)
 
     # Call the search.list method to retrieve results matching the specified
     # query term.
@@ -54,13 +53,11 @@ def filterData(original):
 
     return filtered
 
-def validateQuery(query, regexes):
-    for regex in regexes:
-        if not re.search(regex, query):
+def validateQuery(query):
+    for regex in Regex.select():
+        if not re.search(regex.pattern, query):
             raise GeneralApiException("Search request for query='" + query + "' has been denied, requested query failed to pass acceptance testing.")
 
 
-def GetRegexes():
-    return Regex.select()
 
 
