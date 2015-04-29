@@ -8,34 +8,35 @@ Notes:
 
 
 Example Authentication Calls:
+
 1. To get an authentication token call:
     - Request:
         - httpie:
-            ```shell
+        ```shell
             $ http POST :8080/authenticate username="jdoe" password="pass"
-            ```
-
+        ```
         - curl:
-            ```shell
+        ```shell
             $ curl -X POST -d '{"username":"jdoe", "password":"pass"}' localhost:8080/authenticate
-            ```
+        ```
     - Response:
-        ```json
+    ```json
         {
             "access_token": "3eeaa1bc-ec9f-430f-bfe9-69abd2d9f9e6",
             "expiration_date": "Thu, 02 Apr 2015 19:00:00 GMT"
         }
-        ```
+    ```
+        
 2. To determine if an access token is still valid and not expired:
     - Request:
         - httpie:
-            ```shell
+        ```shell
             $ http POST :8080/authenticate/verify token="3eeaa1bc-ec9f-430f-bfe9-69abd2d9f9e6"
-            ```
+        ```
         - curl:
-            ```shell
+        ```shell
             $ curl -X POST -d '{"token":"3eeaa1bc-ec9f-430f-bfe9-69abd2d9f9e6"}' localhost:8080/authenticate/verify
-            ```
+        ```
     - Response:
         ```json
         {
@@ -52,13 +53,13 @@ Example Authentication Calls:
 3. To determine if an authenticated user is an admin:
     - Request:
         - httpie:
-            ```shell
+        ```shell
             $ http POST :8080/authenticate/verify/admin token="3eeaa1bc-ec9f-430f-bfe9-69abd2d9f9e6"
-            ```
+        ```
         - curl:
-            ```shell
+        ```shell
             $ curl -X POST -d '{"token":"3eeaa1bc-ec9f-430f-bfe9-69abd2d9f9e6"}' localhost:8080/authenticate/verify/admin
-            ```
+        ```
     - Response:
         ```json
         {
@@ -74,11 +75,11 @@ Example Authentication Calls:
         ```
 4. To make a call using an auth token:
     - httpie:
-        ```shell
+    ```shell
         $ http {VERB} :8080/{API-ENDPOINT} Authorization:'3eeaa1bc-ec9f-430f-bfe9-69abd2d9f9e6'"
-        ```
+    ```
     - curl:
-        ```shell
+    ```shell
         $ curl -X {VERB} -H "Authorization:3eeaa1bc-ec9f-430f-bfe9-69abd2d9f9e6" localhost:8080/{API-ENDPOINT} 
-        ```
+    ```
 
