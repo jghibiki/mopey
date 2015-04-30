@@ -55,7 +55,7 @@ def filterData(original):
 
 def validateQuery(query):
     for regex in Regex.select():
-        if not re.search(regex.pattern, query):
+        if re.search(regex.pattern, query):
             raise GeneralApiException("Search request for query='" + query + "' has been denied, requested query failed to pass acceptance testing.")
 
 
