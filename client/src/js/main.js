@@ -38,6 +38,7 @@ requirejs.config({
             
             //plugins
             "ko-content" : "ko-plugins/ko-content",
+            "ko-touch-tap" : "ko-plugins/ko-touch-tap",
 
             //third party libs
             "ko" : "third-party/knockout-3.2.0",
