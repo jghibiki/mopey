@@ -29,8 +29,8 @@ requirejs.config({
             "footerViewModel" : "singleton!viewModel!views/footer.html:view-models/footer-view-model",
             "mainWindowViewModel" : "singleton!view-models/main-window-view-model",
             "homeViewModel": "singleton!viewModel!views/home.html:view-models/home-view-model",
-            "leftPaneViewModel" : "singleton!viewModel!view/left-pane.html:veiw-models/left-pane-view-model",
-            "rightPaneViewModel" : "singleton!viewModel!view/right-pane.html:veiw-models/right-pane-view-model",
+            "leftPaneViewModel" : "singleton!viewModel!views/left-pane.html:view-models/left-pane-view-model",
+            "rightPaneViewModel" : "singleton!viewModel!views/right-pane.html:view-models/right-pane-view-model",
 
             //managers
             "singletonManager": "managers/singletonManager",
@@ -48,10 +48,6 @@ requirejs.config({
 
             //utils
             "chain": "utils/chain.js",
-
-            //application state
-            "applicationState" : "singleton!application-state",
-
 
        }
     },

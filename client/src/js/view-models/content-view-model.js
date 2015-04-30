@@ -1,11 +1,10 @@
-define(["ko", "applicationState"], function(ko, applicationStateModule){
+define(["ko", "leftPaneViewModel", "rightPaneViewModel"], function(ko, leftPaneViewModelModule, rightPaneViewModelModule){
     function ContentViewModel(){
         var self = this;
 
         self._={
             disposed: false,
             shown: false,
-            applicationState : applicationStateModule.get(),
             checkIfDisposed : function(){
                 if(self._.disposed){
                     throw new Error("This instance of content view model is already disposd.");
@@ -13,9 +12,14 @@ define(["ko", "applicationState"], function(ko, applicationStateModule){
             }
         };
 
+        self.leftPaneViewModel = leftPaneViewModelModule.get();
+        self.rightPaneViewModel = rightPaneViewModelModule.get();
+
         self.shown = function(){
             self._.checkIfDisposed();
             if(!self._.shown){
+                self.leftPaneViewModel.shown();
+                self.rightPaneViewModel.shown();
                 self._.shown = true;
             }
         };
@@ -23,15 +27,16 @@ define(["ko", "applicationState"], function(ko, applicationStateModule){
         self.hidden = function(){
             self._.checkIfDisposed();
             if(self._.shown){
+                self.leftPaneViewModel.hidden();
+                self.rightPaneViewModel.hidden();
                 self._.shown = false;
             }
         };
 
         self.dispose = function(){
             if(!self._.disposed){
-                self._.applicationState.dispose();
-                self._.applicationState = null;
-
+                self.leftPaneViewModel.hidden();
+                self.rightPaneViewModel.hidden();
                 self._.disposed = true;
             }
         };

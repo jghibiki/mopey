@@ -1,11 +1,10 @@
-define(["ko", "applicationState"], function(ko, applicationStateModule){
+define(["ko"], function(ko){
     function FooterViewModel(){
         var self = this;
 
         self._={
             disposed: false,
             shown: false,
-            applicationState: applicationStateModule.get()
         };
 
         self.shown = function(){
