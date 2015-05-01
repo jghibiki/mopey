@@ -1,4 +1,4 @@
-define(["ko", "jquery"], function(ko, $) {
+define(["ko", "jquery", "navigationManager"], function(ko, $, NavigationManagerModule) {
 
 	function NavigationViewModel() {
 		var self = this;
@@ -6,7 +6,7 @@ define(["ko", "jquery"], function(ko, $) {
 		self._ = {
 			dispose: false,
 			shown: false,
-			apiUrlBase: null,
+            navigationManager: NavigationManagerModulModulee.get(),
 			
 			checkIfDisposed: function() {
 				if(self._.dispose) {
@@ -15,9 +15,14 @@ define(["ko", "jquery"], function(ko, $) {
 			},
 		};
 
+        self.navOptions = ko.observableArray([]);
+
 		self.shown = function() {
 			self._.checkIfDisposed();
 			if(!self._.shown) {
+
+                self.navOptions(self._.navigationManager.getRoutes());
+
 				self._.shown = true;
 			}
 		};
@@ -31,6 +36,10 @@ define(["ko", "jquery"], function(ko, $) {
 
 		self.dispose = function() {
 			if(!self._.disposed) {
+
+                self._.navigationManager.dispose();
+                self._.navidationManager = null;
+
 				self._.disposed = true;
 			}
 		};

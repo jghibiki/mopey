@@ -35,6 +35,9 @@ requirejs.config({
             //managers
             "singletonManager": "managers/singletonManager",
             "navigationManager" : "managers/navigation-manager",
+
+            //services
+            "navigationService" : "services/navigation-service",
             
             //plugins
             "ko-content" : "ko-plugins/ko-content",
@@ -54,5 +57,91 @@ requirejs.config({
 
 
     config:{
+        "navigationService": [
+            /*
+            {
+              route: "abc",                 // The url part for the route
+
+              friendlyName: "The ABC's",    // A friendly name for the route, 
+                                            // used in the navigation pane 
+                                            // as the link title. An empty 
+                                            // string will result in omission
+                                            // from the list navigation pane.
+
+              viewModel: "abcViewModel",    // The view model this route will 
+                                            // be mapped to
+
+              admin: flase,                 // Toggles whether or not the route
+                                            // requires the logged in user to be an
+                                            // admin
+
+              children: [                   // A list of child routes that will be nested
+                                            // under the current route. e.g.
+                                            // /#/abc/child-route
+                                            //
+                                            // The parent route will be responsible for
+                                            // providing navigation to it's children
+                                            // no friendlyName is needed on children
+                                            // as a result. Additionally, the child
+                                            // inherits the value of the admin flag
+                                            // of the parent
+
+                {
+                    route: "xyz",
+                    viewModel: "xyzViewModel",  
+                    children: [],               // Like other routes child routes can implement their own children
+                                                // child.child routes are still bound by the same rules as the parent.child
+                    config: {}
+                    
+                }
+              ],
+
+              config: {                     // Routes can define arbitrary config values 
+                                            // which will be passed to the viewModel by
+                                            // the navigationManager.
+
+                    "welcomeMessage": "Hail Odin" 
+              }
+            }
+            */
+            
+            
+            {
+                route: "",                      // Base route. Resolves to "/#/"
+                friendlyName : "",
+                viewModel: "redirectViewModel", // Redirects the root path to the route
+                                                // defined in defaultRoute
+                admin: false,
+                children: [],
+                config: {
+                    "defaultRoute" : "queue"
+                }
+            },
+            {
+                route: "queue",
+                friendlyName: "Queue",
+                viewModel: "queueViewModel",
+                admin: false,
+                children: [],
+                config: {}
+            },
+            {
+                route: "account",
+                friendlyName: "Account",
+                viewModel: "accountViewModel",
+                admin: false,
+                children: [],
+                config: {}
+            },
+            {
+                route: "karma",
+                fiendlyName: "Karma",
+                viewModel: "karmaViewModel",
+                admin: false,
+                children: [],
+                config: {}
+            }
+
+        ]
     }
 });

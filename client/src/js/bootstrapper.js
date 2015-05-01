@@ -1,9 +1,13 @@
-define(["ko", "mainWindowViewModel", "domReady!"], function(ko, MainWindowVMModule){
+define(["ko", "mainWindowViewModel", "navigationService", "domReady!"], function(ko, MainWindowVMModule, NavigationServiceModule){
     "use strict";
 
     var UI_READY = false;
     var MainWindowVM = MainWindowVMModule.get();
-//    var ApplicationState = ApplicationStateModule.get();
+    var NavigationService = NavigationServiceModule.get();
+
+    function InitializeServices(){
+       NavigationService.start(); 
+    }
 
     function InitializeUIComponents(){
         require(["ko-content", "domReady!"], function(koContentPlugin){
@@ -25,6 +29,7 @@ define(["ko", "mainWindowViewModel", "domReady!"], function(ko, MainWindowVMModu
 //        }
     }
 
+    InitializeServices();
     InitializeUIComponents();
     CheckForExistingCredentials();
 

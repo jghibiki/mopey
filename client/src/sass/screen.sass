@@ -14,7 +14,11 @@
 
 $main-background : #555
 $working-background: #c4c4c4
+
+//navigation colors
 $navigation-background: #333
+$navigation-text: #777
+$navigation-search-box: #444
 
 //HTML Elements
 html
@@ -38,6 +42,13 @@ body
   height: 100%
   background-color: $navigation-background
 
+#navigation-search-box
+  background-color: $navigation-search-box
+  color: $navigation-text
+  text-align: center
+  border-style: solid
+  border-color: $navigation-search-box
+
 #working
   height: 100%
   background-color: $working-background
@@ -57,3 +68,6 @@ body
 
 .padded-box
   padding: 2px
+
+.alignText
+  text-align: center
