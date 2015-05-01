@@ -1,6 +1,6 @@
 define(["ko", "jquery"], function(ko, $) {
 
-	function RightPaneViewModel() {
+	function NavigationViewModel() {
 		var self = this;
 
 		self._ = {
@@ -10,7 +10,7 @@ define(["ko", "jquery"], function(ko, $) {
 			
 			checkIfDisposed: function() {
 				if(self._.dispose) {
-					throw new Error("This instance of RightPaneViewModel has already been disposed");
+					throw new Error("This instance of NavigationViewModel has already been disposed");
 				}
 			},
 		};
@@ -38,10 +38,10 @@ define(["ko", "jquery"], function(ko, $) {
 
 	return{
 		get: function() {
-			return new RightPaneViewModel();
+			return new NavigationViewModel();
 		},
 		type: function() {
-			return RightPaneViewModel;
+			return NavigationViewModel;
 		}
 	};
 

@@ -1,6 +1,6 @@
 define(["ko", "jquery"], function(ko, $) {
 
-	function LeftPaneViewModel() {
+	function WorkingViewModel() {
 		var self = this;
 
 		self._ = {
@@ -10,7 +10,7 @@ define(["ko", "jquery"], function(ko, $) {
 			
 			checkIfDisposed: function() {
 				if(self._.dispose) {
-					throw new Error("This instance of LeftPaneViewModel has already been disposed");
+					throw new Error("This instance of WorkingViewModel has already been disposed");
 				}
 			},
 		};
@@ -38,10 +38,10 @@ define(["ko", "jquery"], function(ko, $) {
 
 	return{
 		get: function() {
-			return new LeftPaneViewModel();
+			return new WorkingViewModel();
 		},
 		type: function() {
-			return LeftPaneViewModel;
+			return WorkingViewModel;
 		}
 	};
 

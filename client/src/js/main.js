@@ -29,8 +29,8 @@ requirejs.config({
             "footerViewModel" : "singleton!viewModel!views/footer.html:view-models/footer-view-model",
             "mainWindowViewModel" : "singleton!view-models/main-window-view-model",
             "homeViewModel": "singleton!viewModel!views/home.html:view-models/home-view-model",
-            "leftPaneViewModel" : "singleton!viewModel!views/left-pane.html:view-models/left-pane-view-model",
-            "rightPaneViewModel" : "singleton!viewModel!views/right-pane.html:view-models/right-pane-view-model",
+            "navigationViewModel" : "singleton!viewModel!views/navigation.html:view-models/navigation-view-model",
+            "workingViewModel" : "singleton!viewModel!views/working.html:view-models/working-view-model",
 
             //managers
             "singletonManager": "managers/singletonManager",
