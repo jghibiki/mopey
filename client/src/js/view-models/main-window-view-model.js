@@ -13,12 +13,12 @@ define(["ko", "contentViewModel","footerViewModel"], function(ko, contentViewMod
         self.shown = function(){
             self.contentViewModel.shown();
             self.footerViewModel.shown();
-        }
+        };
 
         self.hidden = function(){
             self.contentViewModel.hidden();
             self.footerViewModel.hidden();
-        }
+        };
 
         self.dispose = function(){
             if(!self._.disposed){
@@ -31,8 +31,7 @@ define(["ko", "contentViewModel","footerViewModel"], function(ko, contentViewMod
 
                 self._.disposed = true;
             }
-        }
-
+        };
 
     }
 

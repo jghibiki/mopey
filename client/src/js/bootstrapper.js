@@ -1,12 +1,20 @@
-define(["ko", "mainWindowViewModel", "domReady!"], function(ko, MainWindowVMModule){
+define(["ko", "mainWindowViewModel", "navigationService", "domReady!"], function(ko, MainWindowVMModule, NavigationServiceModule){
     "use strict";
 
     var UI_READY = false;
     var MainWindowVM = MainWindowVMModule.get();
-//    var ApplicationState = ApplicationStateModule.get();
+    var NavigationService = NavigationServiceModule.get();
+
+    function InitializeServices(){
+       NavigationService.init(); 
+    }
+
+    function StartServices(){
+        NavigationService.start();
+    }
 
     function InitializeUIComponents(){
-        require(["ko-content", "domReady!"], function(koContentPlugin){
+        require(["ko-content", "domReady!"], function(koContentPlugin, koTouchTapPlugin){
             UI_READY = true;
         });
     }
@@ -25,6 +33,7 @@ define(["ko", "mainWindowViewModel", "domReady!"], function(ko, MainWindowVMModu
 //        }
     }
 
+    InitializeServices();
     InitializeUIComponents();
     CheckForExistingCredentials();
 
@@ -34,16 +43,10 @@ define(["ko", "mainWindowViewModel", "domReady!"], function(ko, MainWindowVMModu
             clearTimeout(timer);
             timer = null;
 
-//            if(window.location.hash){
-//                ApplicationState.currentRoute(window.location.hash);
-//            }
-//            else{
-//                ApplicationState.currentRoute("");
-//            }
-           
-
             ko.applyBindings(MainWindowVM);
             MainWindowVM.shown();
+
+            StartServices();
         }
     }, 100);
 });

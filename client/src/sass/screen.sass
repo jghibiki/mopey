@@ -12,10 +12,62 @@
 
 //Colors
 
-$background : "C4C4C4"
+$main-background : #555
+$working-background: #c4c4c4
+
+//navigation colors
+$navigation-background: #333
+$navigation-text: #777
+$navigation-search-box: #444
 
 //HTML Elements
+html
+  height: 100%
 
 body
-  background: $background
+  background-color: $main-background
   height: 100%
+
+
+//Outline
+#wrapper
+  height: 100%
+
+#content
+  height: 80%
+  padding: 0px
+  margin: 0px
+  
+#navigation
+  height: 100%
+  background-color: $navigation-background
+
+#navigation-search-box
+  background-color: $navigation-search-box
+  color: $navigation-text
+  text-align: center
+  border-style: solid
+  border-color: $navigation-search-box
+
+#working
+  height: 100%
+  background-color: $working-background
+
+#footer
+  bottom: 0px
+  height: 20%
+  position: absolute
+  min-width: 100%
+  max-height: 100%
+
+
+//shame
+
+.custom-restricted-width
+  display: inline-block
+
+.padded-box
+  padding: 2px
+
+.alignText
+  text-align: center

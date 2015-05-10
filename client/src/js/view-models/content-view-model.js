@@ -1,4 +1,4 @@
-define(["ko", "leftPaneViewModel", "rightPaneViewModel"], function(ko, leftPaneViewModelModule, rightPaneViewModelModule){
+define(["ko", "navigationViewModel", "workingViewModel"], function(ko, NavigationViewModelModule, WorkingViewModelModule){
     function ContentViewModel(){
         var self = this;
 
@@ -12,14 +12,14 @@ define(["ko", "leftPaneViewModel", "rightPaneViewModel"], function(ko, leftPaneV
             }
         };
 
-        self.leftPaneViewModel = leftPaneViewModelModule.get();
-        self.rightPaneViewModel = rightPaneViewModelModule.get();
+        self.navigationViewModel = NavigationViewModelModule.get();
+        self.workingViewModel = WorkingViewModelModule.get();
 
         self.shown = function(){
             self._.checkIfDisposed();
             if(!self._.shown){
-                self.leftPaneViewModel.shown();
-                self.rightPaneViewModel.shown();
+                self.navigationViewModel.shown();
+                self.workingViewModel.shown();
                 self._.shown = true;
             }
         };
@@ -27,16 +27,16 @@ define(["ko", "leftPaneViewModel", "rightPaneViewModel"], function(ko, leftPaneV
         self.hidden = function(){
             self._.checkIfDisposed();
             if(self._.shown){
-                self.leftPaneViewModel.hidden();
-                self.rightPaneViewModel.hidden();
+                self.navigationViewModel.hidden();
+                self.workingViewModel.hidden();
                 self._.shown = false;
             }
         };
 
         self.dispose = function(){
             if(!self._.disposed){
-                self.leftPaneViewModel.hidden();
-                self.rightPaneViewModel.hidden();
+                self.navigationViewModel.hidden();
+                self.workingViewModel.hidden();
                 self._.disposed = true;
             }
         };
