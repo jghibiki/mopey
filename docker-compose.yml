@@ -10,7 +10,7 @@ api:
     #command: gunicorn -w 2 -b 0.0.0.0:5000 Server:app
     working_dir: /data/src
     ports:
-        - "8082:5000"
+        - "8080:5000"
     links:
         - db
         - mopidy

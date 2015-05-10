@@ -17,7 +17,18 @@ requirejs.config({
         //third party libs
         "underscore" : "third-party/underscore",
 
-        
+        //plugins
+        "ko-content" : "ko-plugins/ko-content",
+        "ko-touch-tap" : "ko-plugins/ko-touch-tap",
+
+        //third party libs
+        "ko" : "third-party/knockout-3.2.0",
+        "sammy" : "third-party/sammy",
+        "fetch": "third-party/fetch",
+        "is": "third-party/is.min",
+
+        //utils
+        "chain": "utils/chain.js"
     },
 
 
@@ -34,10 +45,10 @@ requirejs.config({
 
             //managers
             "singletonManager": "managers/singletonManager",
-            "navigationManager" : "managers/navigation-manager",
+            "navigationManager" : "singleton!managers/navigation-manager",
 
             //services
-            "navigationService" : "services/navigation-service",
+            "navigationService" : "singleton!services/navigation-service",
             
             //plugins
             "ko-content" : "ko-plugins/ko-content",
@@ -57,16 +68,19 @@ requirejs.config({
 
 
     config:{
-        "navigationService": [
+        "services/navigation-service": [
             /*
             {
               route: "abc",                 // The url part for the route
 
+              presidence: 1,                // the higher the presidence, the higher in the 
+                                            // navigation menu it will appear.
+                                            // If multiple routes have the same presidence
+                                            // they will be arranged randomly.
+
               friendlyName: "The ABC's",    // A friendly name for the route, 
                                             // used in the navigation pane 
-                                            // as the link title. An empty 
-                                            // string will result in omission
-                                            // from the list navigation pane.
+                                            // as the link title.
 
               viewModel: "abcViewModel",    // The view model this route will 
                                             // be mapped to
@@ -104,22 +118,10 @@ requirejs.config({
               }
             }
             */
-            
-            
-            {
-                route: "",                      // Base route. Resolves to "/#/"
-                friendlyName : "",
-                viewModel: "redirectViewModel", // Redirects the root path to the route
-                                                // defined in defaultRoute
-                admin: false,
-                children: [],
-                config: {
-                    "defaultRoute" : "queue"
-                }
-            },
             {
                 route: "queue",
                 friendlyName: "Queue",
+                presidence: 1,
                 viewModel: "queueViewModel",
                 admin: false,
                 children: [],
@@ -128,6 +130,7 @@ requirejs.config({
             {
                 route: "account",
                 friendlyName: "Account",
+                presidence: 2,
                 viewModel: "accountViewModel",
                 admin: false,
                 children: [],
@@ -135,7 +138,8 @@ requirejs.config({
             },
             {
                 route: "karma",
-                fiendlyName: "Karma",
+                friendlyName: "Karma",
+                presidence: 3,
                 viewModel: "karmaViewModel",
                 admin: false,
                 children: [],

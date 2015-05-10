@@ -1,4 +1,4 @@
-define(["navigationService"], function(NavigationServiceModule){
+define(["ko", "navigationService"], function(ko, NavigationServiceModule){
 
     function NavigationManager(){
         var self = this;
@@ -9,12 +9,19 @@ define(["navigationService"], function(NavigationServiceModule){
             navigationService: NavigationServiceModule.get()
         };
 
+        
+        self.currentRoute = ko.observable();
+
+        self.currentRouteSubscription = self._.navigationService.currentRoute.subscribe(function(newRoute){
+            self.currentRoute(newRoute);
+        });
+
 
         /*
          * Gets the list of navigable routes
          */
         self.getRoutes = function(){
-
+            return self._.navigationService.routes.sort();
         }
 
         /*

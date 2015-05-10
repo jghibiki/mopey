@@ -6,6 +6,7 @@
             </h1>
         </span>
         <input id="navigation-search-box" type="text" placeholder="Search">
+        <!--
         <ul class="pure-menu-list">
             <li class="pure-menu-item">
                 <span class="pure-menu-link">
@@ -18,13 +19,11 @@
                 </span>
             </li>
         </ul>
-        <!--
-        <ul class="pure-menu-list" data-bind="foreach: navOption">
+        -->
+        <ul class="pure-menu-list" data-bind="foreach: navOptions">
             <li class="pure-menu-item">
-                <a href="" class="pure-menu-link" data-bind=" text: friendlyName, attribute: { href: route}"></a>
+                <a href="" class="pure-menu-link" data-bind=" text: friendlyName, attr: { href: hashRoute()}, css: {'pure-menu-selected': $parent.isCurrentRoute}"></a>
             </li>
         </ul>
-
-            -->
     </div>
 </div>

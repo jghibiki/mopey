@@ -6,7 +6,7 @@ define(["ko", "jquery", "navigationManager"], function(ko, $, NavigationManagerM
 		self._ = {
 			dispose: false,
 			shown: false,
-            navigationManager: NavigationManagerModulModulee.get(),
+            navigationManager: NavigationManagerModule.get(),
 			
 			checkIfDisposed: function() {
 				if(self._.dispose) {
