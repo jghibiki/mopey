@@ -5,6 +5,7 @@ import json
 
 blankCommand = '{"jsonrpc": "2.0", "id": 1, "method": '
 endpoint = "http://mopidy:6680/mopidy/rpc"
+volumeIncrement = 3
 
 def addSong(requestedSong):
     song = blankCommand + '"core.tracklist.add", "params": {"uri":"yt:https://youtube.com/watch?v=' + requestedSong + '"}}'
@@ -39,9 +40,28 @@ def getState():
     return jsonify(sendRequest(state))
 
 def setConsume():
-    consume = blankCommand + '"core.tracklist.set_consume", "params":{"value":"true"}}'
+    consume = blankCommand + '"core.tracklist.set_consume", "params": {"value":"true"}}'
     response = sendRequest(consume)
     return jsonify(response)
+
+def getVolume():
+    volume = blankCommand + '"core.mixer.get_volume"}'
+    return sendRequest(volume)
+
+def setVolume(vol):
+    volume = blankCommand + '"core.mixer.set_volume", "params": {"volume":' + str(vol) + '}}'
+    return sendRequest(volume)
+
+def increaseVolume():
+    currentVolume = getVolume()
+    volume = currentVolume["result"] + volumeIncrement
+    return jsonify(setVolume(volume))
+
+def decreaseVolume():
+    currentVolume = getVolume()
+    volume = currentVolume["result"] - volumeIncrement
+    return jsonify(setVolume(volume))
+
 
 #####################
 ## Private Methods ##
@@ -50,6 +70,9 @@ def setConsume():
 def sendRequest(payload):
     psub = curl("-d " + payload, endpoint)
     data = json.loads(str(psub))
-    return {"result": data['result']}
+    try:
+        return {"result": data['result']}
+    except:
+        GeneralApiException(data['error'])
 
 

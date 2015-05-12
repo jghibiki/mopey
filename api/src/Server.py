@@ -12,7 +12,7 @@ from AuthenticationApi import *
 import SetUp
 from SearchApi import youtubeSearch
 from RegexApi import *
-from ApiCalls import *
+from SongApi import *
 
 
 ##################
@@ -181,9 +181,9 @@ def RemoveRegex():
 ###############
 
 
-@app.route('/song', methods=["POST"])
+@app.route('/playback/add', methods=["POST"])
 @nocache
-@requireAuth
+#@requireAuth
 def AddSong():
     """
     Requires Auth
@@ -195,25 +195,25 @@ def AddSong():
 
     return addSong(song)
 
-@app.route('/song/play', methods=["GET"])
+@app.route('/playback/play', methods=["GET"])
 @nocache
-@requireAdmin
+#@requireAdmin
 def PlaySong():
     """
     Requires Admin Authentication
     """
     return playSong()
 
-@app.route('/song/pause', methods=["GET"])
+@app.route('/playback/pause', methods=["GET"])
 @nocache
-@requireAdmin
+#@requireAdmin
 def PauseSong():
     """
     Requires Admin Authentication
     """
     return pauseSong()
 
-@app.route('/song/stop', methods=["GET"])
+@app.route('/playback/stop', methods=["GET"])
 @nocache
 @requireAdmin
 def StopSong():
@@ -222,7 +222,7 @@ def StopSong():
     """
     return stopSong()
 
-@app.route('/song/next', methods=["GET"])
+@app.route('/playback/next', methods=["GET"])
 @nocache
 @requireAdmin
 def NextSong():
@@ -231,7 +231,7 @@ def NextSong():
     """
     return nextSong()
 
-@app.route('/song/clear', methods=["GET"])
+@app.route('/playback/clear', methods=["GET"])
 @nocache
 @requireAdmin
 def ClearSongs():
@@ -240,7 +240,7 @@ def ClearSongs():
     """
     return clearSongs()
 
-@app.route('/song/list', methods=["GET"])
+@app.route('/playback/list', methods=["GET"])
 @nocache
 @requireAdmin
 def GetTracks():
@@ -249,7 +249,7 @@ def GetTracks():
     """
     return getTracks()
 
-@app.route('/song/state', methods=["GET"])
+@app.route('/playback/state', methods=["GET"])
 @nocache
 @requireAdmin
 def GetState():
@@ -258,6 +258,41 @@ def GetState():
     """
     return getState()
 
+@app.route('/volume/up', methods=["GET"])
+@nocache
+#@requireAdmin
+def IncreaseVolume():
+    """
+    Require Admin Authentication
+    """
+    return increaseVolume()
+
+@app.route('/volume/down', methods=["GET"])
+@nocache
+#@requireAdmin
+def DecreaseVolume():
+    """
+    Require Admin Authentication
+    """
+    return decreaseVolume()
+
+@app.route('/volume', methods=["GET"])
+@nocache
+#@requireAdmin
+def GetVolume():
+    """
+    Require Admin Authentication
+    """
+    return jsonify(getVolume())
+
+@app.route('/volume/<int:key>', methods=["GET"])
+@nocache
+#@requireAdmin
+def SetVolume(key):
+    """
+    Require Admin Authentication
+    """
+    return jsonify(setVolume(key))
 
 
 ####################
