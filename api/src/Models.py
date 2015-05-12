@@ -28,15 +28,22 @@ class AccessToken(BaseModel):
 
 class Admin(BaseModel):
     key = PrimaryKeyField()
+
     user = ForeignKeyField(rel_model=User)
 
 class Regex(BaseModel):
     key = PrimaryKeyField()
     pattern = TextField(unique=True, index=True)
-    
+
+class Song(BaseModel):
+    key = PrimaryKeyField()
+
+    name = TextField()
+    karma = IntegerField()
+
 class RequestQue(BaseModel):
     key = PrimaryKeyField()
 
-    song = TextField()
+    song = ForeignKeyField(rel_model=Song)
     time = TextField()
     user = ForeignKeyField(rel_model=User)

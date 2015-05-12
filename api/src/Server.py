@@ -183,7 +183,7 @@ def RemoveRegex():
 
 @app.route('/song', methods=["POST"])
 @nocache
-@requireAuth
+#@requireAuth
 def AddSong():
     """
     Requires Auth
@@ -197,7 +197,7 @@ def AddSong():
 
 @app.route('/song/play', methods=["GET"])
 @nocache
-@requireAdmin
+#@requireAdmin
 def PlaySong():
     """
     Requires Admin Authentication
@@ -206,7 +206,7 @@ def PlaySong():
 
 @app.route('/song/pause', methods=["GET"])
 @nocache
-@requireAdmin
+#@requireAdmin
 def PauseSong():
     """
     Requires Admin Authentication
@@ -258,6 +258,41 @@ def GetState():
     """
     return getState()
 
+@app.route('/volume/up', methods=["GET"])
+@nocache
+#@requireAdmin
+def IncreaseVolume():
+    """
+    Require Admin Authentication
+    """
+    return increaseVolume()
+
+@app.route('/volume/down', methods=["GET"])
+@nocache
+#@requireAdmin
+def DecreaseVolume():
+    """
+    Require Admin Authentication
+    """
+    return decreaseVolume()
+
+@app.route('/volume', methods=["GET"])
+@nocache
+#@requireAdmin
+def GetVolume():
+    """
+    Require Admin Authentication
+    """
+    return jsonify(getVolume())
+
+@app.route('/volume/<int:key>', methods=["GET"])
+@nocache
+#@requireAdmin
+def SetVolume(key):
+    """
+    Require Admin Authentication
+    """
+    return jsonify(setVolume(key))
 
 
 ####################
