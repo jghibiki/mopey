@@ -181,7 +181,7 @@ def RemoveRegex():
 ###############
 
 
-@app.route('/song', methods=["POST"])
+@app.route('/playback/add', methods=["POST"])
 @nocache
 #@requireAuth
 def AddSong():
@@ -195,7 +195,7 @@ def AddSong():
 
     return addSong(song)
 
-@app.route('/song/play', methods=["GET"])
+@app.route('/playback/play', methods=["GET"])
 @nocache
 #@requireAdmin
 def PlaySong():
@@ -204,7 +204,7 @@ def PlaySong():
     """
     return playSong()
 
-@app.route('/song/pause', methods=["GET"])
+@app.route('/playback/pause', methods=["GET"])
 @nocache
 #@requireAdmin
 def PauseSong():
@@ -213,7 +213,7 @@ def PauseSong():
     """
     return pauseSong()
 
-@app.route('/song/stop', methods=["GET"])
+@app.route('/playback/stop', methods=["GET"])
 @nocache
 @requireAdmin
 def StopSong():
@@ -222,7 +222,7 @@ def StopSong():
     """
     return stopSong()
 
-@app.route('/song/next', methods=["GET"])
+@app.route('/playback/next', methods=["GET"])
 @nocache
 @requireAdmin
 def NextSong():
@@ -231,7 +231,7 @@ def NextSong():
     """
     return nextSong()
 
-@app.route('/song/clear', methods=["GET"])
+@app.route('/playback/clear', methods=["GET"])
 @nocache
 @requireAdmin
 def ClearSongs():
@@ -240,7 +240,7 @@ def ClearSongs():
     """
     return clearSongs()
 
-@app.route('/song/list', methods=["GET"])
+@app.route('/playback/list', methods=["GET"])
 @nocache
 @requireAdmin
 def GetTracks():
@@ -249,7 +249,7 @@ def GetTracks():
     """
     return getTracks()
 
-@app.route('/song/state', methods=["GET"])
+@app.route('/playback/state', methods=["GET"])
 @nocache
 @requireAdmin
 def GetState():
