@@ -1,13 +1,12 @@
-define(["ko","applicationState","jquery"], function(ko, applicationStateModule, $){
+define(["ko","jquery"], function(ko, $){
 
     function LoginViewModel(){
         var self = this;
 
-
         self._ = {
             disposed: false,
             shown: false,
-            applicationState : applicationStateModule.get(),
+//            applicationState : applicationStateModule.get(),
             apiUrl : null,
             checkIfDisposed: function(){
                 if(self._.disposed){
@@ -64,12 +63,12 @@ define(["ko","applicationState","jquery"], function(ko, applicationStateModule, 
         self.shown = function(){
             self._.checkIfDisposed();
             if(!self._.shown){
-                self._.applicationState.navigateLeftLink("");
-                self._.applicationState.navigateRightLink("");
-                if(self._.applicationState.currentFlow() !== "main"){
-                    self._.applicationState.currentFlow("main");
-                }
-                self._.apiUrl = self._.applicationState.apiUrl();
+//                self._.applicationState.navigateLeftLink("");
+//                self._.applicationState.navigateRightLink("");
+//                if(self._.applicationState.currentFlow() !== "main"){
+//                    self._.applicationState.currentFlow("main");
+//                }
+//                self._.apiUrl = self._.applicationState.apiUrl();
                 self._.shown = true;
             }
         };
@@ -77,15 +76,15 @@ define(["ko","applicationState","jquery"], function(ko, applicationStateModule, 
         self.hidden = function(){
             self._.checkIfDisposed();
             if(self._.shown){
-                self._.apiUrl = self._.applicationState.apiUrl();
+//                self._.apiUrl = self._.applicationState.apiUrl();
                 self._.shown = false;
             }
         };
 
         self.dispose = function(){
             if(!self._.disposed){
-                self._.applicationState.dispose();
-                self._.applicationState = null;
+//                self._.applicationState.dispose();
+//                self._.applicationState = null;
                 self._disposed = true;
             }
         };
@@ -106,12 +105,12 @@ define(["ko","applicationState","jquery"], function(ko, applicationStateModule, 
                         localStorage["expiration_date"] = data["expiration_date"];
                         localStorage["access_token"] = data["access_token"];
 
-                        self._.applicationState.accessToken(data.access_token);
-                        self._.applicationState.expirationDate(data.expiration_date);
-                        self._.applicationState.loggedIn(true);
+//                        self._.applicationState.accessToken(data.access_token);
+//                        self._.applicationState.expirationDate(data.expiration_date);
+//                        self._.applicationState.loggedIn(true);
 
-                        window.location = self._.applicationState.clientUrl() + "/#home";
-                        self._.applicationState.currentRoute("#home");
+//                        window.location = self._.applicationState.clientUrl() + "/#home";
+//                        self._.applicationState.currentRoute("#home");
                     });
             }
         };

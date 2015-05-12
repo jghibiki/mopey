@@ -1,4 +1,7 @@
 from apiclient.discovery import build
+from Models import *
+from GeneralApiException import GeneralApiException
+import re
 import json
 
 
@@ -15,6 +18,8 @@ YOUTUBE_API_VERSION = "v3"
 def youtubeSearch(query, maxResults=50):
     youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
     developerKey=DEVELOPER_KEY)
+
+    validateQuery(query)
 
     # Call the search.list method to retrieve results matching the specified
     # query term.
@@ -47,4 +52,12 @@ def filterData(original):
 
 
     return filtered
+
+def validateQuery(query):
+    for regex in Regex.select():
+        if re.search(regex.pattern, query):
+            raise GeneralApiException("Search request for query='" + query + "' has been denied, requested query failed to pass acceptance testing.")
+
+
+
 

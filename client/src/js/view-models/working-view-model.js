@@ -1,17 +1,16 @@
-define(["ko", "jquery", "applicationState"], function(ko, $, applicationStateModule) {
+define(["ko", "jquery"], function(ko, $) {
 
-	function Default() {
+	function WorkingViewModel() {
 		var self = this;
 
 		self._ = {
 			dispose: false,
 			shown: false,
 			apiUrlBase: null,
-			applicationState: applicationStateModule.get(),
 			
 			checkIfDisposed: function() {
 				if(self._.dispose) {
-					throw new Error("This instance of Default has already been disposed");
+					throw new Error("This instance of WorkingViewModel has already been disposed");
 				}
 			},
 		};
@@ -19,7 +18,6 @@ define(["ko", "jquery", "applicationState"], function(ko, $, applicationStateMod
 		self.shown = function() {
 			self._.checkIfDisposed();
 			if(!self._.shown) {
-                self._.apiUrlBase = self._.applicationState.apiUrl();
 				self._.shown = true;
 			}
 		};
@@ -33,8 +31,6 @@ define(["ko", "jquery", "applicationState"], function(ko, $, applicationStateMod
 
 		self.dispose = function() {
 			if(!self._.disposed) {
-				self._.appDefaultlicationState.dispose();
-				self._.applicationState = null;
 				self._.disposed = true;
 			}
 		};
@@ -42,11 +38,11 @@ define(["ko", "jquery", "applicationState"], function(ko, $, applicationStateMod
 
 	return{
 		get: function() {
-			return new Default();
+			return new WorkingViewModel();
 		},
 		type: function() {
-			return Default;
+			return WorkingViewModel;
 		}
-	}
+	};
 
 });

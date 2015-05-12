@@ -1,5 +1,4 @@
-define(["application-state"], function(ApplicationStateModule) {
- 
+define([], function() {
  
     //region Chain Link
     function ChainLink(linkId, callback) {
@@ -16,7 +15,6 @@ define(["application-state"], function(ApplicationStateModule) {
  
     //endregion
  
- 
     //region Chain
  
     //region Constructor method
@@ -27,10 +25,7 @@ define(["application-state"], function(ApplicationStateModule) {
         self._blocking = false;
         self._callback = null;
         self._context = null;
-        self._applicationState = ApplicationStateModule.get();
  
-        self._StopBlockAndBusy = StopBlockAndBusy.bind(this);
-        self._StartBlockAndBusy = StartBlockAndBusy.bind(this);
         self._finally = Finally.bind(this);
         self._reset = reset.bind(this);
  
@@ -49,14 +44,12 @@ define(["application-state"], function(ApplicationStateModule) {
     };
     self.cc = self.chain;
  
- 
     self.end = function (parentContext, callback) {
         self._callback = callback;
         self._StartBlockAndBusy();
         var context = parentContext || {};
         self.next(context);
     };
- 
  
     self.next = function (context) {
         if (self._chain.length > 0) {
@@ -82,25 +75,12 @@ define(["application-state"], function(ApplicationStateModule) {
  
     self.dispose = function(){
         if(!self._disposed){
-            self._applicationState.dispose();
-            self._applicationState = null;
         }
     };
     //endregion
  
     //region Private Methods
  
-    function StartBlockAndBusy(){
-        if(self._blocking !== false){
-            self._applicationState.isBusy(true);
-            self._applicationState.isBlocked(true);
-        }
-    }
- 
-    function StopBlockAndBusy(){
-        self._applicationState.isBusy(false);
-        self._applicationState.isBlocked(false);
-    }
  
     function Finally(context){
         self._StopBlockAndBusy();
