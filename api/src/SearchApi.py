@@ -45,11 +45,13 @@ def filterData(original):
     for item in original["items"]:
         temp = {}
         temp["title"] = item["snippet"]["title"]
-        temp["descriptipn"] = item["snippet"]["description"]
+        temp["description"] = item["snippet"]["description"]
         temp["uploader"] = item["snippet"]["channelTitle"]
-        temp["id"] = item["id"]["videoId"]
+        try:
+            temp["id"] = item["id"]["videoId"]
+        except:
+            pass
         filtered.append(temp)
-
 
     return filtered
 
@@ -57,6 +59,27 @@ def validateQuery(query):
     for regex in Regex.select():
         if re.search(regex.pattern, query):
             raise GeneralApiException("Search request for query='" + query + "' has been denied, requested query failed to pass acceptance testing.")
+
+def searchByKey(key):
+    youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
+    developerKey=DEVELOPER_KEY)
+
+    search_request = youtube.videos().list(
+        part="id,snippet",
+        id=key
+    )
+
+    searchResponse = json.dumps(search_request.execute(), separators=[',',':'])
+    searchData = json.loads(searchResponse)
+
+    filteredData = filterData(searchData)
+
+    return filteredData[0]
+
+
+
+
+
 
 
 

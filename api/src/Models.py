@@ -35,15 +35,12 @@ class Regex(BaseModel):
     key = PrimaryKeyField()
     pattern = TextField(unique=True, index=True)
 
-class Song(BaseModel):
+class Request(BaseModel):
     key = PrimaryKeyField()
 
-    name = TextField()
-    karma = IntegerField()
-
-class RequestQue(BaseModel):
-    key = PrimaryKeyField()
-
-    song = ForeignKeyField(rel_model=Song)
-    time = TextField()
+    youtubeKey = TextField()
+    title = TextField()
+    uploader = TextField()
+    description = TextField()
+    time = DateTimeField()
     user = ForeignKeyField(rel_model=User, related_name="songsRequested")
