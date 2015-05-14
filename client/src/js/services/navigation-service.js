@@ -120,7 +120,7 @@ define(["ko","sammy", "module"], function(ko,Sammy, module){
 
                 for(i = 0; i < self.routes.length; i++){
                     self._.sammy.get("#/" + self.routes[i].route, function(context){
-                        self.currentRoute(context.path.substr(2,context.path.length));
+                        self.currentRoute(context.path.substr(3,context.path.length));
                     });
                 }
             }

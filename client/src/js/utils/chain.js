@@ -46,12 +46,12 @@ define([], function() {
  
     self.end = function (parentContext, callback) {
         self._callback = callback;
-        self._StartBlockAndBusy();
         var context = parentContext || {};
         self.next(context);
     };
  
     self.next = function (context) {
+        context = context || {};
         if (self._chain.length > 0) {
             context.chain = self;
             var current = self._chain.splice(0, 1)[0];
@@ -83,7 +83,6 @@ define([], function() {
  
  
     function Finally(context){
-        self._StopBlockAndBusy();
         self._reset();
         if(typeof self._callback === "function"){
             self._callback(context);

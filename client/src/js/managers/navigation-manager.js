@@ -6,14 +6,26 @@ define(["ko", "navigationService"], function(ko, NavigationServiceModule){
         self._ = {
             disposed: false,
             
-            navigationService: NavigationServiceModule.get()
+            navigationService: NavigationServiceModule.get(),
+            
+            checkIfDisposed: function(){
+                if(!self._.disposed){
+                    throw new Error("Navigation Manager is disposed");
+                }
+            }
         };
 
         
         self.currentRoute = ko.observable();
 
         self.currentRouteSubscription = self._.navigationService.currentRoute.subscribe(function(newRoute){
-            self.currentRoute(newRoute);
+            var i;
+            for(i=0; i<self._.navigationService.routes.length; i++){
+                if(self._.navigationService.routes[i].route === newRoute){
+                    self.currentRoute(self._.navigationService.routes[i]);
+                    break;
+                }
+            }
         });
 
 
