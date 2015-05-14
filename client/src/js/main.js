@@ -28,7 +28,7 @@ requirejs.config({
         "is": "third-party/is.min",
 
         //utils
-        "chain": "utils/chain.js"
+        "chain": "utils/chain",
     },
 
 
@@ -42,13 +42,18 @@ requirejs.config({
             "homeViewModel": "singleton!viewModel!views/home.html:view-models/home-view-model",
             "navigationViewModel" : "singleton!viewModel!views/navigation.html:view-models/navigation-view-model",
             "workingViewModel" : "singleton!viewModel!views/working.html:view-models/working-view-model",
+            "queueViewModel": "singleton!viewModel!views/queue.html:view-models/queue-view-model",
+            "accountViewModel": "singleton!viewModel!views/account.html:view-models/account-view-model",
+            "karmaViewModel": "singleton!viewModel!views/karma.html:view-models/karma-view-model",
 
             //managers
-            "singletonManager": "managers/singletonManager",
+            "singletonManager": "managers/singleton-manager",
             "navigationManager" : "singleton!managers/navigation-manager",
+            "contentManager" : "singleton!managers/content-manager",
 
             //services
             "navigationService" : "singleton!services/navigation-service",
+            "contentService" : "singleton!services/content-service",
             
             //plugins
             "ko-content" : "ko-plugins/ko-content",
@@ -61,7 +66,7 @@ requirejs.config({
             "is": "this-pary/is.min",
 
             //utils
-            "chain": "utils/chain.js",
+            "chain": "utils/chain",
 
        }
     },
