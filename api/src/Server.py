@@ -12,6 +12,7 @@ from AuthenticationApi import *
 import SetUp
 from SearchApi import youtubeSearch
 from RegexApi import *
+from SongQueue import *
 from SongApi import *
 
 
@@ -293,6 +294,33 @@ def SetVolume(key):
     Require Admin Authentication
     """
     return jsonify(setVolume(key))
+
+@app.route('/queue', methods=["GET"])
+@nocache
+#@requireAdmin
+def GetRequests():
+    """
+    Require Admin Authentication
+    """
+    return getRequests()
+
+@app.route('/queue/remove/<int:key>', methods=["POST"])
+@nocache
+#@requireAdmin
+def RemoveRequest(key):
+    """
+    Require Admin Authentication
+    """
+    return removeRequest(key)
+
+@app.route('/queue/add', methods=["POST"])
+@nocache
+#@requireAdmin
+def AddRequest():
+    """
+    Require Admin Authentication
+    """
+    return requestSong(request.json)
 
 
 ####################
