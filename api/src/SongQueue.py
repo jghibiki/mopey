@@ -5,34 +5,40 @@ import UserApi
 import SearchApi
 import json
 
-def requestSong(data):
+def requestSong(json):
+    user = json["userkey"]
+    song = json["song"]
+    data = {"key": song, "user": user}
     result = SearchApi.searchByKey(data["key"])
     returnedUser = UserApi.getUserDatabase(data["user"])
     returnedRequest = Request.create(youtubeKey=data["key"],
                    title=result["title"],
                    uploader=result["uploader"],
                    description=result["description"],
-                   time=datetime.utcnow(),
+                   date=datetime.utcnow(),
                    user=returnedUser)
     return jsonify({"key":returnedRequest.key})
 
 def getRequests():
     requests = []
-    for req in Request.select():
+    for req in Request.select().order_by(Request.date):
         requests.append({
-            "tile": req.title,
+            "title": req.title,
             "uploader": req.uploader,
             "youtubeKey": req.youtubeKey,
             "description": req.description,
-            "time": str(req.time),
-            "user": req.user.username
+            "date": str(req.date),
+            "user": req.user.username,
+            "key": req.key
         })
     return json.dumps(requests)
 
-def removeFirstSong():
-    queue.pop(0)
+def removeRequest(key):
+    try:
+        Request.get(Request.key == key)
+        Request.delete().where(Request.key == key).execute()
+        return jsonify({"result": True})
+    except:
+        return jsonify({"result": False})
 
-def Test():
-    data = {"key": "F6BDvfgRF4s", "user": 2}
-    return requestSong(data)
 

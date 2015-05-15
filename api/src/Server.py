@@ -295,23 +295,32 @@ def SetVolume(key):
     """
     return jsonify(setVolume(key))
 
-@app.route('/test-queue', methods=["GET"])
-@nocache
-#@requireAdmin
-def TestQueue():
-    """
-    Require Admin Authentication
-    """
-    return Test()
-
 @app.route('/queue', methods=["GET"])
 @nocache
 #@requireAdmin
-def getQueue():
+def GetRequests():
     """
     Require Admin Authentication
     """
     return getRequests()
+
+@app.route('/queue/remove/<int:key>', methods=["POST"])
+@nocache
+#@requireAdmin
+def RemoveRequest(key):
+    """
+    Require Admin Authentication
+    """
+    return removeRequest(key)
+
+@app.route('/queue/add', methods=["POST"])
+@nocache
+#@requireAdmin
+def AddRequest():
+    """
+    Require Admin Authentication
+    """
+    return requestSong(request.json)
 
 
 ####################

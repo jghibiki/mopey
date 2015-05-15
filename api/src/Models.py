@@ -42,5 +42,5 @@ class Request(BaseModel):
     title = TextField()
     uploader = TextField()
     description = TextField()
-    time = DateTimeField()
+    date = DateTimeField()
     user = ForeignKeyField(rel_model=User, related_name="songsRequested")
