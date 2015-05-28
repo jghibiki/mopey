@@ -1,0 +1,3 @@
+[submodule "Mopey-Client"]
+	path = client
+	url = git@github.com:jghibiki/Mopey-Client.git
