@@ -1,0 +1,19 @@
+client:
+    extends:
+        file: ./client/client.compose.yml
+        service: client
+    volumes: 
+
+api:
+    extends:
+        file: ./api/api.compose.yml
+        service: api
+    links:
+        - db
+        - mopidy
+mopidy:
+    extends:
+        file: ./mopidy/mopidy.compose.yml
+        service: mopidy
+db:
+    image: postgres
