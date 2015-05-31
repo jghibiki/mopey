@@ -4,6 +4,3 @@
 [submodule "mopey-api"]
 	path = api
 	url = git@github.com:jghibiki/mopey-api.git
-[submodule "mopey-mopidy"]
-	path = mopidy
-	url = git@github.com:jghibiki/mopey-mopidy.git
