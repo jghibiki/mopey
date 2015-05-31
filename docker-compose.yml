@@ -1,24 +1,17 @@
 client:
-    build: ./client
-    command: http-server /data/src -c-1 --cors
-    ports:
-        - "8081:8080"
-
+    extends:
+        file: ./client/client.compose.yml
+        service: client
 api:
-    build: ./api
-    command: python /data/src/Server.py
-    #command: gunicorn -w 2 -b 0.0.0.0:5000 Server:app
-    working_dir: /data/src
-    ports:
-        - "8080:5000"
+    extends:
+        file: ./api/api.compose.yml
+        service: api
     links:
         - db
         - mopidy
+mopidy:
+    extends:
+        file: ./mopidy/mopidy.compose.yml
+        service: mopidy
 db:
     image: postgres
-
-mopidy:
-    build: ./mopidy
-    expose:
-        - "6680"
-    privileged: true
