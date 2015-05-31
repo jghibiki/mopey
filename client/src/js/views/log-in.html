@@ -1,0 +1,11 @@
+<div>
+    username: <input type="text" data-bind="textInput : username">
+    <br>
+    password: <input type="password" data-bind="textInput : password">
+
+    <div data-bind="foreach : errors">
+        <div data-bind="text : $data"></div>
+    </div>
+
+    <button data-bind="click: submit">Log In</button>
+</div>
