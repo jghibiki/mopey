@@ -40,10 +40,10 @@ define(["ko","sammy", "module"], function(ko,Sammy, module){
         }
         self.route = routeDict.route;
 
-        if(routeDict.presidence === undefined){
-            throw new Error("Route config error for route: " + routeDict.route + ". Missing presidence.");
+        if(routeDict.presedence === undefined){
+            throw new Error("Route config error for route: " + routeDict.route + ". Missing presedence.");
         }
-        self.presidence = routeDict.presidence;
+        self.presedence = routeDict.presedence;
 
         if(routeDict.friendlyName === undefined){
             throw new Error("Route config error for route: " + routeDict.route + ". Missing friendlyName.");

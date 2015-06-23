@@ -78,9 +78,9 @@ requirejs.config({
             {
               route: "abc",                 // The url part for the route
 
-              presidence: 1,                // the higher the presidence, the higher in the 
+              presedence: 1,                // the higher the presedence, the higher in the 
                                             // navigation menu it will appear.
-                                            // If multiple routes have the same presidence
+                                            // If multiple routes have the same presedence
                                             // they will be arranged randomly.
 
               friendlyName: "The ABC's",    // A friendly name for the route, 
@@ -126,7 +126,7 @@ requirejs.config({
             {
                 route: "queue",
                 friendlyName: "Queue",
-                presidence: 1,
+                presedence: 1,
                 viewModel: "queueViewModel",
                 admin: false,
                 children: [],
@@ -135,7 +135,7 @@ requirejs.config({
             {
                 route: "account",
                 friendlyName: "Account",
-                presidence: 2,
+                presedence: 2,
                 viewModel: "accountViewModel",
                 admin: false,
                 children: [],
@@ -144,8 +144,17 @@ requirejs.config({
             {
                 route: "karma",
                 friendlyName: "Karma",
-                presidence: 3,
+                presedence: 3,
                 viewModel: "karmaViewModel",
+                admin: false,
+                children: [],
+                config: {}
+            },
+            {
+                route: "search",
+                friendlyName: "Search",
+                viewModel: "searchViewModel",
+                presedence: 0,
                 admin: false,
                 children: [],
                 config: {}

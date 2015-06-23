@@ -20,8 +20,13 @@ define(["ko", "jquery", "navigationManager"], function(ko, $, NavigationManagerM
 		self.shown = function() {
 			self._.checkIfDisposed();
 			if(!self._.shown) {
-
-                self.navOptions(self._.navigationManager.getRoutes());
+                var routes = self._.navigationManager.getRoutes();
+                for(var x=0; x<routes.length; x++){
+                    if(routes[x].presedence !== 0){
+                        routes.pop(x);
+                    }
+                }
+                self.navOptions(routes);
 
 				self._.shown = true;
 			}
