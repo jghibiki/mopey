@@ -123,8 +123,8 @@ define(["ko", "mainWindowViewModel",  "domReady!", "chain"], function(ko, MainWi
         .cc(CheckForExistingCredentials)
         .cc(LoadServices)
         .cc(InitializeServices)
-        .cc(StartUI)
         .cc(StartServices)
+        .cc(StartUI)
         .end();
 
 

@@ -39,8 +39,11 @@ define(["ko", "navigationService"], function(ko, NavigationServiceModule){
         /*
          *  Sets the route
          */
-        self.setRoute = function(){
-
+        self.setRoute = function(route){
+            if(typeof route == "undefined" || route == null){
+                throw new Error("NavigationManager.setRoute requites a non-null route");
+            }
+            self._.navigationService.currentRoute(route);
         }
 
         /*

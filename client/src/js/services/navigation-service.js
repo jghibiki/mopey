@@ -110,12 +110,16 @@ define(["ko","sammy", "module"], function(ko,Sammy, module){
                 }
 
                 //Setting up sammy routing
+                self._.sammy.get("", function(){
+                    self.currentRoute("queue");
+                });
+
                 self._.sammy.get("/", function(){
-                    self.currentRoute("#/");
+                    self.currentRoute("queue");
                 });
 
                 self._.sammy.get("#/", function(){
-                    self.currentRoute("#/queue");
+                    self.currentRoute("queue");
                 });
 
                 for(i = 0; i < self.routes.length; i++){
@@ -141,7 +145,6 @@ define(["ko","sammy", "module"], function(ko,Sammy, module){
                 
                 //trigger dynamic working vm load
                 self._.sammy.run();
-                //self.currentRoute(location.hash.split('/')[1]);
 
                 self._.started = true;
             }
