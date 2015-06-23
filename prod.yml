@@ -1,0 +1,28 @@
+client:
+    extends:
+        file: ./client/client.yml
+        service: client
+    environment:
+        - CONFIGURATION=PRODUCTION
+    ports:
+        - "8081:8080"
+api:
+    extends:
+        file: ./api/api.yml
+        service: api
+    ports:
+        - "8082:5000"
+    environment:
+        - CONFIGURATION=PRODUCTION
+        - WORKERS=2
+    links:
+        - db
+        - mopidy
+db:
+    image: postgres
+
+mopidy:
+    build: ./mopidy
+    expose:
+        - "6680"
+    privileged: true

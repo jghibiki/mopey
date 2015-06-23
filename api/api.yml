@@ -1,0 +1,4 @@
+api:
+    build: .
+    working_dir: /data/src
+    command: /bin/bash -e start.sh
