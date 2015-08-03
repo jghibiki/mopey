@@ -8,3 +8,5 @@ ADD ./requirements.txt /data/requirements.txt
 RUN pip install -r /data/requirements.txt
 
 ADD ./src /data/src
+
+RUN chmod 755 /data/src/start.sh

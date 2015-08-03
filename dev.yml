@@ -20,6 +20,8 @@ api:
     links:
         - db
         - mopidy
+    environment:
+        - CONFIGURATION=DEBUG
 db:
     image: postgres
 
