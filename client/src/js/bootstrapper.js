@@ -87,7 +87,7 @@ define(["ko", "mainWindowViewModel",  "domReady!", "chain"], function(ko, MainWi
      */
 
     function InitializeUIComponents(context, error, next){
-        require(["ko-content", "domReady!"], function(koContentPlugin, koTouchTapPlugin){
+        require(["ko-content", "ko-enter", "domReady!"], function(koContentPlugin, koEnterPlugin, koTouchTapPlugin){
             next();
         });
     }

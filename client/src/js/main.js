@@ -20,6 +20,7 @@ requirejs.config({
         //plugins
         "ko-content" : "ko-plugins/ko-content",
         "ko-touch-tap" : "ko-plugins/ko-touch-tap",
+        "ko-enter": "ko-plugins/ko-enter",
 
         //third party libs
         "ko" : "third-party/knockout-3.2.0",
@@ -45,6 +46,7 @@ requirejs.config({
             "queueViewModel": "singleton!viewModel!views/queue.html:view-models/queue-view-model",
             "accountViewModel": "singleton!viewModel!views/account.html:view-models/account-view-model",
             "karmaViewModel": "singleton!viewModel!views/karma.html:view-models/karma-view-model",
+            "searchViewModel": "singleton!viewModel!views/search.html:view-models/search-view-model",
 
             //managers
             "singletonManager": "managers/singleton-manager",

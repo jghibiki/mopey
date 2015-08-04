@@ -24,7 +24,7 @@ define(["ko", "navigationManager", "chain"], function(ko, NavigationManagerModul
                     throw new Error("Content Service disposed");
                 }
             },
-            preloadVM(context, error, next){
+            preloadVM: function(context, error, next){
                 if(self.loadedVMs[context.viewModel] !== undefined){
                     context.module = self.loadedVMs[context.viewModel];
                     next(context);
@@ -34,7 +34,7 @@ define(["ko", "navigationManager", "chain"], function(ko, NavigationManagerModul
                     next(context);
                 }
             },
-            loadVM(context, error, next){
+            loadVM: function(context, error, next){
                 require([context.viewModel], function(ViewModelModule){
                     var context = {
                         "module": ViewModelModule.get()

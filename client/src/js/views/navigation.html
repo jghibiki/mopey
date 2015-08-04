@@ -5,7 +5,9 @@
                 Mopey
             </h1>
         </span>
-        <input id="navigation-search-box" type="text" placeholder="Search">
+        <form id="search" data-bind="enter: triggerSearch">
+            <input id="navigation-search-box" type="text" placeholder="Search" data-bind="value: searchQuery" onmousedown="">
+        </form>
         <!--
         <ul class="pure-menu-list">
             <li class="pure-menu-item">

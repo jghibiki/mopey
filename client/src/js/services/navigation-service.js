@@ -110,9 +110,9 @@ define(["ko","sammy", "module"], function(ko,Sammy, module){
                 }
 
                 //Setting up sammy routing
-                self._.sammy.get("", function(){
-                    self.currentRoute("queue");
-                });
+                //self._.sammy.get("", function(){
+                //    self.currentRoute("queue");
+                //});
 
                 self._.sammy.get("/", function(){
                     self.currentRoute("queue");
@@ -124,7 +124,8 @@ define(["ko","sammy", "module"], function(ko,Sammy, module){
 
                 for(i = 0; i < self.routes.length; i++){
                     self._.sammy.get("#/" + self.routes[i].route, function(context){
-                        self.currentRoute(context.path.substr(3,context.path.length));
+                        route = context.path.substr(3,context.path.length).split("?")[0]
+                        self.currentRoute(route);
                     });
                 }
             }

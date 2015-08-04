@@ -16,17 +16,19 @@ define(["ko", "jquery", "navigationManager"], function(ko, $, NavigationManagerM
 		};
 
         self.navOptions = ko.observableArray([]);
+        self.searchQuery = ko.observable();
 
 		self.shown = function() {
 			self._.checkIfDisposed();
 			if(!self._.shown) {
                 var routes = self._.navigationManager.getRoutes();
+                var navigableRoutes = []
                 for(var x=0; x<routes.length; x++){
                     if(routes[x].presedence !== 0){
-                        routes.pop(x);
+                        navigableRoutes.push(routes[x]);
                     }
                 }
-                self.navOptions(routes);
+                self.navOptions(navigableRoutes);
 
 				self._.shown = true;
 			}
@@ -48,6 +50,15 @@ define(["ko", "jquery", "navigationManager"], function(ko, $, NavigationManagerM
 				self._.disposed = true;
 			}
 		};
+
+        self.triggerSearch = function(){
+            if(self.searchQuery() !== null ||
+                self.searchQuery() !== ""){
+                self._.navigationManager.cacheUrlVariable("q", self.searchQuery());
+                self._.navigationManager.setRoute("search");
+                self.searchQuery("")
+            }
+        };
 	}
 
 	return{

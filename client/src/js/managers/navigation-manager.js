@@ -5,6 +5,7 @@ define(["ko", "navigationService"], function(ko, NavigationServiceModule){
 
         self._ = {
             disposed: false,
+            urlCache: null,
             
             navigationService: NavigationServiceModule.get(),
             
@@ -43,14 +44,31 @@ define(["ko", "navigationService"], function(ko, NavigationServiceModule){
             if(typeof route == "undefined" || route == null){
                 throw new Error("NavigationManager.setRoute requites a non-null route");
             }
-            self._.navigationService.currentRoute(route);
+            if(self._.urlCache !== null || self._.urlCache !== ""){
+                self._.navigationService.currentRoute(route);
+                location = "/#/" + route + self._.urlCache;
+                self._.urlCache = null;
+            }
+            else{
+                self._.navigationService.currentRoute(route);
+                location = "/#/" + route
+            }
         }
 
         /*
          * Gets the route
          */
         self.getRoute = function(){
+            return self.currentRoute();
+        }
 
+        self.cacheUrlVariable = function(key, value){
+            if(self._.urlCache === null){
+                self._.urlCache = "?" + key + "=" + encodeURI(value);
+            }
+            else{
+                self._.urlCache += "&" + key + "=" + encodeURI(value);
+            }
         }
 
         self.dispose = function(){
