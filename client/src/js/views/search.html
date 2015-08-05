@@ -1,24 +1,23 @@
 <div>
-    Search
+    <h1>Search</h1>
+
     <div data-bind="text: errorMessage">
     </div>
 
-    <table data-bind="foreach: searchResults" >
-        <tr>
-            <td>
-                <div data-bind="text: title"></div>
-                <ul>
-                    <li>
-                        Uploader: <div data-bind="text: uploader"></div>
-                    </li>
-                    <li>
-                        Description: <div data-bind="text: description"></div>
-                    </li>
-                    <li>
-                        <input type="button" value="Request" data-bind="click: $parent.requestSong"/>
-                    </li>
-                </ul>
-            </td>
-        </tr>
-    </table>
+    <ul class="search-results-list" data-bind="foreach: searchResults" >
+        <li>
+            <span data-bind="text: title"></span>
+            <ul class="search-results-list">
+                <li>
+                    Uploader: <span data-bind="text: uploader"></span>
+                </li>
+                <li>
+                    Description: <span data-bind="text: description"></span>
+                </li>
+                <li>
+                    <input type="button" value="Request" data-bind="click: $parent.requestSong"/>
+                </li>
+            </ul>
+        </li>
+    </ul>
 </div>
