@@ -46,7 +46,7 @@ define(["ko"], function(ko){
                 }
 
                 
-                self._initialized = true;
+                self._.initialized = true;
             }
         };
 

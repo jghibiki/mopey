@@ -55,11 +55,13 @@ requirejs.config({
             "navigationManager" : "singleton!managers/navigation-manager",
             "contentManager" : "singleton!managers/content-manager",
             "authenticationManager" : "singleton!managers/authentication-manager",
+            "nativeCommunicationManager": "singleton!managers/native-communication-manager",
 
             //services
             "navigationService" : "singleton!services/navigation-service",
             "contentService" : "singleton!services/content-service",
             "authenticationService": "singleton!services/authentication-service",
+            "nativeCommunicationService": "singleton!services/native-communication-service",
             
             //plugins
             "ko-content" : "ko-plugins/ko-content",
@@ -76,7 +78,6 @@ requirejs.config({
 
             //data files
             "apiMappings": "api-mappings"
-
        }
     },
 
@@ -183,6 +184,123 @@ requirejs.config({
                 config:{}
             }
 
-        ]
+        ],
+
+        "managers/native-communication-manager": {
+
+            /* Authentication & Authorization */
+            "AUTHENTICATE":{
+                verb: "POST",
+                uri: "/authenticate"
+            },
+            "VERIFY_AUTHENTICATION":{
+                verb: "POST",
+                uri: "/authenticate/verify"
+            },
+            "VERIFY_AUTHENTICATION":{
+                verb: "POST",
+                uri: "/authenticate/verify/admin"
+            },
+
+            /* User Management */
+            "GET_USER": {
+                verb: "GET",
+                uri: "/user/"
+            },
+            "CREATE_USER": {
+                verb: "POST",
+                uri: "/user"
+            },
+            "EDIT_USER":{
+                verb:"POST",
+                uri: "/user/edit"
+            },
+
+            /* Search */
+            "SEARCH": {
+                verb: "GET",
+                uri: "/search/"
+            },
+
+            /* Regexs */
+            "GET_REGEX": { /* This endpoint needs to be updated once the api is changed to provide a list of the regexes in the system*/
+                verb: "GET",
+                uri: "/regex/"
+            },
+            "CREATE_REGEX": {
+                verb: "POST",
+                uri: "/regex"
+            },
+            "DELETE_REGEX": {
+                verb: "DELETE",
+                uri: "/regex"
+            },
+
+            /* Mopidy Direct */
+            "PLAYBACK_ADD_SONG": {
+                verb: "POST",
+                uri: "/playback/add"
+            },
+            "PLAYBACK_PLAY": {
+                verb: "GET",
+                uri: "/playback/play"
+            },
+            "PLAYBACK_PAUSE": {
+                verb: "GET",
+                uri: "/playback/pause"
+            },
+            "PLAYBACK_STOP": {
+                verb: "GET",
+                uri: "/playback/stop"
+            },
+            "PLAYBACK_NEXT": {
+                verb: "GET",
+                uri: "/playback/next"
+            },
+            "PLAYBACK_CLEAR": {
+                verb: "GET",
+                uri: "/playback/clear"
+            },
+            "PLAYBACK_TRACK_LIST": {
+                verb: "GET",
+                uri: "/playback/list"
+            },
+            "PLAYBACK_STATE": {
+                verb: "GET",
+                uri: "/playback/state"
+            },
+
+            /* Volume */
+            "VOLUME_UP": {
+                verb: "GET",
+                uri: "/volume/up"
+            },
+            "VOLUME_DOWN": {
+                verb: "GET",
+                uri: "/volume/down"
+            },
+            "GET_VOLUME": {
+                verb: "GET",
+                uri: "/volume"
+            },
+            "SET_VOLUME":{
+                verb: "GET",
+                uri: "/volume/"
+            },
+            
+            /* Requests */
+            "GET_REQUESTS":{
+                verb: "GET",
+                uri: "/queue"
+            },
+            "REMOVE_REQUEST": {
+                verb: "POST",
+                uri: "/queue/remove/"
+            },
+            "CREATE_REQUEST": {
+                verb: "POST",
+                uri: "/queue/add"
+            }
+        }
     }
 });

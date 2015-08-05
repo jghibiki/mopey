@@ -1,4 +1,4 @@
-define(["ko", "jquery", "authenticationManager", "chain", "apiMappings"], function(ko, $, AuthenticationManagerModule, chain, ApiMappings){
+define(["ko", "chain", "nativeCommunicationManager"], function(ko, chain, NativeCommunicationManagerModule){
 
     function SearchViewModel(){
         var self = this;
@@ -6,7 +6,7 @@ define(["ko", "jquery", "authenticationManager", "chain", "apiMappings"], functi
         self._ = {
             shown: false,
             disposed: false,
-            authenticationManager: AuthenticationManagerModule.get()
+            nativeCommunicationManager: NativeCommunicationManagerModule.get()
         };
 
         self.query = ko.observable()
@@ -31,13 +31,13 @@ define(["ko", "jquery", "authenticationManager", "chain", "apiMappings"], functi
                 self.errorMessage("");
                 chain.get()
                     .cc(function(context, error, next){
-                            $.ajax({
-                                url: ApiMappings.baseUrl + "/search/" + self.query(),
-                                type: "GET",
-                                dataType: "json",
-                                headers:{'Authorization': self._.authenticationManager.token()},
-                                success: function(response){next({"response": response});}
-                            });
+                            self._.nativeCommunicationManager.sendNativeRequest(
+                                self._.nativeCommunicationManager.endpoints.SEARCH,
+                                function(response){
+                                    next({"response": response})
+                                },
+                                self.query(),
+                                null);
                         })
                     .cc(function(context,error,next){
                         if("Error" in context.response){
@@ -60,8 +60,8 @@ define(["ko", "jquery", "authenticationManager", "chain", "apiMappings"], functi
 
         self.dispose = function(){
             if(!self._.disposed){
-                self._.authenticationManager.dispose();
-                self._.authenticationManager = null;
+                self._.nativeCommunicationManager.dispose();
+                self._.nativeCommunicationManager = null;
                 self._.disposed = true;
             }
         };
@@ -69,33 +69,26 @@ define(["ko", "jquery", "authenticationManager", "chain", "apiMappings"], functi
         self.requestSong = function(song){
                 chain.get()
                     .cc(function(context, error, next){
-                            $.ajax({
-                                url: ApiMappings.baseUrl + "/playback/add",
-                                type: "POST",
-                                data: JSON.stringify({"song": song.id}),
-                                contentType:"application/json",
-                                headers:{'Authorization': context.token},
-                                success: function(response){
-                                    context.response = response
-                                    next(context);
-                                }
-                            });
-                        })
+                        self._.nativeCommunicationManager.sendNativeRequest(
+                            self._.nativeCommunicationManager.endpoints.PLAYBACK_ADD_SONG,
+                            function(response){
+                                context.response = response
+                                next(context);
+                            },
+                            null,
+                            {"song": song.id}
+                        );
+                    })
                     .cc(function(context,error,next){
                         if("Error" in context.response){
                             alert(context.response.Error);
                         }
                         else{
-                            $.ajax({
-                                url: ApiMappings.baseUrl + "/playback/state",
-                                type: "GET",
-                                contentType:"application/json",
-                                dataType:"json",
-                                headers:{'Authorization': context.token},
-                                success: function(response){
+                            self._.nativeCommunicationManager.sendNativeRequest(
+                                self._.nativeCommunicationManager.endpoints.PLAYBACK_STATE,
+                                function(response){
                                     context.response = response
                                     next(context);
-                                }
                             });
                         }
                     })
@@ -105,24 +98,19 @@ define(["ko", "jquery", "authenticationManager", "chain", "apiMappings"], functi
                         }
                         else{
                             if(context.response.response !== "playing"){
-                                $.ajax({
-                                    url: ApiMappings.baseUrl + "/playback/play",
-                                    type: "GET",
-                                    contentType:"application/json",
-                                    dataType:"json",
-                                    headers:{'Authorization': context.token},
-                                    success: function(response){
+                                self._.nativeCommunicationManager.sendNativeRequest(
+                                    self._.nativeCommunicationManager.endpoints.PLAYBACK_PLAY,
+                                    function(response){
                                         context.response = response
                                         next(context);
-                                    }
-                                });
+                                    });
                             }
                             else{
                                 next();
                             }
                         }
                     })
-                    .end({"token": self._.authenticationManager.token()});
+                    .end();
         }
 
     }

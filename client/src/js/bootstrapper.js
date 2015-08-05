@@ -4,22 +4,34 @@ define(["ko", "mainWindowViewModel",  "domReady!", "chain"], function(ko, MainWi
     var MainWindowVM = MainWindowVMModule.get();
     var NavigationService = null;
     var AuthenticationService = null;
+    var NativeCommunicationService = null;
     var ContentService = null;
 
     /*
      * Loading Services
      */
     function LoadServices(context, errorCallback, next){
-        require(["navigationService", "contentService", "authenticationService"], function(NavigationServiceModule, ContentServiceModule, AuthenticationServiceModule){
+        require(["navigationService", 
+                    "contentService",  
+                    "authenticationService",
+                    "nativeCommunicationService"
+                ], 
+                function(
+                    NavigationServiceModule, 
+                    ContentServiceModule, 
+                    AuthenticationServiceModule,
+                    NativeCommunicationServiceModule){
             chain.get()
                 .cc(LoadNavigationService)
                 .cc(LoadContentService)
                 .cc(LoadAuthenticationService)
+                .cc(LoadNativeCommunicationService)
                 .end(
                         {
                             "NavigationServiceModule":NavigationServiceModule,
                             "ContentServiceModule": ContentServiceModule,
-                            "AuthenticationServiceModule": AuthenticationServiceModule
+                            "AuthenticationServiceModule": AuthenticationServiceModule,
+                            "NativeCommunicationServiceModule": NativeCommunicationServiceModule
                         },
                         function(context){
                             next();
@@ -43,6 +55,11 @@ define(["ko", "mainWindowViewModel",  "domReady!", "chain"], function(ko, MainWi
         next(context);
     }   
 
+    function LoadNativeCommunicationService(context, error, next){
+        NativeCommunicationService = context.NativeCommunicationServiceModule.get();
+        next(context)
+    }
+
     /*
      * Initialize Services
      */
@@ -52,6 +69,7 @@ define(["ko", "mainWindowViewModel",  "domReady!", "chain"], function(ko, MainWi
             .cc(InitializeNavigationService)
             .cc(InitializeContentService)
             .cc(InitializeAuthenticationService)
+            .cc(InitializeNativeCommunicationService)
             .end({}, function(){
                 next();
             });
@@ -70,6 +88,10 @@ define(["ko", "mainWindowViewModel",  "domReady!", "chain"], function(ko, MainWi
         AuthenticationService.init();
         next();
     }
+    function InitializeNativeCommunicationService(context, error, next){
+        NativeCommunicationService.init();
+        next();
+    }
 
     /*
      * Start Services
@@ -79,6 +101,8 @@ define(["ko", "mainWindowViewModel",  "domReady!", "chain"], function(ko, MainWi
        chain.get()
             .cc(StartNavigationService)
             .cc(StartContentService)
+            .cc(StartAuthenticationService)
+            .cc(StartNativeCommunicationService)
             .end({}, function(){
                 next();
             });
@@ -92,6 +116,16 @@ define(["ko", "mainWindowViewModel",  "domReady!", "chain"], function(ko, MainWi
     function StartContentService(context, error, next){
         NavigationService.start();
         next()
+    }
+    
+    function StartAuthenticationService(context, error, next){
+        AuthenticationService.start();
+        next();
+    }
+
+    function StartNativeCommunicationService(context, error, next){
+        NativeCommunicationService.start();
+        next();
     }
 
 
