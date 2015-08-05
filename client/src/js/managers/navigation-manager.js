@@ -56,6 +56,16 @@ define(["ko", "navigationService"], function(ko, NavigationServiceModule){
             }
         }
 
+        self.getRouteDetails = function(route){
+            var routes = self.getRoutes();
+            for(var x=0; x<routes.length; x++){
+                if(routes[x].route === route){
+                    return routes[x];
+                }
+            }
+            return null;
+        }
+
         /*
          * Gets the route
          */

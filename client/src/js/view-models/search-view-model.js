@@ -66,6 +66,54 @@ define(["ko", "jquery", "authenticationManager", "chain"], function(ko, $, Authe
             }
         };
 
+        self.requestSong = function(song){
+                chain.get()
+                    .cc(function(context, error, next){
+                            $.ajax({
+                                url: "http://api.mopey.ndacm.org/playback/add",
+                                type: "POST",
+                                data: {"song": song.id},
+                                dataType: "json",
+                                headers:{'Authorization': self._.authenticationManager.token()},
+                                success: function(response){next({"response": response});}
+                            });
+                        })
+                    .cc(function(context,error,next){
+                        if("Error" in context.response){
+                            alert(context.response.Error);
+                        }
+                        else{
+                            $.ajax({
+                                url: "http://api.mopey.ndacm.org/plaback/state",
+                                type: "GET",
+                                dataType: "json",
+                                headers:{'Authorization': self._authenticationManager.token()},
+                                success: function(response){next({"response": response});}
+                            });
+                        }
+                    })
+                    .cc(function(context,error,next){
+                        if("Error" in context.response){
+                            alert(context.response.Error);
+                        }
+                        else{
+                            if(context.response.response !== "playing"){
+                                $.ajax({
+                                    url: "http://api.mopey.ndacm.org/plaback/play",
+                                    type: "GET",
+                                    dataType: "json",
+                                    headers:{'Authorization': self._authenticationManager.token()},
+                                    success: function(response){next({"response": response});}
+                                });
+                            }
+                            else{
+                                next();
+                            }
+                        }
+                    })
+                    .end();
+        }
+
     }
 
     return {

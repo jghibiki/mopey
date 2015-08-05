@@ -2,4 +2,23 @@
     Search
     <div data-bind="text: errorMessage">
     </div>
+
+    <table data-bind="foreach: searchResults" >
+        <tr>
+            <td>
+                <div data-bind="text: title"></div>
+                <ul>
+                    <li>
+                        Uploader: <div data-bind="text: uploader"></div>
+                    </li>
+                    <li>
+                        Description: <div data-bind="text: description"></div>
+                    </li>
+                    <li>
+                        <input type="button" value="Request" data-bind="click: $parent.requestSong"/>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    </table>
 </div>
