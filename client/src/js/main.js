@@ -47,15 +47,18 @@ requirejs.config({
             "accountViewModel": "singleton!viewModel!views/account.html:view-models/account-view-model",
             "karmaViewModel": "singleton!viewModel!views/karma.html:view-models/karma-view-model",
             "searchViewModel": "singleton!viewModel!views/search.html:view-models/search-view-model",
+            "blankViewModel": "singleton!viewModel!views/blank.html:view-models/blank-view-model",
 
             //managers
             "singletonManager": "managers/singleton-manager",
             "navigationManager" : "singleton!managers/navigation-manager",
             "contentManager" : "singleton!managers/content-manager",
+            "authenticationManager" : "singleton!managers/authentication-manager",
 
             //services
             "navigationService" : "singleton!services/navigation-service",
             "contentService" : "singleton!services/content-service",
+            "authenticationService": "singleton!services/authentication-service",
             
             //plugins
             "ko-content" : "ko-plugins/ko-content",
@@ -131,6 +134,7 @@ requirejs.config({
                 presedence: 1,
                 viewModel: "queueViewModel",
                 admin: false,
+                loggedin: false,
                 children: [],
                 config: {}
             },
@@ -140,6 +144,7 @@ requirejs.config({
                 presedence: 2,
                 viewModel: "accountViewModel",
                 admin: false,
+                loggedin: true,
                 children: [],
                 config: {}
             },
@@ -149,6 +154,7 @@ requirejs.config({
                 presedence: 3,
                 viewModel: "karmaViewModel",
                 admin: false,
+                loggedin:true,
                 children: [],
                 config: {}
             },
@@ -158,8 +164,19 @@ requirejs.config({
                 viewModel: "searchViewModel",
                 presedence: 0,
                 admin: false,
+                loggedin: true,
                 children: [],
                 config: {}
+            },
+            {
+                route: "_",
+                friendlyName: "_",
+                viewModel: "blankViewModel",
+                presedence: 0,
+                admin: false,
+                loggedin: false,
+                children:[],
+                config:{}
             }
 
         ]

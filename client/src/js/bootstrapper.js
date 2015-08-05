@@ -3,20 +3,23 @@ define(["ko", "mainWindowViewModel",  "domReady!", "chain"], function(ko, MainWi
 
     var MainWindowVM = MainWindowVMModule.get();
     var NavigationService = null;
+    var AuthenticationService = null;
     var ContentService = null;
 
     /*
      * Loading Services
      */
     function LoadServices(context, errorCallback, next){
-        require(["navigationService", "contentService"], function(NavigationServiceModule, ContentServiceModule){
+        require(["navigationService", "contentService", "authenticationService"], function(NavigationServiceModule, ContentServiceModule, AuthenticationServiceModule){
             chain.get()
                 .cc(LoadNavigationService)
                 .cc(LoadContentService)
+                .cc(LoadAuthenticationService)
                 .end(
                         {
                             "NavigationServiceModule":NavigationServiceModule,
-                            "ContentServiceModule": ContentServiceModule
+                            "ContentServiceModule": ContentServiceModule,
+                            "AuthenticationServiceModule": AuthenticationServiceModule
                         },
                         function(context){
                             next();
@@ -35,6 +38,11 @@ define(["ko", "mainWindowViewModel",  "domReady!", "chain"], function(ko, MainWi
         next(context);
     }
 
+    function LoadAuthenticationService(context, error, next){
+        AuthenticationService = context.AuthenticationServiceModule.get()
+        next(context);
+    }   
+
     /*
      * Initialize Services
      */
@@ -43,6 +51,7 @@ define(["ko", "mainWindowViewModel",  "domReady!", "chain"], function(ko, MainWi
         chain.get()
             .cc(InitializeNavigationService)
             .cc(InitializeContentService)
+            .cc(InitializeAuthenticationService)
             .end({}, function(){
                 next();
             });
@@ -55,6 +64,10 @@ define(["ko", "mainWindowViewModel",  "domReady!", "chain"], function(ko, MainWi
 
     function InitializeContentService(context, error, next){
         ContentService.init();
+        next();
+    }
+    function InitializeAuthenticationService(context, error, next){
+        AuthenticationService.init();
         next();
     }
 
@@ -102,25 +115,10 @@ define(["ko", "mainWindowViewModel",  "domReady!", "chain"], function(ko, MainWi
             next();
     }
 
-    function CheckForExistingCredentials(context, error, next){
-//        if(localStorage.hasOwnProperty("access_token")){
-//            if(localStorage.hasOwnProperty("expiration_date")){
-//                if((new Date(localStorage["expiration_date"])).valueOf() > (new Date()).getTime()){
-//                    ApplicationState.accessToken(localStorage["acccess_token"]);
-//                    ApplicationState.loggedIn(true);
-//                }
-//                else{
-//                    localStorage.clear();
-//                }
-//            }
-//        }
-        next();
-    }
 
 
     chain.get()
         .cc(InitializeUIComponents)
-        .cc(CheckForExistingCredentials)
         .cc(LoadServices)
         .cc(InitializeServices)
         .cc(StartServices)

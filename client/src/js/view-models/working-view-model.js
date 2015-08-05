@@ -25,6 +25,10 @@ define(["ko", "navigationManager", "contentManager", "chain"], function(ko, Navi
                 next(context);
             },
             setContent: function(context){
+                oldContent = self.content()
+                if(oldContent !== undefined){
+                    oldContent.hidden()
+                }
                 self.content(context.module);
                 self.content().shown();
                 self._.contentManager.saveVM(

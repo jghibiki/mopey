@@ -132,6 +132,7 @@ define(["ko","sammy", "module"], function(ko,Sammy, module){
         };
 
         self.currentRoute = ko.observable();
+        self.updateNaviation = ko.observable();
 
         self.routes = [];
 

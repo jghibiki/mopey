@@ -21,15 +21,7 @@ define(["ko", "jquery", "navigationManager"], function(ko, $, NavigationManagerM
 		self.shown = function() {
 			self._.checkIfDisposed();
 			if(!self._.shown) {
-                var routes = self._.navigationManager.getRoutes();
-                var navigableRoutes = []
-                for(var x=0; x<routes.length; x++){
-                    if(routes[x].presedence !== 0){
-                        navigableRoutes.push(routes[x]);
-                    }
-                }
-                self.navOptions(navigableRoutes);
-
+                self.updateNavigation();
 				self._.shown = true;
 			}
 		};
@@ -54,11 +46,24 @@ define(["ko", "jquery", "navigationManager"], function(ko, $, NavigationManagerM
         self.triggerSearch = function(){
             if(self.searchQuery() !== null ||
                 self.searchQuery() !== ""){
+                self._.navigationManager.setRoute("_");
                 self._.navigationManager.cacheUrlVariable("q", self.searchQuery());
-                self._.navigationManager.setRoute("search");
                 self.searchQuery("")
+                self._.navigationManager.setRoute("search");
             }
         };
+
+        self.updateNavigation = function(){
+            var routes = self._.navigationManager.getRoutes();
+            var navigableRoutes = []
+            for(var x=0; x<routes.length; x++){
+                if(routes[x].presedence !== 0){
+                    navigableRoutes.push(routes[x]);
+                }
+            }
+            self.navOptions(navigableRoutes);
+        };
+
 	}
 
 	return{
