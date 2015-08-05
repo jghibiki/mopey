@@ -105,7 +105,7 @@ define(["ko", "jquery", "authenticationManager", "chain"], function(ko, $, Authe
                         else{
                             if(context.response.response !== "playing"){
                                 $.ajax({
-                                    url: "http://api.mopey.ndacm.org/plaback/play",
+                                    url: "http://api.mopey.ndacm.org/playback/play",
                                     type: "GET",
                                     contentType:"application/json",
                                     headers:{'Authorization': context.token},
