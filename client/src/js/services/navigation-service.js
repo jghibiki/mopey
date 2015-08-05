@@ -131,7 +131,7 @@ define(["ko","sammy", "module"], function(ko,Sammy, module){
             }
         };
 
-        self.currentRoute = ko.observable();
+        self.currentRoute = ko.observable().extend({ ratelimit: { timeout: 500, method: "notifyWhenChangesStop"}});
         self.updateNaviation = ko.observable();
 
         self.routes = [];

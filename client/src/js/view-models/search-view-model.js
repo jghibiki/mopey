@@ -90,6 +90,7 @@ define(["ko", "jquery", "authenticationManager", "chain"], function(ko, $, Authe
                                 url: "http://api.mopey.ndacm.org/playback/state",
                                 type: "GET",
                                 contentType:"application/json",
+                                dataType:"json",
                                 headers:{'Authorization': context.token},
                                 success: function(response){
                                     context.response = response
@@ -108,6 +109,7 @@ define(["ko", "jquery", "authenticationManager", "chain"], function(ko, $, Authe
                                     url: "http://api.mopey.ndacm.org/playback/play",
                                     type: "GET",
                                     contentType:"application/json",
+                                    dataType:"json",
                                     headers:{'Authorization': context.token},
                                     success: function(response){
                                         context.response = response
