@@ -127,7 +127,7 @@ def VerifyAdminToken():
 
 @app.route('/search/<string:query>', methods=["GET"])
 @nocache
-@requireAuth
+#@requireAuth
 def Search(query):
     """
     Requires authentication
