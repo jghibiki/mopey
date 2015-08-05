@@ -89,7 +89,7 @@ define(["ko", "jquery", "authenticationManager", "chain"], function(ko, $, Authe
                             $.ajax({
                                 url: "http://api.mopey.ndacm.org/playback/state",
                                 type: "GET",
-                                dataType: "json",
+                                contentType:"application/json",
                                 headers:{'Authorization': context.token},
                                 success: function(response){
                                     context.response = response
@@ -107,7 +107,7 @@ define(["ko", "jquery", "authenticationManager", "chain"], function(ko, $, Authe
                                 $.ajax({
                                     url: "http://api.mopey.ndacm.org/plaback/play",
                                     type: "GET",
-                                    dataType: "json",
+                                    contentType:"application/json",
                                     headers:{'Authorization': context.token},
                                     success: function(response){
                                         context.response = response
