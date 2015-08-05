@@ -1,4 +1,4 @@
-define(["ko", "jquery", "navigationManager"], function(ko, $, NavigationManagerModule) {
+define(["ko", "jquery", "navigationManager", "chain"], function(ko, $, NavigationManagerModule, chain) {
 
 	function NavigationViewModel() {
 		var self = this;
@@ -46,10 +46,19 @@ define(["ko", "jquery", "navigationManager"], function(ko, $, NavigationManagerM
         self.triggerSearch = function(){
             if(self.searchQuery() !== null ||
                 self.searchQuery() !== ""){
-                self._.navigationManager.setRoute("_");
-                self._.navigationManager.cacheUrlVariable("q", self.searchQuery());
-                self.searchQuery("")
-                self._.navigationManager.setRoute("search");
+                chain.get()
+                    .cc(function(context, error, next){
+                        self._.navigationManager.setRoute("_");
+                        next()
+                    })
+                    .pause(100) //adds a slight pause so that the updates happen the correct order
+                    .cc(function(context, error, next){
+                        self._.navigationManager.cacheUrlVariable("q", self.searchQuery());
+                        self.searchQuery("")
+                        self._.navigationManager.setRoute("search");
+                        next()
+                    })
+                    .end();
             }
         };
 

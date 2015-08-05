@@ -44,13 +44,6 @@ define(["ko", "navigationManager", "contentManager", "chain"], function(ko, Navi
 		self.shown = function() {
 			self._.checkIfDisposed();
 			if(!self._.shown) {
-                if(!(self.content() === undefined || 
-                    self.content() === null)){
-                        self.content().shown();
-                    }
-                else{
-                    self._.startLoadContent(self._.navigationManager.currentRoute());
-                }
 				self._.shown = true;
 			}
 		};

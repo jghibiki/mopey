@@ -3,6 +3,10 @@
 
     <div data-bind="text: errorMessage">
     </div>
+    
+    <div data-bind="if : searching">
+        Searching...
+    </div>
 
     <ul class="search-results-list" data-bind="foreach: searchResults" >
         <li>

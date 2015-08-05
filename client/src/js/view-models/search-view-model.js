@@ -9,9 +9,10 @@ define(["ko", "chain", "nativeCommunicationManager"], function(ko, chain, Native
             nativeCommunicationManager: NativeCommunicationManagerModule.get()
         };
 
-        self.query = ko.observable()
-        self.searchResults = ko.observableArray()
-        self.errorMessage = ko.observable()
+        self.query = ko.observable();
+        self.searchResults = ko.observableArray();
+        self.errorMessage = ko.observable();
+        self.searching = ko.observable(false);
 
         self.shown = function(){
             if(!self._.shown){
@@ -31,6 +32,7 @@ define(["ko", "chain", "nativeCommunicationManager"], function(ko, chain, Native
                 self.errorMessage("");
                 chain.get()
                     .cc(function(context, error, next){
+                            self.searching(true);
                             self._.nativeCommunicationManager.sendNativeRequest(
                                 self._.nativeCommunicationManager.endpoints.SEARCH,
                                 function(response){
@@ -46,6 +48,7 @@ define(["ko", "chain", "nativeCommunicationManager"], function(ko, chain, Native
                         else{
                             self.searchResults(context.response);
                         }
+                        self.searching(false);
                         next();
                     })
                     .end();
@@ -112,7 +115,6 @@ define(["ko", "chain", "nativeCommunicationManager"], function(ko, chain, Native
                     })
                     .end();
         }
-
     }
 
     return {
