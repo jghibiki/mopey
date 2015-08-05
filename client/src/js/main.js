@@ -13,6 +13,7 @@ requirejs.config({
         "domReady" : "require-plugins/domReady",
         "text" : "require-plugins/text",
         "path" : "require-plugins/path",
+        "json" : "require-plugins/json",
 
         //third party libs
         "underscore" : "third-party/underscore",
@@ -72,6 +73,9 @@ requirejs.config({
 
             //utils
             "chain": "utils/chain",
+
+            //data files
+            "apiMappings": "api-mappings"
 
        }
     },

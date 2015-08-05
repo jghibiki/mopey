@@ -59,3 +59,6 @@ venv/
 client/src/css
 
 search-api.key
+client/src/js/api-mappings.js
+
+dev-api.js

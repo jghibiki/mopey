@@ -1,4 +1,4 @@
-define(["ko", "jquery", "authenticationManager", "chain"], function(ko, $, AuthenticationManagerModule, chain){
+define(["ko", "jquery", "authenticationManager", "chain", "apiMappings"], function(ko, $, AuthenticationManagerModule, chain, ApiMappings){
 
     function SearchViewModel(){
         var self = this;
@@ -32,7 +32,7 @@ define(["ko", "jquery", "authenticationManager", "chain"], function(ko, $, Authe
                 chain.get()
                     .cc(function(context, error, next){
                             $.ajax({
-                                url: "http://api.mopey.ndacm.org/search/" + self.query(),
+                                url: ApiMappings.baseUrl + "/search/" + self.query(),
                                 type: "GET",
                                 dataType: "json",
                                 headers:{'Authorization': self._.authenticationManager.token()},
@@ -70,7 +70,7 @@ define(["ko", "jquery", "authenticationManager", "chain"], function(ko, $, Authe
                 chain.get()
                     .cc(function(context, error, next){
                             $.ajax({
-                                url: "http://api.mopey.ndacm.org/playback/add",
+                                url: ApiMappings.baseUrl + "/playback/add",
                                 type: "POST",
                                 data: JSON.stringify({"song": song.id}),
                                 contentType:"application/json",
@@ -87,7 +87,7 @@ define(["ko", "jquery", "authenticationManager", "chain"], function(ko, $, Authe
                         }
                         else{
                             $.ajax({
-                                url: "http://api.mopey.ndacm.org/playback/state",
+                                url: ApiMappings.baseUrl + "/playback/state",
                                 type: "GET",
                                 contentType:"application/json",
                                 dataType:"json",
@@ -106,7 +106,7 @@ define(["ko", "jquery", "authenticationManager", "chain"], function(ko, $, Authe
                         else{
                             if(context.response.response !== "playing"){
                                 $.ajax({
-                                    url: "http://api.mopey.ndacm.org/playback/play",
+                                    url: ApiMappings.baseUrl + "/playback/play",
                                     type: "GET",
                                     contentType:"application/json",
                                     dataType:"json",
