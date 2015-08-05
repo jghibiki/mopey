@@ -8,10 +8,22 @@
         <form id="search" data-bind="enter: triggerSearch">
             <input id="navigation-search-box" type="text" placeholder="Search" data-bind="value: searchQuery">
         </form>
-        <ul class="pure-menu-list" data-bind="foreach: navOptions">
+        <ul class="pure-menu-list">
+            <!-- ko foreach: navOptions -->
             <li class="pure-menu-item">
                 <a href="" class="pure-menu-link" data-bind=" text: friendlyName, attr: { href: hashRoute()}, css: {'pure-menu-selected': $parent.isCurrentRoute}"></a>
             </li>
+            <!-- /ko -->
+            <!-- ko if: loggedIn -->
+            <li class="pure-menu-item">
+                <a href="#/logout" class="pure-menu-link">Log Out</a>
+            </li>
+            <!-- /ko -->
+            <!-- ko ifnot: loggedIn -->
+            <li class="pure-menu-item">
+                <a href="#/login" class="pure-menu-link">Log In</a>
+            </li>
+            <!-- /ko -->
         </ul>
     </div>
 </div>

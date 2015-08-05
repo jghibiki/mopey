@@ -1,4 +1,4 @@
-define(["ko", "jquery", "navigationManager", "chain"], function(ko, $, NavigationManagerModule, chain) {
+define(["ko", "jquery", "navigationManager", "chain", "authenticationManager"], function(ko, $, NavigationManagerModule, chain, AuthenticationManagerModule) {
 
 	function NavigationViewModel() {
 		var self = this;
@@ -7,6 +7,7 @@ define(["ko", "jquery", "navigationManager", "chain"], function(ko, $, Navigatio
 			dispose: false,
 			shown: false,
             navigationManager: NavigationManagerModule.get(),
+            authenticationManager: AuthenticationManagerModule.get(),
 			
 			checkIfDisposed: function() {
 				if(self._.dispose) {
@@ -17,6 +18,11 @@ define(["ko", "jquery", "navigationManager", "chain"], function(ko, $, Navigatio
 
         self.navOptions = ko.observableArray([]);
         self.searchQuery = ko.observable();
+        self.loggedIn = ko.observable(false);
+
+        self.loggedInSubscription = self._.authenticationManager.loggedIn.subscribe(function(loggedIn){
+            self.loggedIn(loggedIn);
+        });
 
 		self.shown = function() {
 			self._.checkIfDisposed();
@@ -38,6 +44,9 @@ define(["ko", "jquery", "navigationManager", "chain"], function(ko, $, Navigatio
 
                 self._.navigationManager.dispose();
                 self._.navidationManager = null;
+
+                self._.authenticationManager.dispose();
+                self._.authenticationManager = null;
 
 				self._.disposed = true;
 			}

@@ -49,6 +49,7 @@ requirejs.config({
             "karmaViewModel": "singleton!viewModel!views/karma.html:view-models/karma-view-model",
             "searchViewModel": "singleton!viewModel!views/search.html:view-models/search-view-model",
             "blankViewModel": "singleton!viewModel!views/blank.html:view-models/blank-view-model",
+            "authenticationViewModel": "singleton!viewModel!views/authentication.html:view-models/authentication-view-model",
 
             //managers
             "singletonManager": "managers/singleton-manager",
@@ -182,6 +183,26 @@ requirejs.config({
                 loggedin: false,
                 children:[],
                 config:{}
+            },
+            {
+                route: "login",
+                friendlyName: "Log In",
+                viewModel: "authenticationViewModel",
+                presedence: 0,
+                admin: false,
+                loggedin: false,
+                children: [],
+                config: {}
+            },
+            {
+                route: "logout",
+                friendlyName: "Log Out",
+                viewModel: "authenticationViewModel",
+                presedence: 0,
+                admin: false,
+                loggedin: false,
+                children: [],
+                config: {}
             }
 
         ],
