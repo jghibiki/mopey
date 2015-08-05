@@ -252,7 +252,7 @@ def GetTracks():
 
 @app.route('/playback/state', methods=["GET"])
 @nocache
-@requireAdmin
+#@requireAdmin
 def GetState():
     """
     Require Admin Authentication

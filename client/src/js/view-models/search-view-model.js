@@ -72,10 +72,13 @@ define(["ko", "jquery", "authenticationManager", "chain"], function(ko, $, Authe
                             $.ajax({
                                 url: "http://api.mopey.ndacm.org/playback/add",
                                 type: "POST",
-                                data: {"song": song.id},
-                                dataType: "json",
-                                headers:{'Authorization': self._.authenticationManager.token()},
-                                success: function(response){next({"response": response});}
+                                data: JSON.stringify({"song": song.id}),
+                                contentType:"application/json",
+                                headers:{'Authorization': context.token},
+                                success: function(response){
+                                    context.response = response
+                                    next(context);
+                                }
                             });
                         })
                     .cc(function(context,error,next){
@@ -84,11 +87,14 @@ define(["ko", "jquery", "authenticationManager", "chain"], function(ko, $, Authe
                         }
                         else{
                             $.ajax({
-                                url: "http://api.mopey.ndacm.org/plaback/state",
+                                url: "http://api.mopey.ndacm.org/playback/state",
                                 type: "GET",
                                 dataType: "json",
-                                headers:{'Authorization': self._authenticationManager.token()},
-                                success: function(response){next({"response": response});}
+                                headers:{'Authorization': context.token},
+                                success: function(response){
+                                    context.response = response
+                                    next(context);
+                                }
                             });
                         }
                     })
@@ -102,8 +108,11 @@ define(["ko", "jquery", "authenticationManager", "chain"], function(ko, $, Authe
                                     url: "http://api.mopey.ndacm.org/plaback/play",
                                     type: "GET",
                                     dataType: "json",
-                                    headers:{'Authorization': self._authenticationManager.token()},
-                                    success: function(response){next({"response": response});}
+                                    headers:{'Authorization': context.token},
+                                    success: function(response){
+                                        context.response = response
+                                        next(context);
+                                    }
                                 });
                             }
                             else{
@@ -111,7 +120,7 @@ define(["ko", "jquery", "authenticationManager", "chain"], function(ko, $, Authe
                             }
                         }
                     })
-                    .end();
+                    .end({"token": self._.authenticationManager.token()});
         }
 
     }
