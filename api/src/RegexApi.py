@@ -30,14 +30,13 @@ def removeRegex(key):
     return jsonify({"key":key})
 
 
-def getRegex(key):
-    returnedRegex = None
-    try:
-        returnedRegex = Regex.get(Regex.key == key)
-    except:
-        try:
-            returnedRegex = Regex.get(Regex.pattern == key)
-        except:
-            raise GeneralApiException("Regex with pattern '" + pattern + "' does not exist.", status_code=405)
+def getRegex(page):
 
-    return jsonify({"key":returnedRegex.key, "pattern":returnedRegex.pattern})
+    returnedRegexs = []
+    for x in Regex.select().order_by(Regex.key).paginate(int(page)+1, 10):
+        y = {}
+        y["key"] = x.key
+        y["pattern"] = x.pattern
+        returnedRegexs.append(y)
+
+    return jsonify({"result":returnedRegexs})

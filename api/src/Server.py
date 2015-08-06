@@ -139,14 +139,14 @@ def Search(query):
 #############
 
 
-@app.route('/regex/<string:key>', methods=["GET"])
+@app.route('/regex/<string:page>', methods=["GET"])
 @nocache
 @requireAdmin
-def GetRegex(key):
+def GetRegex(page):
     """
     Requires authentication
     """
-    return getRegex(key)
+    return getRegex(page)
 
 
 @app.route('/regex', methods=["POST"])
