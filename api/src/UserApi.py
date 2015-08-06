@@ -61,6 +61,18 @@ def getUser(key):
             })
 
 
+def getUserKarma(key):
+    returnedUser = getUserDatabase(key)
+    return jsonify({"karma" : returnedUser.karma})
+
+
+def setUserKarma(key, json):
+    returnedUser = getUserDatabase(key)
+    returnedUser.karma = json["karma"]
+    saveUser(returnedUser)
+    return jsonify({'result': returnedUser.karma})
+
+
 def banUser(key):
     returnedUser = getUserDatabase(key)
     returnedUser.strikes = 3

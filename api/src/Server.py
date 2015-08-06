@@ -77,6 +77,26 @@ def EditUser():
     return UserApi.editUser(request.json)
 
 
+@app.route('/karma/<string:key>', methods=["GET"])
+@nocache
+@requireAuth
+def GetUserKarma(key):
+    """
+    Requires authentication
+    """
+    return UserApi.getUserKarma(key)
+
+
+@app.route('/karma/<string:key>', methods=["POST"])
+@nocache
+@requireAdmin
+def SetUserKarma(key):
+    """
+    Requires authentication
+    """
+    return UserApi.setUserKarma(key, request.json)
+
+
 @app.route('/user/upvote/<string:key>', methods=["POST"])
 @nocache
 @requireAuth
