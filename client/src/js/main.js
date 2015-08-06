@@ -315,12 +315,12 @@ requirejs.config({
                 uri: "/queue"
             },
             "REMOVE_REQUEST": {
-                verb: "POST",
-                uri: "/queue/remove/"
+                verb: "DELETE",
+                uri: "/queue"
             },
             "CREATE_REQUEST": {
                 verb: "POST",
-                uri: "/queue/add"
+                uri: "/queue"
             }
         }
     }

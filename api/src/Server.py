@@ -305,16 +305,16 @@ def GetRequests():
     """
     return getRequests()
 
-@app.route('/queue/remove/<int:key>', methods=["POST"])
+@app.route('/queue', methods=["DELETE"])
 @nocache
 #@requireAdmin
-def RemoveRequest(key):
+def RemoveRequest():
     """
     Require Admin Authentication
     """
-    return removeRequest(key)
+    return removeRequest(request.json["key"])
 
-@app.route('/queue/add', methods=["POST"])
+@app.route('/queue', methods=["POST"])
 @nocache
 #@requireAdmin
 def AddRequest():
