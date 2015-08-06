@@ -97,8 +97,8 @@ define(["ko", "jquery", "apiMappings"], function(ko, $, ApiMappings){
                     dataType: "json",
                     contentType: "application/json",
                     data: JSON.stringify({"token": self.token()}),
-                    success: function(result){
-                        if(!Boolean(result.response)){
+                    success: function(response){
+                        if(!Boolean(response.result)){
                             self.logout();
                         }
                         else{
@@ -110,8 +110,8 @@ define(["ko", "jquery", "apiMappings"], function(ko, $, ApiMappings){
                                     dataType: "json",
                                     contentType: "application/json",
                                     data: JSON.stringify({"token": self.token()}),
-                                    success: function(result){
-                                        self.admin(Boolean(result))
+                                    success: function(response){
+                                        self.admin(Boolean(response.result))
                                     }
                                 });
                             }
