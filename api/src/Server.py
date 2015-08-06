@@ -127,7 +127,7 @@ def VerifyAdminToken():
 
 @app.route('/search/<string:query>', methods=["GET"])
 @nocache
-#@requireAuth
+@requireAuth
 def Search(query):
     """
     Requires authentication
@@ -184,7 +184,7 @@ def RemoveRegex():
 
 @app.route('/playback/add', methods=["POST"])
 @nocache
-#@requireAuth
+@requireAuth #<- temp permissions should requireAdmin
 def AddSong():
     """
     Requires Auth
@@ -198,7 +198,8 @@ def AddSong():
 
 @app.route('/playback/play', methods=["GET"])
 @nocache
-#@requireAdmin
+#@requireAdmin <- permissions for final version
+@requireAuth #<- temp permissions
 def PlaySong():
     """
     Requires Admin Authentication
