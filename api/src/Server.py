@@ -69,7 +69,7 @@ def CreateUser():
 
 @app.route('/user/edit', methods=["POST"])
 @nocache
-@requireAuth
+@requireAdmin
 def EditUser():
     """
     Requires authentication
