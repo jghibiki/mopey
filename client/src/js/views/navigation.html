@@ -5,9 +5,18 @@
                 Mopey
             </h1>
         </span>
+
+        <!-- ko if: loggedIn -->
         <form id="search" data-bind="enter: triggerSearch">
             <input id="navigation-search-box" type="text" placeholder="Search" data-bind="value: searchQuery">
         </form>
+        <!-- /ko -->
+        <!-- ko ifnot:loggedIn -->
+        <div id="navigation-search-box">
+            <br>
+        </div>
+        <!-- /ko -->
+
         <ul class="pure-menu-list">
             <!-- ko foreach: navOptions -->
             <li class="pure-menu-item">

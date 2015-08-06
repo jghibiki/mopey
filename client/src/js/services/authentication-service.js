@@ -37,21 +37,7 @@ define(["ko", "jquery", "apiMappings"], function(ko, $, ApiMappings){
 
             if(!self._.initialized){
 
-                if(localStorage.hasOwnProperty("access_token")){
-                    if(localStorage.hasOwnProperty("expiration_date")){
-                        if((new Date(localStorage["expiration_date"])).valueOf() > (new Date()).getTime()){
-                            self.token(localStorage["acccess_token"]);
-
-                            if(localStorage.hasOwnProperty("admin")){
-                                self.admin(Boolean(localStorage["admin"]));
-                            }
-                        }
-                        else{
-                            localStorage.clear();
-                        }
-                    }
-                }
-
+                self.loadLocalStorage();
                 
                 self._.initialized = true;
             }
@@ -85,6 +71,23 @@ define(["ko", "jquery", "apiMappings"], function(ko, $, ApiMappings){
                 self._.disposed = true;
             }
         };
+
+        self.loadLocalStorage = function(){
+            if(localStorage.hasOwnProperty("access_token")){
+                if(localStorage.hasOwnProperty("expiration_date")){
+                    if((new Date(localStorage["expiration_date"])).valueOf() > (new Date()).getTime()){
+                        self.token(localStorage["acccess_token"]);
+
+                        if(localStorage.hasOwnProperty("admin")){
+                            self.admin(Boolean(localStorage["admin"]));
+                        }
+                    }
+                    else{
+                        localStorage.clear();
+                    }
+                }
+            }
+        }
 
         self.validateToken = function(){
             if(self.token() !== null || self.token() !== ""){

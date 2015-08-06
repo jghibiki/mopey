@@ -1,4 +1,4 @@
-define(["ko","sammy", "module"], function(ko,Sammy, module){
+define(["ko","sammy", "module", "authenticationManager"], function(ko,Sammy, module, AuthenticationManagerModule){
 
     function RouteChild(parentRoute, routeDict){
         var self = this;
@@ -60,6 +60,11 @@ define(["ko","sammy", "module"], function(ko,Sammy, module){
         }
         self.admin = routeDict.admin;
 
+        if(routeDict.loggedIn === undefined){
+            throw new Error("Route config error for route " + routeDict.route + ". Missing loggedIn.");
+        }
+        self.loggedIn = routeDict.loggedIn;
+
         if(routeDict.config === undefined){
             throw new Error("Route config error for route: " + routeDict.route + ". Missing config.");
         }
@@ -90,6 +95,7 @@ define(["ko","sammy", "module"], function(ko,Sammy, module){
             disposed: false,
             routeConfig: module.config(),
             sammy: Sammy(),
+            authenticationManager: AuthenticationManagerModule.get(),
             
             checkIfStarted: function(){
                 if(!self._.started){
@@ -125,7 +131,13 @@ define(["ko","sammy", "module"], function(ko,Sammy, module){
                 for(i = 0; i < self.routes.length; i++){
                     self._.sammy.get("#/" + self.routes[i].route, function(context){
                         route = context.path.substr(3,context.path.length).split("?")[0]
-                        self.currentRoute(route);
+                        if(self.validRoute(route)){
+                            self.currentRoute(route);
+                        }
+                        else{
+                            self.currentRoute("login");
+                            location = "#/login";
+                        }
                     });
                 }
             }
@@ -163,6 +175,33 @@ define(["ko","sammy", "module"], function(ko,Sammy, module){
                 self._.disposed = true;
             }
         };
+        
+        self.validRoute = function(route){
+            for(var x=0; x<self.routes.length; x++){
+                if(self.routes[x].route === route){
+                    route = self.routes[x];
+                    break;
+                }
+            }
+            if(route.loggedIn){
+                if(self._.authenticationManager.loggedIn()){
+                    if(route.admin){
+                        if(self._.authenticationManager.admin()){
+                            return true;
+                        }
+                        else{
+                            return false;
+                        }
+                    }
+                    else{
+                        return true;
+                    }
+                }
+            }
+            else{
+                return true;
+            }
+        }
     }
 
     return {

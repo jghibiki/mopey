@@ -1,26 +1,35 @@
 <div>
     <!-- ko ifnot: loggedIn -->
+    <div>
+        <h1>Log In:</h2>
+        <br>
+        <br>
         <!-- ko ifnot: loggingIn -->
-        <div data-bind="enter: login">
-            <p>Username:</p> 
-            <input type="text" data-bind="value: username; enter: login">
-            <br>
-            <br>
-            <p>Password:</p>
-            <input type="password" data-bind="value: password; enter: login"/>
-            <br>
-            <br>
-            <button data-bind="touchTap: login">Log In</button>
-        </div>
+            <div data-bind="enter: login">
+                <h3>Please Log In:</h3>
+                <p>Username:</p> 
+                <input type="text" data-bind="value: username; enter: login">
+                <br>
+                <br>
+                <p>Password:</p>
+                <input type="password" data-bind="value: password; enter: login"/>
+                <br>
+                <br>
+                <button data-bind="touchTap: login">Log In</button>
+            </div>
         <!-- /ko -->
+
         <!-- ko if: loggingIn -->
-        <div>
-        Logging In...
-        </div>
+            <div>
+            Logging In...
+            </div>
         <!-- /ko -->
+    </div>
     <!-- /ko -->
+
     <!-- ko if: loggedIn -->
     <div>
+        <h1>Log Out:</h1>
         <button data-bind="touchTap: logout">Log Out</button>
     </div>
     <!-- /ko -->

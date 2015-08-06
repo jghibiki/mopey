@@ -22,6 +22,7 @@ define(["ko", "jquery", "navigationManager", "chain", "authenticationManager"], 
 
         self.loggedInSubscription = self._.authenticationManager.loggedIn.subscribe(function(loggedIn){
             self.loggedIn(loggedIn);
+            self.updateNavigation();
         });
 
 		self.shown = function() {
@@ -75,7 +76,7 @@ define(["ko", "jquery", "navigationManager", "chain", "authenticationManager"], 
             var routes = self._.navigationManager.getRoutes();
             var navigableRoutes = []
             for(var x=0; x<routes.length; x++){
-                if(routes[x].presedence !== 0){
+                if(routes[x].presedence !== 0 && self._.navigationManager.validRoute(routes[x].route)){
                     navigableRoutes.push(routes[x]);
                 }
             }

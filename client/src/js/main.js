@@ -140,7 +140,7 @@ requirejs.config({
                 presedence: 1,
                 viewModel: "queueViewModel",
                 admin: false,
-                loggedin: false,
+                loggedIn: false,
                 children: [],
                 config: {}
             },
@@ -150,7 +150,7 @@ requirejs.config({
                 presedence: 2,
                 viewModel: "accountViewModel",
                 admin: false,
-                loggedin: true,
+                loggedIn: true,
                 children: [],
                 config: {}
             },
@@ -160,7 +160,7 @@ requirejs.config({
                 presedence: 3,
                 viewModel: "karmaViewModel",
                 admin: false,
-                loggedin:true,
+                loggedIn:true,
                 children: [],
                 config: {}
             },
@@ -170,7 +170,7 @@ requirejs.config({
                 viewModel: "searchViewModel",
                 presedence: 0,
                 admin: false,
-                loggedin: true,
+                loggedIn: true,
                 children: [],
                 config: {}
             },
@@ -180,7 +180,7 @@ requirejs.config({
                 viewModel: "blankViewModel",
                 presedence: 0,
                 admin: false,
-                loggedin: false,
+                loggedIn: false,
                 children:[],
                 config:{}
             },
@@ -190,7 +190,7 @@ requirejs.config({
                 viewModel: "authenticationViewModel",
                 presedence: 0,
                 admin: false,
-                loggedin: false,
+                loggedIn: false,
                 children: [],
                 config: {}
             },
@@ -200,7 +200,7 @@ requirejs.config({
                 viewModel: "authenticationViewModel",
                 presedence: 0,
                 admin: false,
-                loggedin: false,
+                loggedIn: false,
                 children: [],
                 config: {}
             }

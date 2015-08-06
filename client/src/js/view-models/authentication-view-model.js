@@ -26,6 +26,7 @@ define(["ko", "authenticationManager"], function(ko, AuthenticationManagerModule
         self.shown = function(){
             self._.checkIfDisposed();
             if(!self._.shown){
+                self.loggedIn(self._.authenticationManager.loggedIn());
                 self._.shown = true;
             }
         };

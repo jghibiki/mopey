@@ -44,15 +44,21 @@ define(["ko", "navigationService"], function(ko, NavigationServiceModule){
             if(typeof route == "undefined" || route == null){
                 throw new Error("NavigationManager.setRoute requites a non-null route");
             }
-            if(self._.urlCache === null || self._.urlCache === ""){
-                self._.navigationService.currentRoute(route);
-                location = "/#/" + route
+            if(self._.navigationService.validRoute(route)){
+                if(self._.urlCache === null || self._.urlCache === ""){
+                    self._.navigationService.currentRoute(route);
+                    location = "/#/" + route
+                }
+                else{
+                    location = "/#/" + route + self._.urlCache;
+                    self._.navigationService.currentRoute(route);
+                    location = "/#/" + route + self._.urlCache;
+                    self._.urlCache = null;
+                }
             }
             else{
-                location = "/#/" + route + self._.urlCache;
-                self._.navigationService.currentRoute(route);
-                location = "/#/" + route + self._.urlCache;
-                self._.urlCache = null;
+                self._.navigationService.currentRoute("login");
+                location = "/#/login";
             }
         }
 
@@ -65,6 +71,10 @@ define(["ko", "navigationService"], function(ko, NavigationServiceModule){
             }
             return null;
         }
+
+        self.validRoute = function(route){
+            return self._.navigationService.validRoute(route);
+        };
 
         /*
          * Gets the route
