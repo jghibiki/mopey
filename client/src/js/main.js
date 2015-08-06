@@ -305,8 +305,8 @@ requirejs.config({
                 uri: "/volume"
             },
             "SET_VOLUME":{
-                verb: "GET",
-                uri: "/volume/"
+                verb: "POST",
+                uri: "/volume"
             },
             
             /* Requests */

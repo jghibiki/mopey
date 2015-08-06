@@ -287,14 +287,14 @@ def GetVolume():
     """
     return jsonify(getVolume())
 
-@app.route('/volume/<int:key>', methods=["GET"])
+@app.route('/volume', methods=["POST"])
 @nocache
 #@requireAdmin
-def SetVolume(key):
+def SetVolume():
     """
     Require Admin Authentication
     """
-    return jsonify(setVolume(key))
+    return jsonify(setVolume(request.json["key"]))
 
 @app.route('/queue', methods=["GET"])
 @nocache
