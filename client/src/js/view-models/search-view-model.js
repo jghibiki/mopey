@@ -98,9 +98,10 @@ define(["ko", "chain", "nativeCommunicationManager"], function(ko, chain, Native
                     .cc(function(context,error,next){
                         if("Error" in context.response){
                             alert(context.response.Error);
+                            next();
                         }
                         else{
-                            if(context.response.response !== "playing"){
+                            if(context.response.result !== "playing"){
                                 self._.nativeCommunicationManager.sendNativeRequest(
                                     self._.nativeCommunicationManager.endpoints.PLAYBACK_PLAY,
                                     function(response){
