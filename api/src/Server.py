@@ -97,7 +97,7 @@ def SetUserKarma(key):
     return UserApi.setUserKarma(key, request.json)
 
 
-@app.route('/user/upvote/<string:key>', methods=["POST"])
+@app.route('/karma/<string:key>/up', methods=["POST"])
 @nocache
 @requireAuth
 def UpVoteUser(key):
@@ -107,7 +107,7 @@ def UpVoteUser(key):
     return UserApi.upVote(key)
 
 
-@app.route('/user/downvote/<string:key>', methods=["POST"])
+@app.route('/karma/<string:key>/down', methods=["POST"])
 @nocache
 @requireAuth
 def DownVoteUser(key):
