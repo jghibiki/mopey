@@ -15,7 +15,19 @@ def authentication(json):
     if password is None or password is "":
         return GeneralApiException("Bad request", status_code=400)
 
-    returnedUser = UserApi.getUserDatabase(username)
+    returnedUser = None
+    try:
+        returnedUser = User.get(User.username == username)
+    except:
+        try:
+            returnedUser = User.get(User.email == username)
+        except:
+            returnedUser = None
+
+    if(returnedUser == None):
+        raise GeneralApiException("Invalid user name and password combination.", status_code=200)
+
+    return returnedUser
     if(returnedUser == None):
         raise GeneralApiException("Invalid user name and password combination.", status_code=200)
 
