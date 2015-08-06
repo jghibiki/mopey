@@ -31,10 +31,12 @@ def authentication(json):
     if(returnedUser.password != str(md5)):
         raise GeneralApiException("Invalid user name and password combination.", status_code=200)
 
+    admin = Admin.select().where(Admin.user == returnedUser).exists()
+
     # Issue the new token
     returnedAccessToken = AccessToken.create(token=str(uuid4()), expirationDate=datetime.utcnow() + timedelta(hours=1), user=returnedUser)
 
-    payload = {"access_token" : returnedAccessToken.token, "expiration_date" : returnedAccessToken.expirationDate}
+    payload = {"access_token" : returnedAccessToken.token, "expiration_date" : returnedAccessToken.expirationDate, "admin": admin}
     return jsonify(payload)
 
 
