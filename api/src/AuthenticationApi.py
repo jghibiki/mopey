@@ -27,10 +27,6 @@ def authentication(json):
     if(returnedUser == None):
         raise GeneralApiException("Invalid user name and password combination.", status_code=200)
 
-    return returnedUser
-    if(returnedUser == None):
-        raise GeneralApiException("Invalid user name and password combination.", status_code=200)
-
     md5 = hashlib.md5(password).hexdigest()
     if(returnedUser.password != str(md5)):
         raise GeneralApiException("Invalid user name and password combination.", status_code=200)
