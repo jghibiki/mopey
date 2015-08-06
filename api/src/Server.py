@@ -117,7 +117,7 @@ def DownVoteUser(key):
     return UserApi.downVote(key)
 
 
-@app.route('/user/ban/<string:key>', methods=["POST"])
+@app.route('/user/<string:key>/ban', methods=["GET"])
 @nocache
 @requireAdmin
 def BanUser(key):
@@ -127,7 +127,7 @@ def BanUser(key):
     return UserApi.banUser(key)
 
 
-@app.route('/user/unban/<string:key>', methods=["POST"])
+@app.route('/user/<string:key>/unban', methods=["GET"])
 @nocache
 @requireAdmin
 def UnbanUser(key):
