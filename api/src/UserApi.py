@@ -19,12 +19,7 @@ def editUser(json):
     returnedUser.karma = json["karma"]
     returnedUser.strikes = json["strikes"]
 
-    try:
-        returnedUser.save()
-    except:
-        raise GeneralApiException("Failed to save user", status_code=405)
-
-    returnedUser.save()
+    saveUser(returnedUser)
 
     return jsonify({"Success":"Changed user with " + str(returnedUser.key)})
 
@@ -49,7 +44,7 @@ def createUser(json):
                 )
 
     except Exception,e:
-        return jsonify({"Error":"Failed to create user. error: "+ str(e)})
+        return jsonify({"Error":"Failed to create user. error: " + str(e)})
 
     return jsonify({"key":returnedUser.key})
 
@@ -74,6 +69,26 @@ def banUser(key):
 def unbanUser(key):
     returnedUser = getUserDatabase(key)
     returnedUser.strikes = 0
+
+
+def upVote(key):
+    try:
+        returnedUser = getUserDatabase(key)
+        returnedUser.karma += 1
+        saveUser(returnedUser)
+        return jsonify({'result': returnedUser.karma})
+    except Exception,e:
+        return jsonify({"Error": "Upvoting failed. error:" + str(e)})
+
+
+def downVote(key):
+    try:
+        returnedUser = getUserDatabase(key)
+        returnedUser.karma -= 1
+        saveUser(returnedUser)
+        return jsonify({'result': returnedUser.karma})
+    except Exception,e:
+        return jsonify({"Error": "Downvoting failed. error:" + str(e)})
 
 
 #####################
@@ -106,3 +121,8 @@ def getUserEmailDatabase(key):
     return returnedUser.email
 
 
+def saveUser(user):
+    try:
+        user.save()
+    except:
+        raise GeneralApiException("Failed to save user", status_code=405)

@@ -77,6 +77,26 @@ def EditUser():
     return UserApi.editUser(request.json)
 
 
+@app.route('/user/upvote/<string:key>', methods=["POST"])
+@nocache
+@requireAuth
+def UpVoteUser(key):
+    """
+    Requires authentication
+    """
+    return UserApi.upVote(key)
+
+
+@app.route('/user/downvote/<string:key>', methods=["POST"])
+@nocache
+@requireAuth
+def DownVoteUser(key):
+    """
+    Requires authentication
+    """
+    return UserApi.downVote(key)
+
+
 ####################
 ## Authentication ##
 ####################
