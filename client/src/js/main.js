@@ -51,6 +51,7 @@ requirejs.config({
             "blankViewModel": "singleton!viewModel!views/blank.html:view-models/blank-view-model",
             "authenticationViewModel": "singleton!viewModel!views/authentication.html:view-models/authentication-view-model",
             "regexViewModel": "singleton!viewModel!views/regex.html:view-models/regex-view-model",
+            "addUserViewModel": "singleton!viewModel!views/add-user.html:view-models/add-user-view-model",
 
             //managers
             "singletonManager": "managers/singleton-manager",
@@ -210,6 +211,16 @@ requirejs.config({
                 friendlyName: "Regex Config",
                 viewModel: "regexViewModel",
                 presedence: 10,
+                admin: true,
+                loggedIn: true,
+                children: [],
+                config: {}
+            },
+            {
+                route: "add-user",
+                friendlyName: "Add User",
+                viewModel: "addUserViewModel",
+                presedence: 9,
                 admin: true,
                 loggedIn: true,
                 children: [],
