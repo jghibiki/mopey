@@ -62,13 +62,23 @@ def getUser(key):
 
 
 def banUser(key):
-    returnedUser = getUserDatabase(key)
-    returnedUser.strikes = 3
+    try:
+        returnedUser = getUserDatabase(key)
+        returnedUser.strikes = 3
+        saveUser(returnedUser)
+        return jsonify({'result': returnedUser.strikes})
+    except Exception,e:
+        return jsonify({"Error": "Banning failed. error:" + str(e)})
 
 
 def unbanUser(key):
-    returnedUser = getUserDatabase(key)
-    returnedUser.strikes = 0
+    try:
+        returnedUser = getUserDatabase(key)
+        returnedUser.strikes = 0
+        saveUser(returnedUser)
+        return jsonify({'result': returnedUser.strikes})
+    except Exception,e:
+        return jsonify({"Error": "Unbanning failed. error:" + str(e)})
 
 
 def upVote(key):

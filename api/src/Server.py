@@ -97,6 +97,26 @@ def DownVoteUser(key):
     return UserApi.downVote(key)
 
 
+@app.route('/user/ban/<string:key>', methods=["POST"])
+@nocache
+@requireAdmin
+def BanUser(key):
+    """
+    Requires authentication
+    """
+    return UserApi.banUser(key)
+
+
+@app.route('/user/unban/<string:key>', methods=["POST"])
+@nocache
+@requireAdmin
+def UnbanUser(key):
+    """
+    Requires authentication
+    """
+    return UserApi.unbanUser(key)
+
+
 ####################
 ## Authentication ##
 ####################
