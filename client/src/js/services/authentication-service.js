@@ -30,7 +30,7 @@ define(["ko", "jquery", "apiMappings"], function(ko, $, ApiMappings){
 
 
         self.token = ko.observable(null);
-        self.admin = ko.observable();
+        self.admin = ko.observable(false);
 
         self.init = function(){
             self._.checkIfDisposed();
@@ -77,10 +77,7 @@ define(["ko", "jquery", "apiMappings"], function(ko, $, ApiMappings){
                 if(localStorage.hasOwnProperty("expiration_date")){
                     if((new Date(localStorage["expiration_date"])).valueOf() > (new Date()).getTime()){
                         self.token(localStorage["acccess_token"]);
-
-                        if(localStorage.hasOwnProperty("admin")){
-                            self.admin(Boolean(localStorage["admin"]));
-                        }
+                        self.admin(Boolean(localStorage["admin"]));
                     }
                     else{
                         localStorage.clear();
@@ -140,10 +137,8 @@ define(["ko", "jquery", "apiMappings"], function(ko, $, ApiMappings){
                         localStorage["access_token"] = result.access_token;
                         self.token(result.access_token);
                         localStorage["expiration_date"] = result.expiration_date;
-                        if("admin" in result){
-                            localStorage["admin"] = result.admin;
-                            self.admin(Boolean(result.admin));
-                        }
+                        localStorage["admin"] = result.admin;
+                        self.admin(Boolean(result.admin));
                     }
                     callback();
                 }

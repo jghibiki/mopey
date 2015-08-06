@@ -50,6 +50,7 @@ requirejs.config({
             "searchViewModel": "singleton!viewModel!views/search.html:view-models/search-view-model",
             "blankViewModel": "singleton!viewModel!views/blank.html:view-models/blank-view-model",
             "authenticationViewModel": "singleton!viewModel!views/authentication.html:view-models/authentication-view-model",
+            "regexViewModel": "singleton!viewModel!views/regex.html:view-models/regex-view-model",
 
             //managers
             "singletonManager": "managers/singleton-manager",
@@ -203,6 +204,16 @@ requirejs.config({
                 loggedIn: false,
                 children: [],
                 config: {}
+            },
+            {
+                route: "regex",
+                friendlyName: "Regex Config",
+                viewModel: "regexViewModel",
+                presedence: 10,
+                admin: true,
+                loggedIn: true,
+                children: [],
+                config: {}
             }
 
         ],
@@ -226,7 +237,7 @@ requirejs.config({
             /* User Management */
             "GET_USER": {
                 verb: "GET",
-                uri: "/user/"
+                uri: "/user/{key}"
             },
             "CREATE_USER": {
                 verb: "POST",
@@ -234,7 +245,7 @@ requirejs.config({
             },
             "EDIT_USER":{
                 verb:"POST",
-                uri: "/user/edit"
+                uri: "/user/{key}/edit"
             },
 
             /* Search */
@@ -244,9 +255,9 @@ requirejs.config({
             },
 
             /* Regexs */
-            "GET_REGEX": { /* This endpoint needs to be updated once the api is changed to provide a list of the regexes in the system*/
+            "GET_REGEX": { 
                 verb: "GET",
-                uri: "/regex/"
+                uri: "/regex"
             },
             "CREATE_REGEX": {
                 verb: "POST",
@@ -254,7 +265,7 @@ requirejs.config({
             },
             "DELETE_REGEX": {
                 verb: "DELETE",
-                uri: "/regex"
+                uri: "/regex/{key}"
             },
 
             /* Mopidy Direct */
@@ -316,7 +327,7 @@ requirejs.config({
             },
             "REMOVE_REQUEST": {
                 verb: "DELETE",
-                uri: "/queue"
+                uri: "/queue/{key}"
             },
             "CREATE_REQUEST": {
                 verb: "POST",

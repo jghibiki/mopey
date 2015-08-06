@@ -9,7 +9,7 @@ define(["ko", "authenticationService"], function(ko, AuthenticationServiceModule
         };
         
         self.token = ko.observable();
-        self.admin = ko.observable();
+        self.admin = ko.observable(self._.authenticationService.admin());
         self.loggedIn = ko.observable();
 
         self.tokenSubscription = self._.authenticationService.token.subscribe(function(token){

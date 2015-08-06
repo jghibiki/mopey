@@ -224,10 +224,10 @@ def AddRegex():
     return regex
 
 
-@app.route('/regex', methods=["DELETE"])
+@app.route('/regex/<int:key>', methods=["DELETE"])
 @nocache
 @requireAdmin
-def RemoveRegex():
+def RemoveRegex(key):
     """
     Example Request Objexts:
     {
@@ -235,7 +235,7 @@ def RemoveRegex():
     }
     Require admin authentication
     """
-    return removeRegex(request.json["key"])
+    return removeRegex(key)
 
 ###############
 ## Api Calls ##
@@ -365,14 +365,14 @@ def GetRequests():
     """
     return getRequests()
 
-@app.route('/queue', methods=["DELETE"])
+@app.route('/queue/<int:key>', methods=["DELETE"])
 @nocache
 #@requireAdmin
-def RemoveRequest():
+def RemoveRequest(key):
     """
     Require Admin Authentication
     """
-    return removeRequest(request.json["key"])
+    return removeRequest(key)
 
 @app.route('/queue', methods=["POST"])
 @nocache

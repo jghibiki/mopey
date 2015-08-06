@@ -25,6 +25,10 @@ define(["ko", "jquery", "navigationManager", "chain", "authenticationManager"], 
             self.updateNavigation();
         });
 
+        self.adminSubscription = self._.authenticationManager.admin.subscribe(function(admin){
+            self.updateNavigation();
+        });
+
 		self.shown = function() {
 			self._.checkIfDisposed();
 			if(!self._.shown) {
