@@ -14,7 +14,10 @@ define(["ko", "authenticationManager"], function(ko, AuthenticationManagerModule
             }
         };
 
-        self.loggedIn = ko.observable(false);
+        self.loggedIn = ko.observable();
+        self.password = ko.observable();
+        self.username = ko.observable();
+        self.loggingIn = ko.observable();
 
         self.tokenSubscription = self._.authenticationManager.loggedIn.subscribe(function(loggedIn){
             self.loggedIn(loggedIn) 
@@ -40,6 +43,23 @@ define(["ko", "authenticationManager"], function(ko, AuthenticationManagerModule
                 self._.authenticationManager = null;
                 self._.disposed = true;
             }
+        }
+
+        self.login = function(){
+            user = self.username();
+            self.username("");
+
+            pass = self.password();
+            self.password("");
+
+            self.loggingIn(true)
+            self._.authenticationManager.login(user, pass, function(){self.loggingIn(false)});
+            return false
+        }
+
+        self.logout = function(){
+            self._.authenticationManager.logout();
+            return false;
         }
 
     }

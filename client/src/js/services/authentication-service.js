@@ -94,30 +94,32 @@ define(["ko", "jquery", "apiMappings"], function(ko, $, ApiMappings){
                     dataType: "json",
                     contentType: "application/json",
                     data: JSON.stringify({"token": self.token()}),
-                    successCallback: function(result){
+                    success: function(result){
                         if(!Boolean(result.response)){
-                            self.token(null);
+                            self.logout();
+                        }
+                        else{
+                            /* Verify the user is an admin */
+                            if(self.admin()){
+                                $.ajax({
+                                    url: self._.apiMappings.baseUrl + "/authenticate/verify/admin",
+                                    type: "POST",
+                                    dataType: "json",
+                                    contentType: "application/json",
+                                    data: JSON.stringify({"token": self.token()}),
+                                    success: function(result){
+                                        self.admin(Boolean(result))
+                                    }
+                                });
+                            }
                         }
                     }
                 });
 
-                /* Verify the user is an admin */
-                if(self.admin()){
-                    $.ajax({
-                        url: self._.apiMappings.baseUrl + "/authenticate/verify/admin",
-                        type: "POST",
-                        dataType: "json",
-                        contentType: "application/json",
-                        data: JSON.stringify({"token": self.token()}),
-                        successCallback: function(result){
-                            self.admin(Boolean(result))
-                        }
-                    });
-                }
             }
         };
 
-        self.login = function(username, password){
+        self.login = function(username, password, callback){
             $.ajax({
                 url: self._.apiMappings.baseUrl + "/authenticate",
                 type: "POST",
@@ -127,7 +129,7 @@ define(["ko", "jquery", "apiMappings"], function(ko, $, ApiMappings){
                     "username": username,
                     "password": password
                 }),
-                successCallback: function(result){
+                success: function(result){
                     if("Error" in result){
                         alert("Error: " + result.Error);
                     }
@@ -140,6 +142,7 @@ define(["ko", "jquery", "apiMappings"], function(ko, $, ApiMappings){
                             self.admin(Boolean(result.admin));
                         }
                     }
+                    callback();
                 }
             });
         }

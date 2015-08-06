@@ -10,20 +10,19 @@ define(["ko", "authenticationService"], function(ko, AuthenticationServiceModule
         
         self.token = ko.observable();
         self.admin = ko.observable();
-        self.loggedIn = ko.computed(function(){
-            if(self.token === null || self.token === ""){
-                return false;
-            }
-            else{
-                return true;
-            }
-        });
+        self.loggedIn = ko.observable();
 
         self.tokenSubscription = self._.authenticationService.token.subscribe(function(token){
             self.token(token);
+            if(token === null || token === ""){
+                self.loggedIn(false);
+            }
+            else{
+                self.loggedIn(true);
+            }
         });
 
-        self.adminSubscription= self._.authenticationService.admin.subscribe(function(token){
+        self.adminSubscription= self._.authenticationService.admin.subscribe(function(admin){
             self.admin(admin);
         });
 
@@ -42,8 +41,8 @@ define(["ko", "authenticationService"], function(ko, AuthenticationServiceModule
             }
         };
 
-        self.login = function(username, password){
-            self._.authenticationService.login(username, password);
+        self.login = function(username, password, callback){
+            self._.authenticationService.login(username, password, callback);
         }
 
         self.logout = function(){

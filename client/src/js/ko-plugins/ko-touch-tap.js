@@ -27,7 +27,7 @@ define(["ko"], function(ko){
     function buildOnPointerUp(element, valueAccessor){
         var callbacks = valueAccessor();
         function onPointerUp(evt){
-            ko.bindingHandlers.touchTap.onAction(element, callbacks.onAction);
+            ko.bindingHandlers.touchTap.onAction(element, callbacks);
         }
         return onPointerUp;
     }
@@ -59,11 +59,6 @@ define(["ko"], function(ko){
                
             });
         },update:function(element, valueAccessor){
-            var vacc = valueAccessor();
-            if(vacc.isDisabled != null){
-                var isDisabled = ko.utils.unwrapObservable(vacc.isDisabled);
-                ko.bindingHandlers.css.update(element, cssDisabledVacc(isDisabled));
-            }
         }
     }
 
