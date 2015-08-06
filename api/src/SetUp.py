@@ -60,6 +60,11 @@ def main():
         raise "Failed to make use JPisaBrony an admin"
     print "Success!"
 
+
+    print "Adding default regexes"
+    Regex.create(pattern=".*(C|c)(O|o)(C|c)(O|o).*")
+    Regex.create(pattern=".*(S|s)(A|a)(N|n)(I|i)(C|c).*")
+
     print "############################"
     print "## Completed Server Setup ##"
     print "############################"
