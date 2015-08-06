@@ -62,43 +62,31 @@ def getUser(key):
 
 
 def banUser(key):
-    try:
-        returnedUser = getUserDatabase(key)
-        returnedUser.strikes = 3
-        saveUser(returnedUser)
-        return jsonify({'result': returnedUser.strikes})
-    except Exception,e:
-        return jsonify({"Error": "Banning failed. error:" + str(e)})
+    returnedUser = getUserDatabase(key)
+    returnedUser.strikes = 3
+    saveUser(returnedUser)
+    return jsonify({'result': returnedUser.strikes})
 
 
 def unbanUser(key):
-    try:
-        returnedUser = getUserDatabase(key)
-        returnedUser.strikes = 0
-        saveUser(returnedUser)
-        return jsonify({'result': returnedUser.strikes})
-    except Exception,e:
-        return jsonify({"Error": "Unbanning failed. error:" + str(e)})
+    returnedUser = getUserDatabase(key)
+    returnedUser.strikes = 0
+    saveUser(returnedUser)
+    return jsonify({'result': returnedUser.strikes})
 
 
 def upVote(key):
-    try:
-        returnedUser = getUserDatabase(key)
-        returnedUser.karma += 1
-        saveUser(returnedUser)
-        return jsonify({'result': returnedUser.karma})
-    except Exception,e:
-        return jsonify({"Error": "Upvoting failed. error:" + str(e)})
+    returnedUser = getUserDatabase(key)
+    returnedUser.karma += 1
+    saveUser(returnedUser)
+    return jsonify({'result': returnedUser.karma})
 
 
 def downVote(key):
-    try:
-        returnedUser = getUserDatabase(key)
-        returnedUser.karma -= 1
-        saveUser(returnedUser)
-        return jsonify({'result': returnedUser.karma})
-    except Exception,e:
-        return jsonify({"Error": "Downvoting failed. error:" + str(e)})
+    returnedUser = getUserDatabase(key)
+    returnedUser.karma -= 1
+    saveUser(returnedUser)
+    return jsonify({'result': returnedUser.karma})
 
 
 #####################
