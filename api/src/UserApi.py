@@ -2,15 +2,13 @@ from GeneralApiException import GeneralApiException
 from flask import jsonify
 import hashlib
 from Models import *
-from AuthenticationApi import *
 
 ####################
 ## Public Methods ##
 ####################
 
-def editUser(json):
-    returnedUser = getUserDatabase(json["user"])
-    AuthenticationApi.validateUserAuthentication(returnedUser, json["access_token"])
+def editUser(key, json):
+    returnedUser = getUserDatabase(key)
 
     returnedUser.password = json["password"]
     returnedUser.firstName = json["firstName"]

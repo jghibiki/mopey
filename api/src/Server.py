@@ -67,14 +67,14 @@ def CreateUser():
     return UserApi.createUser(request.json)
 
 
-@app.route('/user/edit', methods=["POST"])
+@app.route('/user/<string:key>/edit', methods=["POST"])
 @nocache
 @requireAdmin
-def EditUser():
+def EditUser(key):
     """
     Requires authentication
     """
-    return UserApi.editUser(request.json)
+    return UserApi.editUser(key, request.json)
 
 
 @app.route('/karma/<string:key>', methods=["GET"])
