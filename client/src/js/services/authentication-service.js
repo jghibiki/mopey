@@ -119,7 +119,7 @@ define(["ko", "jquery", "apiMappings"], function(ko, $, ApiMappings){
             }
         };
 
-        self.login = function(username, password, callback){
+        self.login = function(username, password, successCallback, errorCallback){
             $.ajax({
                 url: self._.apiMappings.baseUrl + "/authenticate",
                 type: "POST",
@@ -131,7 +131,7 @@ define(["ko", "jquery", "apiMappings"], function(ko, $, ApiMappings){
                 }),
                 success: function(result){
                     if("Error" in result){
-                        alert("Error: " + result.Error);
+                        errorCallback(result.Error);
                     }
                     else{
                         localStorage["access_token"] = result.access_token;
@@ -140,7 +140,7 @@ define(["ko", "jquery", "apiMappings"], function(ko, $, ApiMappings){
                         localStorage["admin"] = result.admin;
                         self.admin(Boolean(result.admin));
                     }
-                    callback();
+                    successCallback();
                 }
             });
         }

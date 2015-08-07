@@ -41,8 +41,8 @@ define(["ko", "authenticationService"], function(ko, AuthenticationServiceModule
             }
         };
 
-        self.login = function(username, password, callback){
-            self._.authenticationService.login(username, password, callback);
+        self.login = function(username, password, successCallback, errorCallback){
+            self._.authenticationService.login(username, password, successCallback, errorCallback);
         }
 
         self.logout = function(){
