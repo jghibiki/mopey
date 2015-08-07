@@ -87,7 +87,7 @@ define(["ko", "jquery", "apiMappings"], function(ko, $, ApiMappings){
         }
 
         self.validateToken = function(){
-            if(self.token() !== null || self.token() !== ""){
+            if(self.token() !== null || self.token() !== "" || self.token() !== undefined){
                 $.ajax({
                     url: self._.apiMappings.baseUrl + "/authenticate/verify",
                     type: "POST",
