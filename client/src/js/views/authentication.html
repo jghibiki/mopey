@@ -2,23 +2,25 @@
     <!-- ko ifnot: loggedIn -->
     <div>
         <h1>Log In:</h2>
+        <hr>
         <br>
         <br>
         <!-- ko ifnot: loggingIn -->
-            <div data-bind="enter: login">
-                <h3>Please Log In:</h3>
-                <p>Username:</p> 
-                <input type="text" data-bind="value: username; enter: login">
-                <br>
-                <br>
-                <p>Password:</p>
-                <input type="password" data-bind="value: password; enter: login"/>
-                <br>
-                <br>
-                <button data-bind="touchTap: login">Log In</button>
-                <br>
-                <br>
-                <p data-bind="text: errorMessage"></p>
+            <div data-bind="enter: login" class="pure-form pure-form-aligned">
+                <div class="pure-control-group">
+                    <label>Username:</label>
+                    <input type="text" data-bind="value: username; enter: login">
+                </div>
+                <div class="pure-control-group">
+                    <label>Password:</label>
+                    <input type="password" data-bind="value: password; enter: login"/>
+                </div>
+                <div class="pure-controls">
+                    <button data-bind="touchTap: login" class="pure-button pure-button-primary">Log In</button>
+                    <br>
+                    <br>
+                    <p data-bind="text: errorMessage"></p>
+                </div>
             </div>
         <!-- /ko -->
 
@@ -33,7 +35,14 @@
     <!-- ko if: loggedIn -->
     <div>
         <h1>Log Out:</h1>
-        <button data-bind="touchTap: logout">Log Out</button>
+        <hr>
+        <br>
+        <br>
+        <div class="pure-form pure-form-aligned">
+            <div class="pure-controls">
+                <button data-bind="touchTap: logout" class="pure-button pure-button-primary">Log Out</button>
+            </div>
+        </div>
     </div>
     <!-- /ko -->
 

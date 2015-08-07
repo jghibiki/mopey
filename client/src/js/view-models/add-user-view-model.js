@@ -14,6 +14,14 @@ define(["ko", "nativeCommunicationManager"], function(ko, NativeCommunicationMan
             }
         };
 
+        self.fname = ko.observable();
+        self.lname = ko.observable();
+        self.user = ko.observable();
+        self.email = ko.observable();
+        self.password = ko.observable();
+        self.password2 = ko.observable();
+        self.terms = ko.observable();
+
         self.shown = function(){
             self._.checkIfDisposed();
             if(!self._.shown){
