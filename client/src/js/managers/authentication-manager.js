@@ -22,7 +22,7 @@ define(["ko", "authenticationService"], function(ko, AuthenticationServiceModule
             }
         });
 
-        self.adminSubscription= self._.authenticationService.admin.subscribe(function(admin){
+        self.adminSubscription = self._.authenticationService.admin.subscribe(function(admin){
             self.admin(admin);
         });
 

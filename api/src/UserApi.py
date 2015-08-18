@@ -57,6 +57,17 @@ def getUser(key):
             "karma" : returnedUser.karma,
             "strikes" : returnedUser.strikes
             })
+    Accounts
+
+def getUsers(page):
+    returnedUsers = []
+    for x in User.select().order_by(User.key).paginate(int(page)+1, 10):
+        y = {}
+        y["key"] = x.key
+        y["pattern"] = x.pattern
+        returnedUsers.append(y)
+
+    return jsonify({"result":returnedUsers})
 
 
 def getUserKarma(key):

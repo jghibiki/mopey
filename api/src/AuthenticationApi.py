@@ -36,7 +36,12 @@ def authentication(json):
     # Issue the new token
     returnedAccessToken = AccessToken.create(token=str(uuid4()), expirationDate=datetime.utcnow() + timedelta(hours=1), user=returnedUser)
 
-    payload = {"access_token" : returnedAccessToken.token, "expiration_date" : returnedAccessToken.expirationDate, "admin": admin}
+    payload = {
+            "user_key": returnedUser.key,
+            "access_token" : returnedAccessToken.token,
+            "expiration_date" : returnedAccessToken.expirationDate,
+            "admin": admin
+            }
     return jsonify(payload)
 
 

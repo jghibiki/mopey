@@ -138,6 +138,7 @@ define(["ko", "jquery", "apiMappings"], function(ko, $, ApiMappings){
                         self.token(result.access_token);
                         localStorage["expiration_date"] = result.expiration_date;
                         localStorage["admin"] = result.admin;
+                        localStorage["user_key"] = result.user_key;
                         self.admin(Boolean(result.admin));
                     }
                     successCallback();

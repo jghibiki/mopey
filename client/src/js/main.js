@@ -250,6 +250,10 @@ requirejs.config({
                 verb: "GET",
                 uri: "/user/{key}"
             },
+            "GET_USERS":{
+                verb: "GET",
+                uri: "/users/{key}"
+            },
             "CREATE_USER": {
                 verb: "POST",
                 uri: "/user"

@@ -1,3 +1,150 @@
 <div>
-    Accounts
+    <h1>Account</h1>
+    <hr>
+    <br>
+    <br>
+
+    <!-- ko if: loadingUser -->
+        <div>
+            Loading...
+        </div>
+    <!-- /ko -->
+    
+    <!-- ko ifnot: loadingUser -->
+        <div class="pure-g">
+            <div class="pure-u-2-24">
+                Username:
+            </div>
+            <div class="pure-u-3-24">
+                <!-- ko ifnot: edit -->
+                <span data-bind="text: username"></span>
+                <!-- /ko -->
+                
+                <!-- ko if: edit -->
+                <input type="text" data-bind="value: username; attr{ placeholder: _username}"/>
+                <!-- /ko -->
+            </div>
+            <div class="pure-u-19-24">
+            </div>
+        </div>
+
+        <br>
+
+        <div class="pure-g">
+            <div class="pure-u-2-24">
+                First Name:
+            </div>
+            <div class="pure-u-3-24">
+                <!-- ko ifnot: edit -->
+                <span data-bind="text: fname"></span>
+                <!-- /ko -->
+                
+                <!-- ko if: edit -->
+                <input type="text" data-bind="value: fname; attr{ placeholder: _fname}"/>
+                <!-- /ko -->
+            </div>
+
+            <div class="pure-u-19-24">
+            </div>
+        </div>
+
+        <br>
+
+        <div class="pure-g">
+            <div class="pure-u-2-24">
+                Last Name:
+            </div>
+            <div class="pure-u-3-24">
+                <!-- ko ifnot: edit -->
+                <span data-bind="text: lname"></span>
+                <!-- /ko -->
+                
+                <!-- ko if: edit -->
+                <input type="text" data-bind="value: lname; attr{ placeholder: _lname}"/>
+                <!-- /ko -->
+            </div>
+
+            <div class="pure-u-19-24">
+            </div>
+        </div>
+
+        <br>
+
+        <div class="pure-g">
+            <div class="pure-u-2-24">
+                Email:
+            </div>
+            <div class="pure-u-3-24">
+                <!-- ko ifnot: edit -->
+                <span data-bind="text: email"></span>
+                <!-- /ko -->
+                
+                <!-- ko if: edit -->
+                <input type="text" data-bind="value: email; attr{ placeholder: _email}"/>
+                <!-- /ko -->
+            </div>
+
+            <div class="pure-u-19-24">
+            </div>
+        </div>
+
+        <br>
+
+        <div class="pure-g">
+            <div class="pure-u-2-24">
+                Karma:
+            </div>
+            <div class="pure-u-3-24">
+                <span data-bind="text: karma"></span>
+            </div>
+
+            <div class="pure-u-19-24">
+            </div>
+        </div>
+
+        <br>
+
+        <div class="pure-g">
+            <div class="pure-u-2-24">
+                Strikes:
+            </div>
+            <div class="pure-u-3-24">
+                <span data-bind="text: strikes"></span>
+            </div>
+
+            <div class="pure-u-19-24">
+            </div>
+        </div>
+
+        <br>
+
+        <div class="pure-g">
+            <div class="pure-u-2-24">
+            </div>
+            <div class="pure-u-3-24">
+                <button>Edit</button>
+            </div>
+
+            <div class="pure-u-19-24">
+            </div>
+        </div>
+
+    <!-- /ko -->
+
+    <br>
+    <br>
+        
+    <!-- ko if: admin -->
+        <h1>Users</h1>
+        <hr>
+        <!-- ko if: loadingUsers -->
+            <div>
+                Loading...
+            </div>
+        <!-- /ko -->
+        <!-- ko ifnot: loadingUsers -->
+            <div>
+            </div>
+        <!-- /ko -->
+    <!-- /ko -->
 </div>
