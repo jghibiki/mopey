@@ -266,7 +266,7 @@ requirejs.config({
             /* Search */
             "SEARCH": {
                 verb: "GET",
-                uri: "/search/"
+                uri: "/search/{q}"
             },
 
             /* Regexs */
