@@ -10,12 +10,19 @@ from Models import *
 def editUser(key, json):
     returnedUser = getUserDatabase(key)
 
-    returnedUser.password = json["password"]
-    returnedUser.firstName = json["firstName"]
-    returnedUser.lastName = json["lastName"]
-    returnedUser.email = json["email"]
-    returnedUser.karma = json["karma"]
-    returnedUser.strikes = json["strikes"]
+    if "firstName" in json:
+        returnedUser.firstName = json["firstName"]
+    if "lastName" in json:
+        returnedUser.lastName = json["lastName"]
+    if "email" in json:
+        returnedUser.email = json["email"]
+    if(Admin.select().where(Admin.user == returnedUser).exists()):
+        if "password" in json:
+            returnedUser.password = json["password"]
+        if "karma" in json:
+            returnedUser.karma = json["karma"]
+        if "strikes" in json:
+            returnedUser.strikes = json["strikes"]
 
     saveUser(returnedUser)
 
@@ -72,6 +79,10 @@ def getUsers(page):
         returnedUsers.append(y)
 
     return jsonify({"result": returnedUsers})
+
+def countUsers():
+    count = User.select().count()
+    return jsonify({"result" : count})
 
 
 def getUserKarma(key):

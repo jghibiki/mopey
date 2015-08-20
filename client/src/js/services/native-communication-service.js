@@ -139,7 +139,16 @@ define(["jquery"], function($){
             }
 
             else{
-                throw new Error("Invalid combination of parameters. uriParameters and payload cannot both be not-null or not-undefined.")
+                $.ajax({
+                    url: baseUrl + uri,
+                    type: endpoint.verb,
+                    dataType: "json",
+                    data: JSON.stringify(payload),
+                    contentType:"application/json",
+                    headers: {"Authorization": token},
+                    success: successCallback
+                });
+
             }
         }
 

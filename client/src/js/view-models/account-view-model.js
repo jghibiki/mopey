@@ -1,4 +1,4 @@
-define(["ko", "nativeCommunicationManager", "authenticationManager"], function(ko, NativeCommunicationManagerModule, AuthenticationManagerModule){
+define(["ko", "nativeCommunicationManager", "authenticationManager", "chain"], function(ko, NativeCommunicationManagerModule, AuthenticationManagerModule, chain){
     function AccountViewModel(){
         var self = this;
 
@@ -17,6 +17,8 @@ define(["ko", "nativeCommunicationManager", "authenticationManager"], function(k
         self.edit = ko.observable(false);
         self.loadingUser = ko.observable(false);
         self.loadingUsers = ko.observable(false);
+        self.userUpdateError = ko.observable();
+        self.updatingUser = ko.observable(false);
 
         self.username = ko.observable();
         self._username = ko.observable();
@@ -46,6 +48,7 @@ define(["ko", "nativeCommunicationManager", "authenticationManager"], function(k
         self.mode = ko.observable("list");
         self.page = ko.observable(0);
         self.query = ko.observable();
+        self.userCount = ko.observable();
         self.results = ko.observable();
         self.selected = ko.observable();
         self.usersError = ko.observable();
@@ -74,11 +77,27 @@ define(["ko", "nativeCommunicationManager", "authenticationManager"], function(k
         self.view_password = ko.observable();
         self.view_password2 = ko.observable();
 
+        self.first = ko.computed(function(){
+            return self.page() !== 0;
+        });
+
+        self.backward = ko.computed(function(){
+            return self.page() > 0;
+        });
+
+        self.forward = ko.computed(function(){
+            return self.page() < Math.floor(self.userCount() / 10);
+        });
+
+        self.last = ko.computed(function(){
+            return self.page() !== Math.floor(self.userCount() /10);
+        });
+
 
         self.modeSubscription = self.mode.subscribe(function(newMode){
             if(self.admin()){
                 if(newMode === "list"){
-                    self.getList();
+                    self.list();
                 }
                 else if(newMode == "search"){
                     self.search();
@@ -97,6 +116,43 @@ define(["ko", "nativeCommunicationManager", "authenticationManager"], function(k
 
                 self.userError(null);
                 self.usersError(null);
+                self.loadUser();
+
+                self.adminSubscription = self._.authenticationManager.admin.subscribe(function(admin){
+                    self.admin(admin);
+                });
+                self.admin(self._.authenticationManager.admin());
+
+                if(self.admin()){
+                    self.list();
+                }
+
+            }
+        };
+
+        self.hidden = function(){
+            if(self._.shown){
+                self._.shown = false;
+            }
+        };
+
+        self.dispose = function(){
+            if(!self._.disposed){
+                self._.disposed = true;
+
+                self._.nativeCommunicationManager.dispose();
+                self._.nativeCommunicationManager = null;
+
+                self._.authenticationManager.dispose();
+                self._.authenticationManager = null;
+            }
+        };
+
+        self.toggle_edit = function(){
+            self.edit(true);
+        }
+
+        self.loadUser = function(){
                 self.loadingUser(true);
                 self._.nativeCommunicationManager.sendNativeRequest(
                     self._.nativeCommunicationManager.endpoints.GET_USER,
@@ -125,62 +181,56 @@ define(["ko", "nativeCommunicationManager", "authenticationManager"], function(k
                     },
                     null
                 );
+        };
 
-                self.adminSubscription = self._.authenticationManager.admin.subscribe(function(admin){
-                    self.admin(admin);
+        self.list = function(){
+            chain.get()
+                .cc(function(conext, error, next){
+                    self.loadingUsers(true);
+                    next();
+                })
+                .cc(function(context, error, next){
+                    self.usersError(null)
+                    self._.nativeCommunicationManager.sendNativeRequest(
+                        self._.nativeCommunicationManager.endpoints.COUNT_USERS,
+                        function(response){
+                            if("Error" in response){
+                                self.usersError("Error: " + response.Error);
+                                self.loadingUsers(false);
+                                error()
+                            }
+                            else{
+                                self.userCount(response.result);
+                                next();
+                            }
+                        },
+                        {},
+                        null);
+                })
+                .cc(function(context, error, next){
+                    self.usersError(null);
+                    var page = self.page();
+
+                    self._.nativeCommunicationManager.sendNativeRequest(
+                        self._.nativeCommunicationManager.endpoints.GET_USERS,
+                        function(response){
+                            if("Error" in response){
+                                self.usersError("Error: " + response.Error);
+                                self.loadingUsers(false);
+                            }
+                            else{
+
+                                self.results(response.result);
+                                next();
+                            }
+                        },
+                        {"page" : self.page()},
+                        null);
+
+                })
+                .end({}, function(){
+                    self.loadingUsers(false);   
                 });
-                self.admin(self._.authenticationManager.admin());
-
-                if(self.admin()){
-                    self.getList();
-                }
-
-            }
-        };
-
-        self.hidden = function(){
-            if(self._.shown){
-                self._.shown = false;
-            }
-        };
-
-        self.dispose = function(){
-            if(!self._.disposed){
-                self._.disposed = true;
-
-                self._.nativeCommunicationManager.dispose();
-                self._.nativeCommunicationManager = null;
-
-                self._.authenticationManager.dispose();
-                self._.authenticationManager = null;
-            }
-        };
-
-        self.toggle_edit = function(){
-            self.edit(true);
-        }
-
-        self.getList = function(){
-            self.usersError(null);
-            self.loadingUsers(true);
-            var page = self.page();
-
-            self._.nativeCommunicationManager.sendNativeRequest(
-                self._.nativeCommunicationManager.endpoints.GET_USERS,
-                function(response){
-                    if("Error" in response){
-                        self.usersError("Error: " + response.Error);
-                        self.loadingUsers(false);
-                    }
-                    else{
-
-                        self.results(response.result);
-                        self.loadingUsers(false);
-                    }
-                },
-                {"page" : self.page()},
-                null);
-
         }
 
         self.search = function(){
@@ -224,6 +274,7 @@ define(["ko", "nativeCommunicationManager", "authenticationManager"], function(k
                             self.selected(response.key);
 
                             self.loadingUsers(false);
+
                         }
                     },
                     {"key": query},
@@ -281,6 +332,69 @@ define(["ko", "nativeCommunicationManager", "authenticationManager"], function(k
             self._view_strikes(this.strikes);
 
             self.mode("view");
+
+        }
+
+        self.userEdit = function(){
+            self.edit(true);
+        }
+
+        self.userSubmit = function(){
+            self.userUpdateError(null);
+
+            var username = self.username();
+            if(username === undefined
+                || username === null
+                || username === ""){
+                
+                self.userUpdateError("Please enter a username.");
+                return;
+            }
+
+            var fname = self.fname();
+            if(fname === undefined
+                || fname === null
+                || fname === ""){
+                
+                self.userUpdateError("Please enter a first name.");
+            }
+
+            var lname = self.lname();
+            if(lname === undefined
+                || lname === null
+                || lname === ""){
+                
+                self.userUpdateError("Please enter a last name.");
+            }
+
+            var email = self.email ();
+            if(lname === undefined
+                || email === null
+                || email === ""){
+                
+                self.userUpdateError("Please enter an email.");
+            }
+
+
+            self._.nativeCommunicationManager.sendNativeRequest(
+                self._.nativeCommunicationManager.endpoints.EDIT_USER,
+                function(response){
+                    if("Error" in response){
+                        self.userUpdateError("Error: " + response.Error);
+                        self.updatingUser(false);                        
+                    }
+                    else{
+                        self.edit(false);
+                        self.loadUser();
+                    }
+                },
+                { "key": self.key },
+                {
+                    "username": username,
+                    "firstName" : fname,
+                    "lastName": lname,
+                    "email" : email
+                });
 
         }
 

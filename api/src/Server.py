@@ -81,6 +81,15 @@ def EditUser(key):
     """
     return UserApi.editUser(key, request.json)
 
+@app.route('/users/count', methods=["GET"])
+@nocache
+@requireAdmin
+def CountUsers():
+    """
+    Requires admin authentication
+    """
+    return UserApi.countUsers()
+
 
 @app.route('/karma/<string:key>', methods=["GET"])
 @nocache

@@ -21,7 +21,7 @@
                     <!-- /ko -->
                     
                     <!-- ko if: edit -->
-                    <input type="text" data-bind="value: username; attr: { placeholder: _username}"/>
+                    <input type="text" data-bind="value: username; attr: { value: _username}"/>
                     <!-- /ko -->
                 </div>
                 <div class="pure-u-19-24">
@@ -40,7 +40,7 @@
                     <!-- /ko -->
                     
                     <!-- ko if: edit -->
-                    <input type="text" data-bind="value: fname; attr: { placeholder: _fname}"/>
+                    <input type="text" data-bind="value: fname; attr: { value: _fname}"/>
                     <!-- /ko -->
                 </div>
 
@@ -60,7 +60,7 @@
                     <!-- /ko -->
                     
                     <!-- ko if: edit -->
-                    <input type="text" data-bind="value: lname; attr: { placeholder: _lname}"/>
+                    <input type="text" data-bind="value: lname; attr: { value: _lname}"/>
                     <!-- /ko -->
                 </div>
 
@@ -80,7 +80,7 @@
                     <!-- /ko -->
                     
                     <!-- ko if: edit -->
-                    <input type="text" data-bind="value: email; attr: { placeholder: _email}"/>
+                    <input type="text" data-bind="value: email; attr: { value: _email}"/>
                     <!-- /ko -->
                 </div>
 
@@ -122,11 +122,21 @@
                 <div class="pure-u-2-24">
                 </div>
                 <div class="pure-u-3-24">
-                    <button>Edit</button>
+                    <!-- ko if: edit -->
+                        <button data-bind="touchTap: userSubmit">Update</button>
+                    <!-- /ko -->
+
+                    <!-- ko ifnot: edit -->
+                        <button data-bind="touchTap: userEdit">Edit</button>
+                    <!-- /ko -->
                 </div>
 
                 <div class="pure-u-19-24">
                 </div>
+            </div>
+
+            <div data-bind="text: userUpdateError">
+                Error
             </div>
         <!-- /ko -->
         <!-- ko if: userError -->
@@ -152,7 +162,7 @@
             <!-- ko ifnot: mode() === "view" -->
                 <div>
                     <div data-bind="enter: startSearch">
-                        <input type="text" data-bind="value: query" placeholder="Key, Username, Email"/>
+                        <input type="text" data-bind="value: query" value="Key, Username, Email"/>
                         <button data-bind="touchTap: startSearch">Search</button>
                     </div>
 
@@ -171,23 +181,50 @@
                                 <tr>
                             </thead>
                             <tbody  data-bind="foreach: results">
-                                <tr>
-                                    <td data-bind="text: key"></td>
-                                    <td data-bind="text: username"></td>
-                                    <td data-bind="text: firstName"></td>
-                                    <td data-bind="text: lastName"></td>
-                                    <td data-bind="text: email"></td>
-                                    <td data-bind="text: karma"></td>
-                                    <td data-bind="text: strikes"></td>
-                                    <td><button data-bind="click: $parent.viewItem">View</button></td>
-                                </tr>
+                                <!-- ko if: $index() % 2 === 0 -->
+                                    <tr>
+                                        <td data-bind="text: key"></td>
+                                        <td data-bind="text: username"></td>
+                                        <td data-bind="text: firstName"></td>
+                                        <td data-bind="text: lastName"></td>
+                                        <td data-bind="text: email"></td>
+                                        <td data-bind="text: karma"></td>
+                                        <td data-bind="text: strikes"></td>
+                                        <td><button data-bind="click: $parent.viewItem">View</button></td>
+                                    </tr>
+                                <!-- /ko -->
+
+                                <!-- ko ifnot: $index() % 2 === 0 -->
+                                    <tr class="pure-table-odd">
+                                        <td data-bind="text: key"></td>
+                                        <td data-bind="text: username"></td>
+                                        <td data-bind="text: firstName"></td>
+                                        <td data-bind="text: lastName"></td>
+                                        <td data-bind="text: email"></td>
+                                        <td data-bind="text: karma"></td>
+                                        <td data-bind="text: strikes"></td>
+                                        <td><button data-bind="click: $parent.viewItem">View</button></td>
+                                    </tr>
+                                <!-- /ko -->
+
                             </tbody>
                         </table>
                         <div>
-                            <button>&#060;&#060;</button>
-                            <button>&#060;</button>&nbsp;
-                            <button>&#062;</button>
-                            <button>&#062;&#062;</button>
+                            <!-- ko if: first -->
+                                <button>&#060;&#060;</button>
+                            <!-- /ko -->
+                            
+                            <!-- ko if: backward -->
+                                <button>&#060;</button>&nbsp;
+                            <!-- /ko -->
+
+                            <!-- ko if: forward -->
+                                <button>&#062;</button>
+                            <!-- /ko -->
+
+                            <!-- ko if: last -->
+                                <button>&#062;&#062;</button>
+                            <!-- /ko -->
                         </div>
                     </div>
                 </div>
@@ -209,7 +246,7 @@
                             <!-- /ko -->
                             
                             <!-- ko if: view_edit -->
-                            <input type="text" data-bind="value: view_username; attr: { placeholder: _view_username}"/>
+                            <input type="text" data-bind="value: view_username; attr: { value: _view_username}"/>
                             <!-- /ko -->
                         </div>
                         <div class="pure-u-19-24">
@@ -228,7 +265,7 @@
                             <!-- /ko -->
                             
                             <!-- ko if: view_edit -->
-                            <input type="text" data-bind="value: view_fname; attr: { placeholder: _view_fname}"/>
+                            <input type="text" data-bind="value: view_fname; attr: { value: _view_fname}"/>
                             <!-- /ko -->
                         </div>
 
@@ -248,7 +285,7 @@
                             <!-- /ko -->
                             
                             <!-- ko if: view_edit -->
-                            <input type="text" data-bind="value: view_lname; attr: { placeholder: _view_lname}"/>
+                            <input type="text" data-bind="value: view_lname; attr: { value: _view_lname}"/>
                             <!-- /ko -->
                         </div>
 
@@ -268,7 +305,7 @@
                             <!-- /ko -->
                             
                             <!-- ko if: view_edit -->
-                            <input type="text" data-bind="value: view_email; attr: { placeholder: _view_email}"/>
+                            <input type="text" data-bind="value: view_email; attr: { value: _view_email}"/>
                             <!-- /ko -->
                         </div>
 
@@ -288,7 +325,7 @@
                             <!-- /ko -->
 
                             <!-- ko if: view_edit -->
-                                <input type="text" data-bind="value: view_karma; attr: { placeholder: _view_karma}"/>
+                                <input type="text" data-bind="value: view_karma; attr: { value: _view_karma}"/>
                             <!-- /ko -->
                         </div>
 
@@ -308,7 +345,7 @@
                             <!-- /ko -->
                             
                             <!-- ko if: view_edit -->
-                                <input type="text" data-bind="value: view_strikes; attr: {placeholder: _view_strikes}"/>
+                                <input type="text" data-bind="value: view_strikes; attr: {value: _view_strikes}"/>
                             <!-- /ko -->
                         </div>
 
