@@ -73,13 +73,13 @@ def CreateUser():
 
 
 @app.route('/user/<string:key>/edit', methods=["POST"])
+@requireAuth
 @nocache
-@requireAdmin
 def EditUser(key):
     """
     Requires authentication
     """
-    return UserApi.editUser(key, request.json)
+    return UserApi.editUser(key, request.json, request.headers)
 
 @app.route('/users/count', methods=["GET"])
 @nocache

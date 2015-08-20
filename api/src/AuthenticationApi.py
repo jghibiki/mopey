@@ -45,6 +45,7 @@ def authentication(json):
     return jsonify(payload)
 
 
+
 def getAccessTokenDatabase(key):
     returnedAuth = None
     if(key == None):

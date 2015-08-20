@@ -7,27 +7,37 @@ from Models import *
 ## Public Methods ##
 ####################
 
-def editUser(key, json):
+def editUser(key, json, headers):
     returnedUser = getUserDatabase(key)
 
-    if "firstName" in json:
-        returnedUser.firstName = json["firstName"]
-    if "lastName" in json:
-        returnedUser.lastName = json["lastName"]
-    if "email" in json:
-        returnedUser.email = json["email"]
-    if "password" in json:
-        returnedUser.password = json["password"]
+    token = headers['Authorization']
+    requestUser = AccessToken.get(AccessToken.token == token).user
+    isAdmin = Admin.select().where(Admin.user == requestUser).exists()
 
-    if(Admin.select().where(Admin.user == returnedUser).exists()):
-        if "karma" in json:
-            returnedUser.karma = json["karma"]
-        if "strikes" in json:
-            returnedUser.strikes = json["strikes"]
+    if returnedUser == requestUser or isAdmin:
+        if "firstName" in json:
+            returnedUser.firstName = json["firstName"]
+        if "lastName" in json:
+            returnedUser.lastName = json["lastName"]
+        if "email" in json:
+            returnedUser.email = json["email"]
+        if "password" in json:
+                returnedUser.password = json["password"]
 
-    saveUser(returnedUser)
+        if(isAdmin):
+            if "password" in json:
+                returnedUser.password = json["password"]
+            if "karma" in json:
+                returnedUser.karma = json["karma"]
+            if "strikes" in json:
+                returnedUser.strikes = json["strikes"]
 
-    return jsonify({"Success":"Changed user with " + str(returnedUser.key)})
+        saveUser(returnedUser)
+
+        return jsonify({"Success":"Changed user with " + str(returnedUser.key)})
+
+    else:
+        return jsonify({"Error": "User cannot change another user's information."});
 
 
 def createUser(json):
