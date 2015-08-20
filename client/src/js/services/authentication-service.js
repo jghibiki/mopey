@@ -76,8 +76,7 @@ define(["ko", "jquery", "apiMappings"], function(ko, $, ApiMappings){
             if(localStorage.hasOwnProperty("access_token")){
                 if(localStorage.hasOwnProperty("expiration_date")){
                     if((new Date(localStorage["expiration_date"])).valueOf() > (new Date()).getTime()){
-                        self.token(localStorage["access_token"]);
-                        self.admin(Boolean(localStorage["admin"]));
+                        self.token(localStorage["access_token"]); self.admin(Boolean(localStorage["admin"]));
                     }
                     else{
                         localStorage.clear();
@@ -87,7 +86,7 @@ define(["ko", "jquery", "apiMappings"], function(ko, $, ApiMappings){
         }
 
         self.validateToken = function(){
-            if(self.token() !== null || self.token() !== "" || self.token() !== undefined){
+            if(self.token() !== null && self.token() !== "" && self.token() !== undefined){
                 $.ajax({
                     url: self._.apiMappings.baseUrl + "/authenticate/verify",
                     type: "POST",
