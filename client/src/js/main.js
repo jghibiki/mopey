@@ -274,9 +274,9 @@ requirejs.config({
             },
 
             /* Regexs */
-            "GET_REGEX": { 
+            "GET_REGEXES": { 
                 verb: "GET",
-                uri: "/regex"
+                uri: "/regex/{page}"
             },
             "CREATE_REGEX": {
                 verb: "POST",
@@ -286,7 +286,10 @@ requirejs.config({
                 verb: "DELETE",
                 uri: "/regex/{key}"
             },
-
+            "COUNT_REGEXES": {
+                verb: "GET",
+                uri: "/regex/count"
+            },
             /* Mopidy Direct */
             "PLAYBACK_ADD_SONG": {
                 verb: "POST",
