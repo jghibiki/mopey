@@ -48,11 +48,11 @@ def handle_invalid_usage(error):
 def getUser(key):
     return UserApi.getUser(key)
 
-@app.route('/users/<string:page>')
+@app.route('/users/<int:page>')
 @nocache
 @requireAdmin
-def getUsers(key):
-    return UserApi.getUsers(key)
+def getUsers(page):
+    return UserApi.getUsers(str(page))
 
 @app.route('/user', methods=["POST"])
 @nocache

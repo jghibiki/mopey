@@ -76,7 +76,7 @@ define(["ko", "jquery", "apiMappings"], function(ko, $, ApiMappings){
             if(localStorage.hasOwnProperty("access_token")){
                 if(localStorage.hasOwnProperty("expiration_date")){
                     if((new Date(localStorage["expiration_date"])).valueOf() > (new Date()).getTime()){
-                        self.token(localStorage["acccess_token"]);
+                        self.token(localStorage["access_token"]);
                         self.admin(Boolean(localStorage["admin"]));
                     }
                     else{

@@ -3,7 +3,6 @@
     <hr>
     <br>
     <br>
-
     <!-- ko if: loadingUser -->
         <div>
             Loading...
@@ -11,123 +10,130 @@
     <!-- /ko -->
     
     <!-- ko ifnot: loadingUser -->
-        <div class="pure-g">
-            <div class="pure-u-2-24">
-                Username:
-            </div>
-            <div class="pure-u-3-24">
-                <!-- ko ifnot: edit -->
-                <span data-bind="text: username"></span>
-                <!-- /ko -->
-                
-                <!-- ko if: edit -->
-                <input type="text" data-bind="value: username; attr{ placeholder: _username}"/>
-                <!-- /ko -->
-            </div>
-            <div class="pure-u-19-24">
-            </div>
-        </div>
-
-        <br>
-
-        <div class="pure-g">
-            <div class="pure-u-2-24">
-                First Name:
-            </div>
-            <div class="pure-u-3-24">
-                <!-- ko ifnot: edit -->
-                <span data-bind="text: fname"></span>
-                <!-- /ko -->
-                
-                <!-- ko if: edit -->
-                <input type="text" data-bind="value: fname; attr{ placeholder: _fname}"/>
-                <!-- /ko -->
+        <!-- ko ifnot: userError -->
+            <div class="pure-g">
+                <div class="pure-u-2-24">
+                    Username:
+                </div>
+                <div class="pure-u-3-24">
+                    <!-- ko ifnot: edit -->
+                    <span data-bind="text: username"></span>
+                    <!-- /ko -->
+                    
+                    <!-- ko if: edit -->
+                    <input type="text" data-bind="value: username; attr: { placeholder: _username}"/>
+                    <!-- /ko -->
+                </div>
+                <div class="pure-u-19-24">
+                </div>
             </div>
 
-            <div class="pure-u-19-24">
-            </div>
-        </div>
+            <br>
 
-        <br>
+            <div class="pure-g">
+                <div class="pure-u-2-24">
+                    First Name:
+                </div>
+                <div class="pure-u-3-24">
+                    <!-- ko ifnot: edit -->
+                    <span data-bind="text: fname"></span>
+                    <!-- /ko -->
+                    
+                    <!-- ko if: edit -->
+                    <input type="text" data-bind="value: fname; attr: { placeholder: _fname}"/>
+                    <!-- /ko -->
+                </div>
 
-        <div class="pure-g">
-            <div class="pure-u-2-24">
-                Last Name:
-            </div>
-            <div class="pure-u-3-24">
-                <!-- ko ifnot: edit -->
-                <span data-bind="text: lname"></span>
-                <!-- /ko -->
-                
-                <!-- ko if: edit -->
-                <input type="text" data-bind="value: lname; attr{ placeholder: _lname}"/>
-                <!-- /ko -->
-            </div>
-
-            <div class="pure-u-19-24">
-            </div>
-        </div>
-
-        <br>
-
-        <div class="pure-g">
-            <div class="pure-u-2-24">
-                Email:
-            </div>
-            <div class="pure-u-3-24">
-                <!-- ko ifnot: edit -->
-                <span data-bind="text: email"></span>
-                <!-- /ko -->
-                
-                <!-- ko if: edit -->
-                <input type="text" data-bind="value: email; attr{ placeholder: _email}"/>
-                <!-- /ko -->
+                <div class="pure-u-19-24">
+                </div>
             </div>
 
-            <div class="pure-u-19-24">
-            </div>
-        </div>
+            <br>
 
-        <br>
+            <div class="pure-g">
+                <div class="pure-u-2-24">
+                    Last Name:
+                </div>
+                <div class="pure-u-3-24">
+                    <!-- ko ifnot: edit -->
+                    <span data-bind="text: lname"></span>
+                    <!-- /ko -->
+                    
+                    <!-- ko if: edit -->
+                    <input type="text" data-bind="value: lname; attr: { placeholder: _lname}"/>
+                    <!-- /ko -->
+                </div>
 
-        <div class="pure-g">
-            <div class="pure-u-2-24">
-                Karma:
-            </div>
-            <div class="pure-u-3-24">
-                <span data-bind="text: karma"></span>
-            </div>
-
-            <div class="pure-u-19-24">
-            </div>
-        </div>
-
-        <br>
-
-        <div class="pure-g">
-            <div class="pure-u-2-24">
-                Strikes:
-            </div>
-            <div class="pure-u-3-24">
-                <span data-bind="text: strikes"></span>
+                <div class="pure-u-19-24">
+                </div>
             </div>
 
-            <div class="pure-u-19-24">
-            </div>
-        </div>
+            <br>
 
-        <br>
+            <div class="pure-g">
+                <div class="pure-u-2-24">
+                    Email:
+                </div>
+                <div class="pure-u-3-24">
+                    <!-- ko ifnot: edit -->
+                    <span data-bind="text: email"></span>
+                    <!-- /ko -->
+                    
+                    <!-- ko if: edit -->
+                    <input type="text" data-bind="value: email; attr: { placeholder: _email}"/>
+                    <!-- /ko -->
+                </div>
 
-        <div class="pure-g">
-            <div class="pure-u-2-24">
-            </div>
-            <div class="pure-u-3-24">
-                <button>Edit</button>
+                <div class="pure-u-19-24">
+                </div>
             </div>
 
-            <div class="pure-u-19-24">
+            <br>
+
+            <div class="pure-g">
+                <div class="pure-u-2-24">
+                    Karma:
+                </div>
+                <div class="pure-u-3-24">
+                    <span data-bind="text: karma"></span>
+                </div>
+
+                <div class="pure-u-19-24">
+                </div>
             </div>
-        </div>
+
+            <br>
+
+            <div class="pure-g">
+                <div class="pure-u-2-24">
+                    Strikes:
+                </div>
+                <div class="pure-u-3-24">
+                    <span data-bind="text: strikes"></span>
+                </div>
+
+                <div class="pure-u-19-24">
+                </div>
+            </div>
+
+            <br>
+
+            <div class="pure-g">
+                <div class="pure-u-2-24">
+                </div>
+                <div class="pure-u-3-24">
+                    <button>Edit</button>
+                </div>
+
+                <div class="pure-u-19-24">
+                </div>
+            </div>
+        <!-- /ko -->
+        <!-- ko if: userError -->
+            <div data-bind="text: userError">
+                Error
+            </div>
+        <!-- /ko -->
 
     <!-- /ko -->
 
@@ -143,7 +149,190 @@
             </div>
         <!-- /ko -->
         <!-- ko ifnot: loadingUsers -->
-            <div>
+            <!-- ko ifnot: mode() === "view" -->
+                <div>
+                    <div data-bind="enter: startSearch">
+                        <input type="text" data-bind="value: query" placeholder="Key, Username, Email"/>
+                        <button data-bind="touchTap: startSearch">Search</button>
+                    </div>
+
+                    <div>
+                        <table class="pure-table">
+                            <thead>
+                                <tr>
+                                    <th>Key</th>
+                                    <th>Username</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Email</th>
+                                    <th>Karma</th>
+                                    <th>Strikes</th>
+                                    <th></th>
+                                <tr>
+                            </thead>
+                            <tbody  data-bind="foreach: results">
+                                <tr>
+                                    <td data-bind="text: key"></td>
+                                    <td data-bind="text: username"></td>
+                                    <td data-bind="text: firstName"></td>
+                                    <td data-bind="text: lastName"></td>
+                                    <td data-bind="text: email"></td>
+                                    <td data-bind="text: karma"></td>
+                                    <td data-bind="text: strikes"></td>
+                                    <td><button data-bind="click: $parent.viewItem">View</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div>
+                            <button>&#060;&#060;</button>
+                            <button>&#060;</button>&nbsp;
+                            <button>&#062;</button>
+                            <button>&#062;&#062;</button>
+                        </div>
+                    </div>
+                </div>
+            <!-- /ko -->
+            <!-- ko if: mode() === "view" -->
+                <div>
+                    <button data-bind="touchTap: toList">List View</button>
+                    
+                    <br>
+                    <br>
+
+                    <div class="pure-g">
+                        <div class="pure-u-2-24">
+                            Username:
+                        </div>
+                        <div class="pure-u-3-24">
+                            <!-- ko ifnot: view_edit -->
+                            <span data-bind="text: view_username"></span>
+                            <!-- /ko -->
+                            
+                            <!-- ko if: view_edit -->
+                            <input type="text" data-bind="value: view_username; attr: { placeholder: _view_username}"/>
+                            <!-- /ko -->
+                        </div>
+                        <div class="pure-u-19-24">
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <div class="pure-g">
+                        <div class="pure-u-2-24">
+                            First Name:
+                        </div>
+                        <div class="pure-u-3-24">
+                            <!-- ko ifnot: view_edit -->
+                            <span data-bind="text: view_fname"></span>
+                            <!-- /ko -->
+                            
+                            <!-- ko if: view_edit -->
+                            <input type="text" data-bind="value: view_fname; attr: { placeholder: _view_fname}"/>
+                            <!-- /ko -->
+                        </div>
+
+                        <div class="pure-u-19-24">
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <div class="pure-g">
+                        <div class="pure-u-2-24">
+                            Last Name:
+                        </div>
+                        <div class="pure-u-3-24">
+                            <!-- ko ifnot: view_edit -->
+                            <span data-bind="text: view_lname"></span>
+                            <!-- /ko -->
+                            
+                            <!-- ko if: view_edit -->
+                            <input type="text" data-bind="value: view_lname; attr: { placeholder: _view_lname}"/>
+                            <!-- /ko -->
+                        </div>
+
+                        <div class="pure-u-19-24">
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <div class="pure-g">
+                        <div class="pure-u-2-24">
+                            Email:
+                        </div>
+                        <div class="pure-u-3-24">
+                            <!-- ko ifnot: view_edit -->
+                            <span data-bind="text: view_email"></span>
+                            <!-- /ko -->
+                            
+                            <!-- ko if: view_edit -->
+                            <input type="text" data-bind="value: view_email; attr: { placeholder: _view_email}"/>
+                            <!-- /ko -->
+                        </div>
+
+                        <div class="pure-u-19-24">
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <div class="pure-g">
+                        <div class="pure-u-2-24">
+                            Karma:
+                        </div>
+                        <div class="pure-u-3-24">
+                            <!-- ko ifnot: view_edit -->
+                                <span data-bind="text: view_karma"></span>
+                            <!-- /ko -->
+
+                            <!-- ko if: view_edit -->
+                                <input type="text" data-bind="value: view_karma; attr: { placeholder: _view_karma}"/>
+                            <!-- /ko -->
+                        </div>
+
+                        <div class="pure-u-19-24">
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <div class="pure-g">
+                        <div class="pure-u-2-24">
+                            Strikes:
+                        </div>
+                        <div class="pure-u-3-24">
+                            <!-- ko ifnot: view_edit -->
+                                <span data-bind="text: view_strikes"></span>
+                            <!-- /ko -->
+                            
+                            <!-- ko if: view_edit -->
+                                <input type="text" data-bind="value: view_strikes; attr: {placeholder: _view_strikes}"/>
+                            <!-- /ko -->
+                        </div>
+
+                        <div class="pure-u-19-24">
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <div class="pure-g">
+                        <div class="pure-u-2-24">
+                        </div>
+                        <div class="pure-u-3-24">
+                            <button>Edit</button>
+                        </div>
+
+                        <div class="pure-u-19-24">
+                        </div>
+                    </div>
+
+                </div>
+            <!-- /ko -->
+            <div data-bind="text: usersError">
+                Error
             </div>
         <!-- /ko -->
     <!-- /ko -->

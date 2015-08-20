@@ -57,17 +57,21 @@ def getUser(key):
             "karma" : returnedUser.karma,
             "strikes" : returnedUser.strikes
             })
-    Accounts
 
 def getUsers(page):
     returnedUsers = []
     for x in User.select().order_by(User.key).paginate(int(page)+1, 10):
         y = {}
         y["key"] = x.key
-        y["pattern"] = x.pattern
+        y["username"] = x.username
+        y["firstName"] = x.firstName
+        y["lastName"] = x.lastName
+        y["email"] = x.email
+        y["karma"] = x.karma
+        y["strikes"] = x.strikes
         returnedUsers.append(y)
 
-    return jsonify({"result":returnedUsers})
+    return jsonify({"result": returnedUsers})
 
 
 def getUserKarma(key):
@@ -130,7 +134,7 @@ def getUserDatabase(key):
                 returnedUser = None
 
     if(returnedUser == None):
-        raise GeneralApiException("Error User does not exist", status_code=200)
+        raise GeneralApiException("User does not exist", status_code=200)
 
     return returnedUser
 

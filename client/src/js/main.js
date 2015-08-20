@@ -252,7 +252,7 @@ requirejs.config({
             },
             "GET_USERS":{
                 verb: "GET",
-                uri: "/users/{key}"
+                uri: "/users/{page}"
             },
             "CREATE_USER": {
                 verb: "POST",
