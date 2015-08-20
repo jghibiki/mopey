@@ -16,9 +16,10 @@ def editUser(key, json):
         returnedUser.lastName = json["lastName"]
     if "email" in json:
         returnedUser.email = json["email"]
+    if "password" in json:
+        returnedUser.password = json["password"]
+
     if(Admin.select().where(Admin.user == returnedUser).exists()):
-        if "password" in json:
-            returnedUser.password = json["password"]
         if "karma" in json:
             returnedUser.karma = json["karma"]
         if "strikes" in json:
