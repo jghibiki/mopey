@@ -20,7 +20,16 @@ api:
         - mopidy
 db:
     image: postgres
-
+    
+service:
+    extends:
+        file: ./service/service.yml
+        service: service
+    links:
+       - api
+    environment:
+       - CONFIGURATION=PRODUCTION
+    
 mopidy:
     build: ./mopidy
     expose:

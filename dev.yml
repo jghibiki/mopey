@@ -22,6 +22,18 @@ api:
         - mopidy
     environment:
         - CONFIGURATION=DEBUG
+
+service:
+    extends:
+        file: ./service/service.yml
+        service: service
+    volumes:
+        - ./service/src:/data/src
+    links:
+       - api
+    environment:
+       - CONFIGURATION=DEBUG
+
 db:
     image: postgres
 

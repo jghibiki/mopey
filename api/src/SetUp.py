@@ -56,10 +56,28 @@ def main():
 
     print "Making JPisaBrony an admin..."
     jpisabrony_admin = Admin.create(user=jpisabrony)
-    if(jpisabrony is None):
+    if(jpisabrony_admin is None):
         raise "Failed to make use JPisaBrony an admin"
     print "Success!"
 
+    print "Adding user DJPon3"
+    DJPon3 = User.create(
+       username="DJPon3",
+       password="4c56ff4ce4aaf9573aa5dff913df997a",
+       firstName="DJ",
+       lastName="Pon3",
+       email="jpisabrony@gmail.com",
+       karma=100000,
+       strikes=0,
+    )
+    if(DJPon3 is None):
+        raise "Failed to add user DJPon3"
+
+    print "Making DJPon3 an admin..."
+    DJPon3_admin = Admin.create(user=DJPon3)
+    if(DJPon3_admin is None):
+        raise "Failed to make use DJPon3 an admin"
+    print "Success!"
 
     print "Adding default regexes"
     Regex.create(pattern=".*(C|c)(O|o)(C|c)(O|o).*")

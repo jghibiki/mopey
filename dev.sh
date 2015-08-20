@@ -8,5 +8,5 @@ else
     cp ./prod-api.js ./client/src/js/api-mappings.js;
 fi
 
-/usr/local/bin/docker-compose -f dev.yml stop;
-/usr/local/bin/docker-compose -f dev.yml up -d --x-smart-recreate;
+docker-compose -f dev.yml stop;
+docker-compose -f dev.yml up -d --x-smart-recreate;
