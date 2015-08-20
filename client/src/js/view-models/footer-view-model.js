@@ -20,6 +20,7 @@ define(["ko", "authenticationManager", "nativeCommunicationManager", "chain"], f
                 self.adminSubscription = self._.authenticationManager.admin.subscribe(function(admin){
                     self.admin(admin);
                 });
+                self.admin(self._.authenticationManager.admin());
 
                 self._.shown = true;
             }

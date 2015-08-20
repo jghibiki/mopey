@@ -70,11 +70,13 @@ define(["jquery"], function($){
                 throw new Error("Cannot send a remote request without specifying an endpoint.")
             }
 
+            var uri = self.buildUri(endpoint.uri, uriParameters);
+
             if ((payload === undefined || payload === null) 
                     && (successCallback == undefined || successCallback == null)
                     && (uriParameters == undefined || uriParameters == null || uriParameters == "")){
                 $.ajax({
-                    url: baseUrl + endpoint.uri,
+                    url: baseUrl + uri,
                     type: endpoint.verb,
                     dataType: "json",
                     headers: {"Authorization": token}
@@ -84,7 +86,7 @@ define(["jquery"], function($){
             else if ((payload === undefined || payload === null) 
                     && (uriParameters == undefined || uriParameters == null || uriParameters == "")){
                 $.ajax({
-                    url: baseUrl + endpoint.uri,
+                    url: baseUrl + uri,
                     type: endpoint.verb,
                     dataType: "json",
                     headers: {"Authorization": token},
@@ -95,7 +97,7 @@ define(["jquery"], function($){
             else if ((payload === undefined || payload === null) 
                     && (successCallback == undefined || successCallback == null)){
                 $.ajax({
-                    url: baseUrl + endpoint.uri + uriParameters,
+                    url: baseUrl + uri,
                     type: endpoint.verb,
                     dataType: "json",
                     headers: {"Authorization": token}
@@ -104,7 +106,7 @@ define(["jquery"], function($){
 
             else if ((payload === undefined || payload === null) ){
                 $.ajax({
-                    url: baseUrl + endpoint.uri + uriParameters,
+                    url: baseUrl + uri,
                     type: endpoint.verb,
                     dataType: "json",
                     headers: {"Authorization": token},
@@ -115,7 +117,7 @@ define(["jquery"], function($){
             else if((successCallback == undefined || successCallback == null)
                     && (uriParameters == undefined || uriParameters == null || uriParameters == "")){
                 $.ajax({
-                    url: baseUrl + endpoint.uri,
+                    url: baseUrl + uri,
                     type: endpoint.verb,
                     dataType: "json",
                     data: JSON.stringify(payload),
@@ -126,7 +128,7 @@ define(["jquery"], function($){
 
             else if(uriParameters == undefined || uriParameters == null || uriParameters == ""){
                 $.ajax({
-                    url: baseUrl + endpoint.uri,
+                    url: baseUrl + uri,
                     type: endpoint.verb,
                     dataType: "json",
                     data: JSON.stringify(payload),
@@ -137,8 +139,28 @@ define(["jquery"], function($){
             }
 
             else{
-                throw new Error("Invalid combination of parameters. uriParameters and payload cannot both be not-null or not-undefined.")
+                $.ajax({
+                    url: baseUrl + uri,
+                    type: endpoint.verb,
+                    dataType: "json",
+                    data: JSON.stringify(payload),
+                    contentType:"application/json",
+                    headers: {"Authorization": token},
+                    success: successCallback
+                });
+
             }
+        }
+
+        self.buildUri = function(uri, uriParameters){
+            for(var key in uriParameters){
+                token = "{" + key + "}";
+                index = uri.indexOf(token)
+                if(token !== -1){
+                    uri = uri.replace(token, String(uriParameters[key]));  
+                }
+            }
+            return uri;
         }
 
     }

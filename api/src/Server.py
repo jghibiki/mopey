@@ -43,11 +43,16 @@ def handle_invalid_usage(error):
 ## Users ##
 ###########
 
-@app.route('/users/<string:key>')
+@app.route('/user/<string:key>')
 @nocache
 def getUser(key):
     return UserApi.getUser(key)
 
+@app.route('/users/<int:page>')
+@nocache
+@requireAdmin
+def getUsers(page):
+    return UserApi.getUsers(str(page))
 
 @app.route('/user', methods=["POST"])
 @nocache
@@ -75,6 +80,15 @@ def EditUser(key):
     Requires authentication
     """
     return UserApi.editUser(key, request.json)
+
+@app.route('/users/count', methods=["GET"])
+@nocache
+@requireAdmin
+def CountUsers():
+    """
+    Requires admin authentication
+    """
+    return UserApi.countUsers()
 
 
 @app.route('/karma/<string:key>', methods=["GET"])

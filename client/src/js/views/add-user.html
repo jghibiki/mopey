@@ -3,45 +3,49 @@
     <hr>
     <br>
 
-    <form class="pure-form pure-form-aligned">
-        <fieldset>
-            <div class="pure-control-group">
-                <label>First Name:</label>
-                <input data-bind="value: fname" type="text"/><br>
-            </div>
-            <div class="pure-control-group">
-                <label>Last Name:</label>
-                <input data-bind="value: lname" type="text"/><br>
-            </div>
-            <div class="pure-control-group">
-                <label>Username:</label>
-                <input data-bind="value: user"  type="text"/><br>
-            </div>
-            <div class="pure-control-group">
-                <label>Email:</label>
-                <input data-bind="value: email" type="text"/><br>
-            </div>
-            <div class="pure-control-group">
-                <label>Password:</label>
-                <input data-bind="value: password"  type="password"/><br>
-            </div>
-            <div class="pure-control-group">
-                <label>Confirm Password:</label>
-                <input data-bind="value: password2" type="password"/><br>
-            </div>
+    <div data-bind="enter: submit" class="pure-form pure-form-aligned">
+        
+        <div class="pure-control-group">
+            <label>First Name:</label>
+            <input data-bind="value: fname" type="text"/><br>
+        </div>
+        <div class="pure-control-group">
+            <label>Last Name:</label>
+            <input data-bind="value: lname" type="text"/><br>
+        </div>
+        <div class="pure-control-group">
+            <label>Username:</label>
+            <input data-bind="value: user"  type="text"/><br>
+        </div>
+        <div class="pure-control-group">
+            <label>Email:</label>
+            <input data-bind="value: email" type="text"/><br>
+        </div>
+        <div class="pure-control-group">
+            <label>Password:</label>
+            <input data-bind="value: password"  type="password"/><br>
+        </div>
+        <div class="pure-control-group">
+            <label>Confirm Password:</label>
+            <input data-bind="value: password2" type="password"/><br>
+        </div>
+        
+        <div class="pure-controls">
+            <label class="pure-checkbox">
+                <input type="checkbox" data-bind="checked: terms" / > 
+                I agree to the <a href="terms.html" target="_blank">terms and conditions</a> of this site.
+            </label>
+
+            <br>
             
-            <div class="pure-controls">
-                <label class="pure-checkbox">
-                    <input type="checkbox" data-bind="value: terms" / > 
-                    I agree to the <a href="terms.html" target="_blank">terms and conditions</a> of this site.
-                </label>
+            <div data-bind="text: error">
+                Error 
+            </div> 
 
-                <br>
-                <button class="pure-button pure-button-primary">Create User</button>
-            </div>
+            <button data-bind="touchTap: submit " class="pure-button pure-button-primary">Create User</button>
+        </div>
 
-        </fieldset>
-    </form>
+    </div>
     <br>
     <br>
     

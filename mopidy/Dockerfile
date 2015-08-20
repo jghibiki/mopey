@@ -4,19 +4,17 @@ MAINTAINER jghibiki <jghibiki.games@gmail.com>
 
 RUN wget -q -O - https://apt.mopidy.com/mopidy.gpg | apt-key add -
 RUN wget -q -O /etc/apt/sources.list.d/mopidy.list https://apt.mopidy.com/mopidy.list
-RUN apt-get update && apt-get install mopidy  gstreamer0.10-plugins-bad  python-requests python-setuptools python-pafy --assume-yes
+RUN apt-get update && apt-get install gstreamer0.10 gstreamer0.10-plugins-bad gstreamer0.10-plugins-base gstreamer0.10-plugins-good gstreamer0.10-plugins-ugly gstreamer1.0 gstreamer0.10-plugins-bad libopus0 opus-tools python-requests python-setuptools python-pafy mopidy mopidy-youtube --assume-yes
 
-RUN pip install pafy 
-#mopidy-youtube 
+RUN pip install pafy
 
-RUN git clone https://github.com/dz0ny/mopidy-youtube.git
-RUN cd mopidy-youtube && python setup.py install
-RUN cp mopidy-youtube/Mopidy_Youtube.egg-info/ /usr/lib/python2.7/dist-packages/ -rf
-RUN cp mopidy-youtube/mopidy_youtube/ /usr/lib/python2.7/dist-packages/ -rf
+RUN rm -rf /usr/lib/python2.7/dist-packages/pafy
+RUN cp -rf /usr/local/lib/python2.7/site-packages/pafy /usr/lib/python2.7/dist-packages/pafy
+
 
 ADD ./mopidy.conf /root/.config/mopidy/mopidy.conf
 
 RUN /usr/bin/mopidy deps
 
-CMD /usr/bin/mopidy
+CMD /usr/bin/mopidy -v
 

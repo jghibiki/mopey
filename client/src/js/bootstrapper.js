@@ -1,11 +1,20 @@
-define(["ko", "mainWindowViewModel",  "domReady!", "chain"], function(ko, MainWindowVMModule, NavigationServiceModule, chain){
+define(["ko", "mainWindowViewModel", "chain"], function(ko, MainWindowVMModule, chain){
     "use strict";
 
     var MainWindowVM = MainWindowVMModule.get();
+
     var NavigationService = null;
+    var NavigationManager = null
+
     var AuthenticationService = null;
+    var AuthenticationManager = null;
+
     var NativeCommunicationService = null;
+    var NativeCommunicationManager = null;
+
     var ContentService = null;
+    var ContentManager = null;
+
 
     /*
      * Loading Services
@@ -126,6 +135,57 @@ define(["ko", "mainWindowViewModel",  "domReady!", "chain"], function(ko, MainWi
     function StartNativeCommunicationService(context, error, next){
         NativeCommunicationService.start();
         next();
+    }
+
+    /*
+     * Load Managers
+     */
+    function LoadManagers(context, error, next){
+        require(["authenticationManager",
+                "contentManager",
+                "nativeCommunicationManager",
+                "navigationManager"],
+                function(
+                    AuthenticationManagerModule,
+                    ContentManagerModule,
+                    NativeCommunicationManagerModule,
+                    NavigationManagerModule
+                ){
+            chain.get()
+            .cc(LoadAuthenticationManager)
+            .cc(LoadContentManager)
+            .cc(LoadNativeCommunicationManager)
+            .cc(LoadNavigationManager)
+            .end({
+                    "AuthenticationManagerModule": AuthenticationManagerModule,
+                    "ContentManagerModule": ContentManagerModule,
+                    "NativeCommunicationManagerModule": NativeCommunicationManagerModule,
+                    "NavigationManagerModule": NavigationManagerModule
+                },
+                function(conext, next, error){
+                    next();
+            });
+        });
+    }
+
+    function LoadAuthenticationManager(context, error, next){
+        AuthenticationManager = context.AuthenticationManagerModule.get();
+        next(context);
+    }
+
+    function LoadContentManager(context, error, next){
+        ContentManager = context.ContentManagerModule.get();
+        next(context);
+    }
+
+    function LoadNativeCommunicationManager(context, error, next){
+        NativeCommunicationManager = context.NativeCommunicationManager.get();
+        next(context);
+    }
+
+    function LoadNavigationManager(context, error, next){
+        NavigationManager = context.NavigationManager.get();
+        next(context);
     }
 
 

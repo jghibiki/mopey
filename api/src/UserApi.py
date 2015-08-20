@@ -10,12 +10,19 @@ from Models import *
 def editUser(key, json):
     returnedUser = getUserDatabase(key)
 
-    returnedUser.password = json["password"]
-    returnedUser.firstName = json["firstName"]
-    returnedUser.lastName = json["lastName"]
-    returnedUser.email = json["email"]
-    returnedUser.karma = json["karma"]
-    returnedUser.strikes = json["strikes"]
+    if "firstName" in json:
+        returnedUser.firstName = json["firstName"]
+    if "lastName" in json:
+        returnedUser.lastName = json["lastName"]
+    if "email" in json:
+        returnedUser.email = json["email"]
+    if(Admin.select().where(Admin.user == returnedUser).exists()):
+        if "password" in json:
+            returnedUser.password = json["password"]
+        if "karma" in json:
+            returnedUser.karma = json["karma"]
+        if "strikes" in json:
+            returnedUser.strikes = json["strikes"]
 
     saveUser(returnedUser)
 
@@ -57,6 +64,25 @@ def getUser(key):
             "karma" : returnedUser.karma,
             "strikes" : returnedUser.strikes
             })
+
+def getUsers(page):
+    returnedUsers = []
+    for x in User.select().order_by(User.key).paginate(int(page)+1, 10):
+        y = {}
+        y["key"] = x.key
+        y["username"] = x.username
+        y["firstName"] = x.firstName
+        y["lastName"] = x.lastName
+        y["email"] = x.email
+        y["karma"] = x.karma
+        y["strikes"] = x.strikes
+        returnedUsers.append(y)
+
+    return jsonify({"result": returnedUsers})
+
+def countUsers():
+    count = User.select().count()
+    return jsonify({"result" : count})
 
 
 def getUserKarma(key):
@@ -119,7 +145,7 @@ def getUserDatabase(key):
                 returnedUser = None
 
     if(returnedUser == None):
-        raise GeneralApiException("Error User does not exist", status_code=200)
+        raise GeneralApiException("User does not exist", status_code=200)
 
     return returnedUser
 

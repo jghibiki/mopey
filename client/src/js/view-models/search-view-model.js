@@ -38,7 +38,9 @@ define(["ko", "chain", "nativeCommunicationManager"], function(ko, chain, Native
                                 function(response){
                                     next({"response": response})
                                 },
-                                self.query(),
+                                {
+                                    "q":self.query()
+                                },
                                 null);
                         })
                     .cc(function(context,error,next){

@@ -1,3 +1,376 @@
 <div>
-    Accounts
+    <h1>Account</h1>
+    <hr>
+    <br>
+    <br>
+    <!-- ko if: loadingUser -->
+        <div>
+            Loading...
+        </div>
+    <!-- /ko -->
+    
+    <!-- ko ifnot: loadingUser -->
+        <!-- ko ifnot: userError -->
+            <div class="pure-g">
+                <div class="pure-u-2-24">
+                    Username:
+                </div>
+                <div class="pure-u-3-24">
+                    <!-- ko ifnot: edit -->
+                    <span data-bind="text: username"></span>
+                    <!-- /ko -->
+                    
+                    <!-- ko if: edit -->
+                    <input type="text" data-bind="value: username; attr: { value: _username}"/>
+                    <!-- /ko -->
+                </div>
+                <div class="pure-u-19-24">
+                </div>
+            </div>
+
+            <br>
+
+            <div class="pure-g">
+                <div class="pure-u-2-24">
+                    First Name:
+                </div>
+                <div class="pure-u-3-24">
+                    <!-- ko ifnot: edit -->
+                    <span data-bind="text: fname"></span>
+                    <!-- /ko -->
+                    
+                    <!-- ko if: edit -->
+                    <input type="text" data-bind="value: fname; attr: { value: _fname}"/>
+                    <!-- /ko -->
+                </div>
+
+                <div class="pure-u-19-24">
+                </div>
+            </div>
+
+            <br>
+
+            <div class="pure-g">
+                <div class="pure-u-2-24">
+                    Last Name:
+                </div>
+                <div class="pure-u-3-24">
+                    <!-- ko ifnot: edit -->
+                    <span data-bind="text: lname"></span>
+                    <!-- /ko -->
+                    
+                    <!-- ko if: edit -->
+                    <input type="text" data-bind="value: lname; attr: { value: _lname}"/>
+                    <!-- /ko -->
+                </div>
+
+                <div class="pure-u-19-24">
+                </div>
+            </div>
+
+            <br>
+
+            <div class="pure-g">
+                <div class="pure-u-2-24">
+                    Email:
+                </div>
+                <div class="pure-u-3-24">
+                    <!-- ko ifnot: edit -->
+                    <span data-bind="text: email"></span>
+                    <!-- /ko -->
+                    
+                    <!-- ko if: edit -->
+                    <input type="text" data-bind="value: email; attr: { value: _email}"/>
+                    <!-- /ko -->
+                </div>
+
+                <div class="pure-u-19-24">
+                </div>
+            </div>
+
+            <br>
+
+            <div class="pure-g">
+                <div class="pure-u-2-24">
+                    Karma:
+                </div>
+                <div class="pure-u-3-24">
+                    <span data-bind="text: karma"></span>
+                </div>
+
+                <div class="pure-u-19-24">
+                </div>
+            </div>
+
+            <br>
+
+            <div class="pure-g">
+                <div class="pure-u-2-24">
+                    Strikes:
+                </div>
+                <div class="pure-u-3-24">
+                    <span data-bind="text: strikes"></span>
+                </div>
+
+                <div class="pure-u-19-24">
+                </div>
+            </div>
+
+            <br>
+
+            <div class="pure-g">
+                <div class="pure-u-2-24">
+                </div>
+                <div class="pure-u-3-24">
+                    <!-- ko if: edit -->
+                        <button data-bind="touchTap: userSubmit">Update</button>
+                    <!-- /ko -->
+
+                    <!-- ko ifnot: edit -->
+                        <button data-bind="touchTap: userEdit">Edit</button>
+                    <!-- /ko -->
+                </div>
+
+                <div class="pure-u-19-24">
+                </div>
+            </div>
+
+            <div data-bind="text: userUpdateError">
+                Error
+            </div>
+        <!-- /ko -->
+        <!-- ko if: userError -->
+            <div data-bind="text: userError">
+                Error
+            </div>
+        <!-- /ko -->
+
+    <!-- /ko -->
+
+    <br>
+    <br>
+        
+    <!-- ko if: admin -->
+        <h1>Users</h1>
+        <hr>
+        <!-- ko if: loadingUsers -->
+            <div>
+                Loading...
+            </div>
+        <!-- /ko -->
+        <!-- ko ifnot: loadingUsers -->
+            <!-- ko ifnot: mode() === "view" -->
+                <div>
+                    <div data-bind="enter: startSearch">
+                        <input type="text" data-bind="value: query" value="Key, Username, Email"/>
+                        <button data-bind="touchTap: startSearch">Search</button>
+                    </div>
+
+                    <div>
+                        <table class="pure-table">
+                            <thead>
+                                <tr>
+                                    <th>Key</th>
+                                    <th>Username</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Email</th>
+                                    <th>Karma</th>
+                                    <th>Strikes</th>
+                                    <th></th>
+                                <tr>
+                            </thead>
+                            <tbody  data-bind="foreach: results">
+                                <!-- ko if: $index() % 2 === 0 -->
+                                    <tr>
+                                        <td data-bind="text: key"></td>
+                                        <td data-bind="text: username"></td>
+                                        <td data-bind="text: firstName"></td>
+                                        <td data-bind="text: lastName"></td>
+                                        <td data-bind="text: email"></td>
+                                        <td data-bind="text: karma"></td>
+                                        <td data-bind="text: strikes"></td>
+                                        <td><button data-bind="click: $parent.viewItem">View</button></td>
+                                    </tr>
+                                <!-- /ko -->
+
+                                <!-- ko ifnot: $index() % 2 === 0 -->
+                                    <tr class="pure-table-odd">
+                                        <td data-bind="text: key"></td>
+                                        <td data-bind="text: username"></td>
+                                        <td data-bind="text: firstName"></td>
+                                        <td data-bind="text: lastName"></td>
+                                        <td data-bind="text: email"></td>
+                                        <td data-bind="text: karma"></td>
+                                        <td data-bind="text: strikes"></td>
+                                        <td><button data-bind="click: $parent.viewItem">View</button></td>
+                                    </tr>
+                                <!-- /ko -->
+
+                            </tbody>
+                        </table>
+                        <div>
+                            <!-- ko if: first -->
+                                <button>&#060;&#060;</button>
+                            <!-- /ko -->
+                            
+                            <!-- ko if: backward -->
+                                <button>&#060;</button>&nbsp;
+                            <!-- /ko -->
+
+                            <!-- ko if: forward -->
+                                <button>&#062;</button>
+                            <!-- /ko -->
+
+                            <!-- ko if: last -->
+                                <button>&#062;&#062;</button>
+                            <!-- /ko -->
+                        </div>
+                    </div>
+                </div>
+            <!-- /ko -->
+            <!-- ko if: mode() === "view" -->
+                <div>
+                    <button data-bind="touchTap: toList">List View</button>
+                    
+                    <br>
+                    <br>
+
+                    <div class="pure-g">
+                        <div class="pure-u-2-24">
+                            Username:
+                        </div>
+                        <div class="pure-u-3-24">
+                            <!-- ko ifnot: view_edit -->
+                            <span data-bind="text: view_username"></span>
+                            <!-- /ko -->
+                            
+                            <!-- ko if: view_edit -->
+                            <input type="text" data-bind="value: view_username; attr: { value: _view_username}"/>
+                            <!-- /ko -->
+                        </div>
+                        <div class="pure-u-19-24">
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <div class="pure-g">
+                        <div class="pure-u-2-24">
+                            First Name:
+                        </div>
+                        <div class="pure-u-3-24">
+                            <!-- ko ifnot: view_edit -->
+                            <span data-bind="text: view_fname"></span>
+                            <!-- /ko -->
+                            
+                            <!-- ko if: view_edit -->
+                            <input type="text" data-bind="value: view_fname; attr: { value: _view_fname}"/>
+                            <!-- /ko -->
+                        </div>
+
+                        <div class="pure-u-19-24">
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <div class="pure-g">
+                        <div class="pure-u-2-24">
+                            Last Name:
+                        </div>
+                        <div class="pure-u-3-24">
+                            <!-- ko ifnot: view_edit -->
+                            <span data-bind="text: view_lname"></span>
+                            <!-- /ko -->
+                            
+                            <!-- ko if: view_edit -->
+                            <input type="text" data-bind="value: view_lname; attr: { value: _view_lname}"/>
+                            <!-- /ko -->
+                        </div>
+
+                        <div class="pure-u-19-24">
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <div class="pure-g">
+                        <div class="pure-u-2-24">
+                            Email:
+                        </div>
+                        <div class="pure-u-3-24">
+                            <!-- ko ifnot: view_edit -->
+                            <span data-bind="text: view_email"></span>
+                            <!-- /ko -->
+                            
+                            <!-- ko if: view_edit -->
+                            <input type="text" data-bind="value: view_email; attr: { value: _view_email}"/>
+                            <!-- /ko -->
+                        </div>
+
+                        <div class="pure-u-19-24">
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <div class="pure-g">
+                        <div class="pure-u-2-24">
+                            Karma:
+                        </div>
+                        <div class="pure-u-3-24">
+                            <!-- ko ifnot: view_edit -->
+                                <span data-bind="text: view_karma"></span>
+                            <!-- /ko -->
+
+                            <!-- ko if: view_edit -->
+                                <input type="text" data-bind="value: view_karma; attr: { value: _view_karma}"/>
+                            <!-- /ko -->
+                        </div>
+
+                        <div class="pure-u-19-24">
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <div class="pure-g">
+                        <div class="pure-u-2-24">
+                            Strikes:
+                        </div>
+                        <div class="pure-u-3-24">
+                            <!-- ko ifnot: view_edit -->
+                                <span data-bind="text: view_strikes"></span>
+                            <!-- /ko -->
+                            
+                            <!-- ko if: view_edit -->
+                                <input type="text" data-bind="value: view_strikes; attr: {value: _view_strikes}"/>
+                            <!-- /ko -->
+                        </div>
+
+                        <div class="pure-u-19-24">
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <div class="pure-g">
+                        <div class="pure-u-2-24">
+                        </div>
+                        <div class="pure-u-3-24">
+                            <button>Edit</button>
+                        </div>
+
+                        <div class="pure-u-19-24">
+                        </div>
+                    </div>
+
+                </div>
+            <!-- /ko -->
+            <div data-bind="text: usersError">
+                Error
+            </div>
+        <!-- /ko -->
+    <!-- /ko -->
 </div>
