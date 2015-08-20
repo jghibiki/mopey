@@ -1,4 +1,4 @@
-define(["ko", "navigationService"], function(ko, NavigationServiceModule){
+define(["ko", "navigationService", "authenticationManager"], function(ko, NavigationServiceModule, AuthenticationManagerModule){
 
     function NavigationManager(){
         var self = this;
@@ -8,6 +8,7 @@ define(["ko", "navigationService"], function(ko, NavigationServiceModule){
             urlCache: null,
             
             navigationService: NavigationServiceModule.get(),
+            authenticationManager: AuthenticationManagerModule.get(),
             
             checkIfDisposed: function(){
                 if(!self._.disposed){
@@ -26,6 +27,13 @@ define(["ko", "navigationService"], function(ko, NavigationServiceModule){
                     self.currentRoute(self._.navigationService.routes[i]);
                     break;
                 }
+            }
+        });
+
+        self.loggedInSubscription = self._.authenticationManager.loggedIn.subscribe(function(loggedIn){
+            if(!loggedIn){
+                self._.navigationService.currentRoute("login");
+                location = "/#/login";
             }
         });
 
