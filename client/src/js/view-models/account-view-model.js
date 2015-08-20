@@ -52,6 +52,7 @@ define(["ko", "nativeCommunicationManager", "authenticationManager", "chain"], f
         self.results = ko.observable();
         self.selected = ko.observable();
         self.usersError = ko.observable();
+        self.viewUpdateError = ko.observable();
 
         self.view_edit = ko.observable(false);
 
@@ -93,10 +94,15 @@ define(["ko", "nativeCommunicationManager", "authenticationManager", "chain"], f
             return self.page() !== Math.floor(self.userCount() /10);
         });
 
+        self.pageSubscription = null;
+
 
         self.modeSubscription = self.mode.subscribe(function(newMode){
             if(self.admin()){
                 if(newMode === "list"){
+                    if(self.view_edit()){
+                        self.viewEditCancel(); 
+                    }
                     self.list();
                 }
                 else if(newMode == "search"){
@@ -107,6 +113,21 @@ define(["ko", "nativeCommunicationManager", "authenticationManager", "chain"], f
         });
 
         
+        self.move_forward = function(){
+            self.page(self.page() + 1);
+        }
+
+        self.move_backward = function(){
+            self.page(self.page() - 1);
+        }
+
+        self.move_first = function(){
+            self.page(0);
+        }
+
+        self.move_last = function(){
+            self.page(Math.floor(self.userCount()/10));
+        }
 
 
         self.shown = function(){
@@ -125,6 +146,12 @@ define(["ko", "nativeCommunicationManager", "authenticationManager", "chain"], f
 
                 if(self.admin()){
                     self.list();
+                    self.mode("list");
+                    self.page(0);
+
+                    self.pageSubscription = self.page.subscribe(function(){
+                        self.list()
+                    });
                 }
 
             }
@@ -339,6 +366,15 @@ define(["ko", "nativeCommunicationManager", "authenticationManager", "chain"], f
             self.edit(true);
         }
 
+        self.userEditCancel = function(){
+            self.edit(false);
+            self.userUpdateError(null);
+            self.username(self._username());
+            self.fname(self._fname());
+            self.lname(self._lname());
+            self.email(self._email());
+        }
+
         self.userSubmit = function(){
             self.userUpdateError(null);
 
@@ -357,6 +393,7 @@ define(["ko", "nativeCommunicationManager", "authenticationManager", "chain"], f
                 || fname === ""){
                 
                 self.userUpdateError("Please enter a first name.");
+                return;
             }
 
             var lname = self.lname();
@@ -365,14 +402,68 @@ define(["ko", "nativeCommunicationManager", "authenticationManager", "chain"], f
                 || lname === ""){
                 
                 self.userUpdateError("Please enter a last name.");
+                return;
             }
 
-            var email = self.email ();
-            if(lname === undefined
+            var email = self.email();
+            if(email === undefined
                 || email === null
                 || email === ""){
                 
                 self.userUpdateError("Please enter an email.");
+                return;
+            }
+
+            var updatePass = false;
+            var password = self.password();
+            var password2 = self.password2();
+
+            if(password !== undefined
+                && password !== null
+                && password !== ""){
+                    
+                    updatePass = true;
+            }
+
+            if(updatePass 
+                    && (password2 === undefined
+                    || password2 === null
+                    || password2 === "")){
+
+                self.userUpdateError("Please confirm the password.");
+                return;
+                
+            }
+
+            if(updatePass 
+                    && password !== password2){
+
+                self.userUpdateError("Passwords do not match.");
+                return;
+
+            }
+
+            self.password(null);
+            self.password2(null);
+
+            var payload = null;
+            if (updatePass){
+               payload = {
+                    "username": username,
+                    "firstName" : fname,
+                    "lastName": lname,
+                    "email" : email,
+                    "password" : password
+                };
+            }
+            else{
+               payload = {
+                    "username": username,
+                    "firstName" : fname,
+                    "lastName": lname,
+                    "email" : email
+                };
+                
             }
 
 
@@ -389,14 +480,179 @@ define(["ko", "nativeCommunicationManager", "authenticationManager", "chain"], f
                     }
                 },
                 { "key": self.key },
-                {
+                payload);
+
+        }
+
+        self.viewEdit = function(){
+            self.view_edit(true);
+        }
+
+
+        self.viewSubmit = function(){
+            self.viewUpdateError(null);
+
+            var username = self.view_username();
+            if(username === undefined
+                || username === null
+                || username === ""){
+                
+                self.viewUpdateError("Please enter a username.");
+                return;
+            }
+
+            var fname = self.view_fname();
+            if(fname === undefined
+                || fname === null
+                || fname === ""){
+                
+                self.viewUpdateError("Please enter a first name.");
+                return;
+            }
+
+            var lname = self.view_lname();
+            if(lname === undefined
+                || lname === null
+                || lname === ""){
+                
+                self.viewUpdateError("Please enter a last name.");
+                return;
+            }
+
+            var email = self.view_email();
+            if(email === undefined
+                || email === null
+                || email === ""){
+                
+                self.viewUpdateError("Please enter an email.");
+                return;
+            }
+
+            var strikes = self.view_strikes();
+            if(strikes === undefined
+                || strikes === null
+                || strikes === ""){
+                
+                self.viewUpdateError("Please enter a strikes value.");
+                return;
+            }
+            try{
+                strikes = parseInt(strikes);
+            }
+            catch(e){
+                self.viewUpdateError("Please enter a valid integer for strikes.");
+                return;
+            }
+            if(strikes < 0){
+                self.viewUpdateError("Please enter a strikes value greater than 0.");
+            }
+
+            var karma = self.view_karma();
+            if(karma === undefined
+                || karma === null
+                || karma === ""){
+                
+                self.viewUpdateErrorr("Please enter a karma value.");
+                return;
+            }
+            try{
+                karma = parseInt(karma);
+            }
+            catch(e){
+                self.viewUpdateError("Please enter a valid integer for karma.");
+                return;
+            }
+            if(karma > 100000){
+                self.viewUpdateError("Please enter a karma value less than the maximum (100000).");
+                return;
+            }
+
+
+            var updatePass = false;
+            var password = self.view_password();
+            var password2 = self.view_password2();
+
+            if(password !== undefined
+                && password !== null
+                && password !== ""){
+                    
+                    updatePass = true;
+            }
+
+            if(updatePass 
+                    && (password2 === undefined
+                    || password2 === null
+                    || password2 === "")){
+
+                self.viewUpdateError("Please confirm the password.");
+                return;
+                
+            }
+
+            if(updatePass 
+                    && password !== password2){
+
+                self.viewUpdateError("Passwords do not match.");
+                return;
+
+            }
+
+            self.view_password(null);
+            self.view_password2(null);
+
+            var payload = null;
+            if (updatePass){
+               payload = {
                     "username": username,
                     "firstName" : fname,
                     "lastName": lname,
+                    "email" : email,
+                    "strikes": strikes,
+                    "karma": karma,
+                    "password" : password
+                };
+            }
+            else{
+               payload = {
+                    "username": username,
+                    "firstName" : fname,
+                    "lastName": lname,
+                    "strikes": strikes,
+                    "karma": karma,
                     "email" : email
-                });
+                };
+                
+            }
+
+
+            self._.nativeCommunicationManager.sendNativeRequest(
+                self._.nativeCommunicationManager.endpoints.EDIT_USER,
+                function(response){
+                    if("Error" in response){
+                        self.viewUpdateError("Error: " + response.Error);
+                    }
+                    else{
+                        self.view_edit(false);
+                    }
+                },
+                { "key": self.selected()},
+                payload);
 
         }
+
+        self.viewEditCancel = function(){
+            self.view_edit(false);
+            self.viewUpdateError(null);
+            self.view_username(self._view_username());
+            self.view_fname(self._view_fname());
+            self.view_lname(self._view_fname());
+            self.view_email(self._view_email());
+            self.view_karma(self._view_karma());
+            self.view_strikes(self._view_strikes());
+            self.view_password(null);
+            self.view_password2(null);
+        }
+
 
     }
 

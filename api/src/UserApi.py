@@ -22,11 +22,13 @@ def editUser(key, json, headers):
         if "email" in json:
             returnedUser.email = json["email"]
         if "password" in json:
-                returnedUser.password = json["password"]
+                try:
+                    md5 = hashlib.md5(json["password"])
+                    returnedUser.password = str(md5.hexdigest())
+                except:
+                    return jsonify({"Error": "Failed to hash password."})
 
         if(isAdmin):
-            if "password" in json:
-                returnedUser.password = json["password"]
             if "karma" in json:
                 returnedUser.karma = json["karma"]
             if "strikes" in json:
@@ -51,7 +53,7 @@ def createUser(json):
     try:
         returnedUser = User.create(
                 username = json["username"],
-                password = md5.hexdigest(),
+                password = str(md5.hexdigest()),
                 firstName = json["firstName"],
                 lastName = json["lastName"],
                 email = json["email"],

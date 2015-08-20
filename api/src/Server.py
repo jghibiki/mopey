@@ -20,7 +20,6 @@ from SongApi import *
 ## Server SetUp ##
 ##################
 
-db = peewee.PostgresqlDatabase('postgres', host='db', user='postgres')
 app = Flask(__name__)
 app.wsgi_app = ProxyFix(app.wsgi_app)
 CORS(app, headers=['Content-Type, Authorization'])
@@ -411,6 +410,7 @@ def BuildDb():
     """
     SetUp.main()
     return "Database rebuilt"
+
 
 
 if __name__ == "__main__":

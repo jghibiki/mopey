@@ -116,10 +116,45 @@
                 </div>
             </div>
 
+            <!-- ko if: edit -->
+
             <br>
 
             <div class="pure-g">
                 <div class="pure-u-2-24">
+                    Password:
+                </div>
+                <div class="pure-u-3-24">
+                    <input type="password" data-bind="value: password"/>
+                </div>
+
+                <div class="pure-u-19-24">
+                </div>
+            </div>
+
+
+            <div class="pure-g">
+                <div class="pure-u-2-24">
+                   Confirm:
+                </div>
+                <div class="pure-u-3-24">
+                    <input type="password" data-bind="value: password2"/>
+                </div>
+
+                <div class="pure-u-19-24">
+                </div>
+            </div>
+
+
+            <!-- /ko -->
+
+            <br>
+
+            <div class="pure-g">
+                <div class="pure-u-2-24">
+                    <!-- ko if: edit -->
+                        <button data-bind="touchTap: userEditCancel">Cancel</button>
+                    <!-- /ko -->
                 </div>
                 <div class="pure-u-3-24">
                     <!-- ko if: edit -->
@@ -211,19 +246,19 @@
                         </table>
                         <div>
                             <!-- ko if: first -->
-                                <button>&#060;&#060;</button>
+                                <button data-bind="touchTap: move_first">&#060;&#060;</button>
                             <!-- /ko -->
                             
                             <!-- ko if: backward -->
-                                <button>&#060;</button>&nbsp;
+                                <button data-bind="touchTap: move_backward">&#060;</button>&nbsp;
                             <!-- /ko -->
 
                             <!-- ko if: forward -->
-                                <button>&#062;</button>
+                                <button data-bind="touchTap: move_forward">&#062;</button>
                             <!-- /ko -->
 
                             <!-- ko if: last -->
-                                <button>&#062;&#062;</button>
+                                <button data-bind="touchTap: move_last">&#062;&#062;</button>
                             <!-- /ko -->
                         </div>
                     </div>
@@ -353,19 +388,63 @@
                         </div>
                     </div>
 
+                    <!-- ko if: view_edit -->
+
                     <br>
 
                     <div class="pure-g">
                         <div class="pure-u-2-24">
+                            Password:
                         </div>
                         <div class="pure-u-3-24">
-                            <button>Edit</button>
+                            <input type="password" data-bind="value: view_password"/>
                         </div>
 
                         <div class="pure-u-19-24">
                         </div>
                     </div>
 
+
+                    <div class="pure-g">
+                        <div class="pure-u-2-24">
+                           Confirm:
+                        </div>
+                        <div class="pure-u-3-24">
+                            <input type="password" data-bind="value: view_password2"/>
+                        </div>
+
+                        <div class="pure-u-19-24">
+                        </div>
+                    </div>
+
+
+                    <!-- /ko -->
+
+                    <br>
+
+                    <div class="pure-g">
+                        <div class="pure-u-2-24">
+                            <!-- ko if: view_edit -->
+                                <button data-bind="touchTap: viewEditCancel">Cancel</button>
+                            <!-- /ko-->
+                        </div>
+                        <div class="pure-u-3-24">
+                            <!-- ko ifnot: view_edit -->
+                                <button data-bind="touchTap: viewEdit">Edit</button>
+                            <!-- /ko -->
+
+                            <!-- ko if: view_edit -->
+                                <button data-bind="touchTap: viewSubmit">Update</button>
+                            <!-- /ko -->
+                        </div>
+
+                        <div class="pure-u-19-24">
+                        </div>
+                    </div>
+
+                </div>
+                <div data-bind="text: viewUpdateError">
+                    Error
                 </div>
             <!-- /ko -->
             <div data-bind="text: usersError">
