@@ -3,72 +3,117 @@ import requests
 import json
 import sys
 
-baseUrl = "http://api:5000"
-header = {'Content-type': 'application/json', 'Accept': 'application/json'}
-system_dj = ""
 
-def main():
-    # wait for mopidy to start or else their is a connection error
-    sleep(10)
-    printl("SYSTEM_DJ logging in...")
-    system_dj = login()
-    if system_dj["access_token"]:
-        printl("SYSTEM_DJ has logged in")
+
+class Service:
+    def __init__(self):
+        self.baseUrl = "http://api:5000"
+        self.header = {'Content-type': 'application/json', 'Accept': 'application/json'}
+        self.auth = ""
+        self.token = ""
+        self.response = None
+
+    def main(self):
+
+        # wait for mopidy to start or else their is a connection error
+        sleep(10)
+
         while True:
-            if systemAuth(system_dj)["result"]:
-                song, system_dj = checkIfStillLoggedIn(system_dj, requestApi, system_dj, "get", "/queue", "")
-                if song:
-                    playback, system_dj = checkIfStillLoggedIn(system_dj, requestApi, system_dj, "get", "/playback/state", "")
-                    if playback["result"] == "stopped":
-                        payload = {'song': song[0]["youtubeKey"]}
-                        req, system_dj = checkIfStillLoggedIn(system_dj, requestApi, system_dj, "post2", "/playback/add", payload)
-                        songLength = req["result"][0]["track"]["length"]
-                        junk, system_dj = checkIfStillLoggedIn(system_dj, requestApi, system_dj, "get", "/playback/play", "")
-                        sleep(songLength/1000.0)
-                        junk, system_dj = checkIfStillLoggedIn(system_dj, requestApi, system_dj, "delete", "/queue/" +  str(song[0]["key"]), "")
+            # if nothing is playing...
+            self.pre(self.get, "/playback/state")
+            if "result" in self.response \
+                    and  self.response["result"] == "stopped":
+
+                # see if there is anything in the queue...
+                self.pre(self.get, "/queue/count")
+                if self.response["result"]:
+
+                    # if there is get the first entry...
+                    self.pre(self.get, "/queue/0")
+                    song = self.response
+
+                    # and add it to the tracklist...
+                    payload = {'song': song[0]["youtubeKey"]}
+                    self.pre(self.post, "/playback/add", payload=payload)
+
+                    #and play it...
+                    self.pre(self.get, "/playback/play")
+                    junk = self.response
+
+
+                    while True:
+                        # check if it is done...
+                        self.pre(self.get, "/playback/state")
+                        if self.response["result"] == "stopped":
+
+                            # if it is remove it from the queue...
+                            junk = self.pre(self.delete, "/queue/" +  str(song[0]["key"]))
+                            break
+
+                else:
+                    sleep(2)
             else:
-                printl("SYSTEM_DJ's token expired, renewing...")
-                system_dj = login()
-            sleep(1)
-    print "SYSTEM_DJ could not log in. Exiting."
+                sleep(2)
 
-def login():
-    credentials = {"username":"SYSTEM_DJ", "password": "121"}
-    system_djCredentials = requestApi("", "post1", "/authenticate", credentials)
-    return system_djCredentials
+        print "There was an error. Exiting."
 
-def authHeader(token):
-    return header.update({'Authorization': token})
 
-def systemAuth(dj):
-    token = {"token": dj["access_token"]}
-    system_djToken = requestApi("", "post1", "/authenticate/verify/admin", token)
-    return system_djToken
 
-def requestApi(dj, call, endpoint, payload):
-    if call == "get":
-        req = requests.get(baseUrl + endpoint, headers=header, auth=authHeader(dj["access_token"]))
-        return req.json()
-    elif call == "post1":
-        req = requests.post(baseUrl + endpoint, data=json.dumps(payload), headers=header)
-        return req.json()
-    elif call == "post2":
-        req = requests.post(baseUrl + endpoint, data=json.dumps(payload), headers=header, auth=authHeader(dj["access_token"]))
-        return req.json()
-    elif call == "delete":
-        req = requests.delete(baseUrl + endpoint, headers=header, auth=authHeader(dj["access_token"]))
-        return req.json()
 
-def checkIfStillLoggedIn(dj, callback, *args):
-    if systemAuth(dj)["result"]:
-        return callback(*args), dj
-    else:
-        dj = login()
-        checkIfStillLoggedIn(dj, callback, *args)
+    def login(self):
+        self.printl("SYSTEM_DJ logging in...")
 
-def printl(msg):
-    print msg
-    sys.stdout.flush()
+        credentials = {"username":"SYSTEM_DJ", "password": "121"}
+
+        req = requests.post(self.baseUrl + "/authenticate", data=json.dumps(credentials), headers=self.header)
+
+        self.printl(req.json())
+        if "access_token" in req.json():
+            self.token = req.json()["access_token"]
+            self.auth = self.authHeader(self.token)
+            self.printl("SYSTEM_DJ has logged in")
+
+        else:
+            self.printl("SYSTEM_DJ failed to login. Retrying...")
+            sleep(5)
+            self.login()
+
+
+
+    def authHeader(self,token):
+        return self.header.update({'Authorization': token})
+
+    def verifyToken(self):
+        token = {"token": self.token}
+        req = requests.post(self.baseUrl + "/authenticate/verify/admin", data=json.dumps(token), headers=self.header)
+        if "result" in req.json():
+            return req.json()["result"]
+        else:
+            return False
+
+    def  get(self, endpoint):
+        req = requests.get(self.baseUrl + endpoint, headers=self.header, auth=self.auth)
+        self.response = req.json()
+
+    def post(self, endpoint, payload=""):
+        req = requests.post(self.baseUrl + endpoint, data=json.dumps(payload), headers=self.header, auth=self.auth)
+        self.response = req.json()
+
+    def delete(self, endpoint):
+        req = requests.delete(self.baseUrl + endpoint, headers=self.header, auth=self.auth)
+        self.response = req.json()
+
+
+    def pre(self, callback, *args, **kwargs):
+        if self.verifyToken():
+            return callback(*args, **kwargs)
+        else:
+            self.login()
+            self.pre(callback, *args)
+
+    def printl(self, msg):
+        print msg
+        sys.stdout.flush()
 
 if __name__ == "__main__":
-    main()
+    Service().main()
