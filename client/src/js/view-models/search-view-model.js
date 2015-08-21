@@ -45,7 +45,7 @@ define(["ko", "chain", "nativeCommunicationManager"], function(ko, chain, Native
                         })
                     .cc(function(context,error,next){
                         if("Error" in context.response){
-                            self.errorMessage(context.response.Error);
+                            self.errorMessage("Error: " + context.response.Error);
                         }
                         else{
                             self.searchResults(context.response);
@@ -60,6 +60,7 @@ define(["ko", "chain", "nativeCommunicationManager"], function(ko, chain, Native
         self.hidden = function(){
             if(self._.shown){
                 self._.shown = false;
+                self.searchResults(null);
             }
         };
 

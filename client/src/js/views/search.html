@@ -1,5 +1,6 @@
 <div>
     <h1>Search</h1>
+    <hr>
 
     <div data-bind="text: errorMessage">
     </div>
@@ -8,20 +9,35 @@
         Searching...
     </div>
 
-    <ul class="search-results-list" data-bind="foreach: searchResults" >
-        <li>
-            <span data-bind="text: title"></span>
-            <ul class="search-results-list">
-                <li>
-                    Uploader: <span data-bind="text: uploader"></span>
-                </li>
-                <li>
-                    Description: <span data-bind="text: description"></span>
-                </li>
-                <li>
-                    <input type="button" value="Request" data-bind="click: $parent.requestSong"/>
-                </li>
-            </ul>
-        </li>
-    </ul>
+    <!-- ko ifnot: searching -->
+    <table class="pure-table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Uploader</th>
+                <th>Description</th>
+                <th></th>
+            <tr>
+        </thead>
+        <tbody  data-bind="foreach: searchResults">
+            <!-- ko if: $index() % 2 === 0 -->
+                <tr>
+                    <td data-bind="text: title"></td>
+                    <td data-bind="text: uploader"></td>
+                    <td data-bind="text: description"></td>
+                    <td><button data-bind="click: $parent.requestSong">Request</button></td>
+                </tr>
+            <!-- /ko -->
+
+            <!-- ko ifnot: $index() % 2 === 0 -->
+                <tr class="pure-table-odd">
+                    <td data-bind="text: title"></td>
+                    <td data-bind="text: uploader"></td>
+                    <td data-bind="text: description"></td>
+                    <td><button data-bind="click: $parent.requestSong">Request</button></td>
+                </tr>
+            <!-- /ko -->
+        </tbody>
+    </table>
+    <!-- /ko -->
 </div>

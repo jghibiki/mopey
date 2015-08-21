@@ -40,3 +40,7 @@ def getRegex(page):
         returnedRegexs.append(y)
 
     return jsonify({"result":returnedRegexs})
+
+def countRegexes():
+    count = Regex.select().count()
+    return jsonify({"result": count})

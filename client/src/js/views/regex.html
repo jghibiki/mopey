@@ -1,23 +1,89 @@
 <div>
-    <h1>Regex</h1>
-
-    <br>
-    <br>
-    
-    <h2>Add a Regex:</h2>
+    <h1>Add Regex</h1>
     <hr>
-    <input type="text" />
-    <button>Add</button>
+
+    <div>
+        <!-- ko ifnot: loadingNewRegex -->
+            <div data-bind="enter: addRegex">
+                <input type="text" data-bind="value: pattern"/>
+                <button data-bind="touchTap: addRegex">Add</button>
+            </div>
+
+            <br>
+            <br>
+            <a href="http://pythex.org/" target="_blank">Regex Help</a>
+        <!-- /ko -->
+
+        <!-- ko if: loadingNewRegex -->
+            Loading...   
+        <!-- /ko -->
+    </div>
+    <div data-bind="text: newRegexError">
+        Error
+    </div>
+
     <br>
     <br>
 
-    <h2>Regexes:</h2>
+    <h2>View Regexes</h2>
     <hr>
     <div>
-        List of regexes
+        <!-- ko ifnot: loadingRegexes -->
+            <div>
+                <div>
+                    <table class="pure-table">
+                        <thead>
+                            <tr>
+                                <th>Key</th>
+                                <th>Pattern</th>
+                                <th></th>
+                            <tr>
+                        </thead>
+                        <tbody  data-bind="foreach: regexes">
+                            <!-- ko if: $index() % 2 === 0 -->
+                                <tr>
+                                    <td data-bind="text: key"></td>
+                                    <td data-bind="text: pattern"></td>
+                                    <td><button data-bind="click: $parent.deleteRegex">Delete</button></td>
+                                </tr>
+                            <!-- /ko -->
+
+                            <!-- ko ifnot: $index() % 2 === 0 -->
+                                <tr class="pure-table-odd">
+                                    <td data-bind="text: key"></td>
+                                    <td data-bind="text: pattern"></td>
+                                    <td><button data-bind="click: $parent.deleteRegex">Delete</button></td>
+                                </tr>
+                            <!-- /ko -->
+                        </tbody>
+                    </table>
+                </div>
+                <!-- ko if: first -->
+                    <button data-bind="touchTap: move_first">&#060;&#060;</button>
+                <!-- /ko -->
+                
+                <!-- ko if: backward -->
+                    <button data-bind="touchTap: move_backward">&#060;</button>&nbsp;
+                <!-- /ko -->
+
+                <!-- ko if: forward -->
+                    <button data-bind="touchTap: move_forward">&#062;</button>
+                <!-- /ko -->
+
+                <!-- ko if: last -->
+                    <button data-bind="touchTap: move_last">&#062;&#062;</button>
+                <!-- /ko -->
+            </div>
+        <!-- /ko-->
+
+        <!-- ko if: loadingRegexes -->
+            <div>
+                Loading...
+            </div>
+        <!-- /ko -->
+    
+        <div data-bind="text: regexesError">
+            Error 
+        </div>
     </div>
-    <button>&#060;&#060;</button>
-    <button>&#060;</button>&nbsp;
-    <button>&#062;</button>
-    <button>&#062;&#062;</button>
 </div>

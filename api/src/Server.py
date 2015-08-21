@@ -250,6 +250,15 @@ def RemoveRegex(key):
     """
     return removeRegex(key)
 
+@app.route('/regex/count', methods=["GET"])
+@nocache
+@requireAdmin
+def CountRegexes():
+    """
+    Require admin authentication
+    """
+    return countRegexes()
+
 ###############
 ## Api Calls ##
 ###############
