@@ -14,7 +14,7 @@ def requestSong(json, headers):
 
     result = SearchApi.searchByKey(song)
 
-    returnedRequest = Request.create(youtubeKey=key,
+    returnedRequest = Request.create(youtubeKey=song,
                    title = result["title"],
                    uploader = result["uploader"],
                    description = result["description"],

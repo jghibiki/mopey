@@ -19,40 +19,50 @@ class Service:
         sleep(10)
 
         while True:
-            # if nothing is playing...
             self.pre(self.get, "/playback/state")
             if "result" in self.response \
                     and  self.response["result"] == "stopped":
+                self.printl("Nothing is playing...")
 
-                # see if there is anything in the queue...
                 self.pre(self.get, "/queue/count")
                 if self.response["result"]:
+                    self.printl("There are " + str(self.response["result"]) + " songs in the queue.")
 
-                    # if there is get the first entry...
+                    self.printl("Getting queue...")
                     self.pre(self.get, "/queue/0")
-                    song = self.response
+                    song = self.response["result"][0]
 
-                    # and add it to the tracklist...
-                    payload = {'song': song[0]["youtubeKey"]}
+                    payload = {'song': song["youtubeKey"]}
                     self.pre(self.post, "/playback/add", payload=payload)
+                    self.printl("Queueing song...")
 
-                    #and play it...
                     self.pre(self.get, "/playback/play")
                     junk = self.response
+                    self.printl("Playing song...")
 
 
                     while True:
                         # check if it is done...
                         self.pre(self.get, "/playback/state")
                         if self.response["result"] == "stopped":
+                            self.printl("Song ended. Removing from queue if it is still there.")
 
-                            # if it is remove it from the queue...
-                            junk = self.pre(self.delete, "/queue/" +  str(song[0]["key"]))
+                            self.printl("Getting queue...")
+                            self.pre(self.get, "/queue/0")
+                            song = self.response["result"][0]
+
+                            if(junk == song["key"]):
+                                junk = self.pre(self.delete, "/queue/" +  str(song[0]["key"]))
                             break
+                        else:
+                            self.printl("Waiting for song to end...")
+                            sleep(5)
 
                 else:
+                    self.printl("There are no songs in the queue.")
                     sleep(2)
             else:
+                self.printl("Something is playing...")
                 sleep(2)
 
         print "There was an error. Exiting."

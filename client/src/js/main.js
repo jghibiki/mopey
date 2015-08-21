@@ -345,7 +345,7 @@ requirejs.config({
             /* Requests */
             "GET_REQUESTS":{
                 verb: "GET",
-                uri: "/queue"
+                uri: "/queue/{page}"
             },
             "REMOVE_REQUEST": {
                 verb: "DELETE",
@@ -354,7 +354,11 @@ requirejs.config({
             "CREATE_REQUEST": {
                 verb: "POST",
                 uri: "/queue"
-            }
+            },
+            "COUNT_REQUESTS": {
+                verb: "GET",
+                uri: "/queue/count"
+            }   
         }
     }
 });
