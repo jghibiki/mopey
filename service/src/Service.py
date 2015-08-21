@@ -5,50 +5,63 @@ import sys
 
 baseUrl = "http://api:5000"
 header = {'Content-type': 'application/json', 'Accept': 'application/json'}
-djpon3 = ""
+system_dj = ""
 
 def main():
     # wait for mopidy to start or else their is a connection error
     sleep(10)
-    print "DJPon3 logging in and getting the turntable ready for action..."
-    sys.stdout.flush()
-    djpon3 = login()
-    if djpon3["access_token"]:
-        print "DJPon3 is logged in and the turntable is ready to play"
-        sys.stdout.flush()
+    printl("SYSTEM_DJ logging in...")
+    system_dj = login()
+    if system_dj["access_token"]:
+        printl("SYSTEM_DJ has logged in")
         while True:
-            djpon3Token = {"token": djpon3["access_token"]}
-            djpon3Verify = requests.post(baseUrl + "/authenticate/verify/admin", data=json.dumps(djpon3Token), headers=header)
-            djpon3Verify = djpon3Verify.json()
-            if djpon3Verify["result"]:
-                r = requests.get(baseUrl + "/queue")
-                song = r.json()
+            if systemAuth(system_dj)["result"]:
+                song = requestApi(system_dj, "get", "/queue", "")
                 if song:
-                    playback = requests.get(baseUrl + "/playback/state")
-                    playback = playback.json()
+                    playback = requestApi(system_dj, "get", "/playback/state", "")
                     if playback["result"] == "stopped":
                         payload = {'song': song[0]["youtubeKey"]}
-                        authHead = authHeader(djpon3["access_token"])
-                        req = requests.post(baseUrl + "/playback/add", data=json.dumps(payload), headers=header, auth=authHead)
-                        req = req.json()
+                        req = requestApi(system_dj, "post2", "/playback/add", payload)
                         songLength = req["result"][0]["track"]["length"]
-                        requests.get(baseUrl + "/playback/play", headers=header, auth=authHead)
+                        requestApi(system_dj, "get", "/playback/play", "")
                         sleep(songLength/1000.0)
-                        requests.delete(baseUrl + "/queue/" + str(song[0]["key"]), headers=header, auth=authHead)
+                        requestApi(system_dj, "delete", "/queue/" +  str(song[0]["key"]), "")
             else:
-                print "DJPon3's turntable broke down. fixing..."
-                sys.stdout.flush()
-                djpon3 = login()
+                printl("SYSTEM_DJ's token expired, renewing...")
+                system_dj = login()
             sleep(1)
-    print "DJPon3 could not log in and is having technical difficulties with getting the turntable setup"
+    print "SYSTEM_DJ could not log in. Exiting."
 
 def login():
-    djpon3Credentials = {"username":"DJPon3", "password": "121"}
-    djpon3 = requests.post(baseUrl + "/authenticate", data=json.dumps(djpon3Credentials), headers=header)
-    return djpon3.json()
+    credentials = {"username":"SYSTEM_DJ", "password": "121"}
+    system_djCredentials = requestApi("", "post1", "/authenticate", credentials)
+    return system_djCredentials
 
 def authHeader(token):
     return header.update({'Authorization': token})
+
+def systemAuth(dj):
+    token = {"token": dj["access_token"]}
+    system_djToken = requestApi("", "post1", "/authenticate/verify/admin", token)
+    return system_djToken
+
+def requestApi(dj, call, endpoint, payload):
+    if call == "get":
+        req = requests.get(baseUrl + endpoint, headers=header, auth=authHeader(dj["access_token"]))
+        return req.json()
+    elif call == "post1":
+        req = requests.post(baseUrl + endpoint, data=json.dumps(payload), headers=header)
+        return req.json()
+    elif call == "post2":
+        req = requests.post(baseUrl + endpoint, data=json.dumps(payload), headers=header, auth=authHeader(dj["access_token"]))
+        return req.json()
+    elif call == "delete":
+        req = requests.delete(baseUrl + endpoint, headers=header, auth=authHeader(dj["access_token"]))
+        return req.json()
+
+def printl(msg):
+    print msg
+    sys.stdout.flush()
 
 if __name__ == "__main__":
     main()

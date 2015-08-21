@@ -60,23 +60,23 @@ def main():
         raise "Failed to make use JPisaBrony an admin"
     print "Success!"
 
-    print "Adding user DJPon3"
-    DJPon3 = User.create(
-       username="DJPon3",
+    print "Adding user SYSTEM_DJ"
+    SYSTEM_DJ = User.create(
+       username="SYSTEM_DJ",
        password="4c56ff4ce4aaf9573aa5dff913df997a",
-       firstName="DJ",
-       lastName="Pon3",
-       email="jpisabrony@gmail.com",
-       karma=100000,
+       firstName="SYSTEM_DJ",
+       lastName="SYSTEM_DJ",
+       email="SYSTEM_DJ@nowhere.com",
+       karma=0,
        strikes=0,
     )
-    if(DJPon3 is None):
-        raise "Failed to add user DJPon3"
+    if(SYSTEM_DJ is None):
+        raise "Failed to add user SYSTEM_DJ"
 
-    print "Making DJPon3 an admin..."
-    DJPon3_admin = Admin.create(user=DJPon3)
-    if(DJPon3_admin is None):
-        raise "Failed to make use DJPon3 an admin"
+    print "Making SYSTEM_DJ an admin..."
+    SYSTEM_DJ_admin = Admin.create(user=SYSTEM_DJ)
+    if(SYSTEM_DJ_admin is None):
+        raise "Failed to make use SYSTEM_DJ an admin"
     print "Success!"
 
     print "Adding default regexes"
