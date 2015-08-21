@@ -12,8 +12,8 @@ from AuthenticationApi import *
 import SetUp
 from SearchApi import youtubeSearch
 from RegexApi import *
-from SongQueue import *
-from SongApi import *
+from RequestsApi import *
+from MopidyApi import *
 
 
 ##################
@@ -259,9 +259,9 @@ def CountRegexes():
     """
     return countRegexes()
 
-###############
-## Api Calls ##
-###############
+################
+## Mopidy API ##
+################
 
 
 @app.route('/playback/add', methods=["POST"])
@@ -378,18 +378,24 @@ def SetVolume():
     """
     return jsonify(setVolume(request.json["key"]))
 
-@app.route('/queue', methods=["GET"])
+
+
+##################
+## Requests Api ##
+##################
+
+@app.route('/queue/<int:page>', methods=["GET"])
 @nocache
-#@requireAdmin
-def GetRequests():
+@requireAuth
+def GetRequests(page):
     """
-    Require Admin Authentication
+    Require Authentication
     """
-    return getRequests()
+    return getRequests(page)
 
 @app.route('/queue/<int:key>', methods=["DELETE"])
 @nocache
-#@requireAdmin
+@requireAdmin
 def RemoveRequest(key):
     """
     Require Admin Authentication
@@ -398,13 +404,21 @@ def RemoveRequest(key):
 
 @app.route('/queue', methods=["POST"])
 @nocache
-#@requireAdmin
+@requireAuth
 def AddRequest():
     """
-    Require Admin Authentication
+    Require Authentication
     """
-    return requestSong(request.json)
+    return requestSong(request.json, request.headers)
 
+@app.route('/queue/count', methods=["GET"])
+@nocache
+@requireAuth
+def CountRequests():
+    """
+    Require Authentication
+    """
+    return countRequests()
 
 ####################
 ## Build Database ##
