@@ -8,6 +8,8 @@ client:
         - ./client/src:/data/src
     environment:
         - CONFIGURATION=DEBUG
+    links: 
+        - logs
 
 api:
     extends:
@@ -20,6 +22,7 @@ api:
     links:
         - db
         - mopidy
+        - logs
     environment:
         - CONFIGURATION=DEBUG
 
@@ -31,6 +34,7 @@ service:
         - ./service/src:/data/src
     links:
        - api
+       - logs
     environment:
        - CONFIGURATION=DEBUG
 
@@ -42,3 +46,12 @@ mopidy:
     expose:
         - "6680"
     privileged: true
+    links:
+        - logs
+
+logs:
+    image: maluuba/rtail-server
+    ports:
+        - "8083:8888"
+    environment:
+        - DEBUG=rtail:*
