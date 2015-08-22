@@ -1,7 +1,10 @@
 from time import sleep
+from datetime import datetime, timedelta
+import traceback
 import requests
 import json
 import sys
+
 
 
 
@@ -14,69 +17,76 @@ class Service:
         self.response = None
 
     def main(self):
-
         try:
-            # wait for mopidy to start or else their is a connection error
-            sleep(10)
 
             self.pre(self.get, "/playback/clear")
             self.pre(self.get, "/playback/next")
             self.pre(self.get, "/playback/consume")
 
             while True:
-                self.pre(self.get, "/playback/state")
-                if "result" in self.response \
-                        and  self.response["result"] == "stopped":
-                    self.printl("Nothing is playing...")
 
-                    self.pre(self.get, "/queue/count")
-                    if self.response["result"]:
-                        self.printl("There are " + str(self.response["result"]) + " songs in the queue.")
+                self.pre(self.get, "/queue/count")
+                if self.response["result"]:
+                    self.printl("There are " + str(self.response["result"]) + " songs in the queue.")
 
-                        self.printl("Getting queue...")
-                        self.pre(self.get, "/queue/0")
-                        song = self.response["result"][0]
+                    self.printl("Getting queue...")
+                    self.pre(self.get, "/queue/0")
+                    song = self.response["result"][0]
 
-                        payload = {'song': song["youtubeKey"]}
-                        self.pre(self.post, "/playback/add", payload=payload)
-                        self.printl("Queueing song...")
+                    payload = {'song': song["youtubeKey"]}
+                    self.pre(self.post, "/playback/add", payload=payload)
+                    self.printl("Queueing song...")
 
-                        self.pre(self.get, "/playback/play")
-                        junk = self.response
-                        self.printl("Playing song...")
+                    self.pre(self.get, "/playback/list")
+                    songLength = self.response["result"][0]["length"]
+
+                    self.pre(self.get, "/playback/play")
+                    start = datetime.utcnow()
+                    self.printl("Playing song...")
+
+                    waitTime = timedelta(milliseconds=songLength+200)
+
+                    while True:
+
+                        #calculate elapsed time
+                        elapsed = datetime.utcnow() - start
+
+                        self.pre(self.get, "/playback/state")
+
+                        self.printl("Song length: " + str(waitTime) + " Play time: " + str(elapsed))
+
+                        if self.response["result"] == "stopped." or elapsed >= waitTime:
+
+                            self.printl("Song ended. Removing from queue if it is still there.")
+                            self.pre(self.get, "/queue/0")
+
+                            newSong = None
+                            if len(self.response["result"]) > 0:
+                                newSong = self.response["result"][0]
 
 
-                        while True:
-                            # check if it is done...
-                            self.pre(self.get, "/playback/state")
-                            if self.response["result"] == "stopped":
-                                self.printl("Song ended. Removing from queue if it is still there.")
+                            if(newSong is not None and  song["key"] == newSong["key"]):
+                                self.pre(self.delete, "/queue/" +  str(song["key"]))
 
-                                self.printl("Getting queue...")
-                                self.pre(self.get, "/queue/0")
-                                song = self.response["result"][0]
+                            self.printl("Clearing mopidy queue...")
+                            self.pre(self.get, "/playback/clear")
+                            self.pre(self.get, "/playback/next")
 
-                                self.printl("junk: " + str(junk))
-                                self.printl("key: " + str(song["key"]))
-                                if(junk == song["key"]):
-                                    junk = self.pre(self.delete, "/queue/" +  str(song[0]["key"]))
+                            # break out if loop
+                            break
+                        else:
+                            self.printl("Waiting for song to end...")
+                            sleep(2)
 
-                                self.printl("Clearing mopidy queue...")
-                                self.pre(self.get, "/playback/clear")
-                                break
-                            else:
-                                self.printl("Waiting for song to end...")
-                                sleep(5)
-
-                    else:
-                        self.printl("There are no songs in the queue.")
-                        sleep(2)
                 else:
-                    self.printl("Something is playing...")
+                    self.printl("There are no songs in the queue.")
                     sleep(2)
 
         except:
-            self.printl("There was an error. Restarting.")
+
+            self.printl("There was an error:")
+            traceback.print_exc()
+            self.printl("Restarting...")
             self.main()
 
 
@@ -137,4 +147,6 @@ class Service:
         sys.stdout.flush()
 
 if __name__ == "__main__":
+    # wait for mopidy to start or else their is a connection error
+    sleep(10)
     Service().main()
