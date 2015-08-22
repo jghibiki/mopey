@@ -1,5 +1,6 @@
 echo "Configuration: $CONFIGURATION";
 
+
 if  [ "$CONFIGURATION" == "DEBUG" ]; then
     echo "Starting server in debug mode...";
     python Service.py

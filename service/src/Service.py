@@ -15,57 +15,69 @@ class Service:
 
     def main(self):
 
-        # wait for mopidy to start or else their is a connection error
-        sleep(10)
+        try:
+            # wait for mopidy to start or else their is a connection error
+            sleep(10)
 
-        while True:
-            self.pre(self.get, "/playback/state")
-            if "result" in self.response \
-                    and  self.response["result"] == "stopped":
-                self.printl("Nothing is playing...")
+            self.pre(self.get, "/playback/clear")
+            self.pre(self.get, "/playback/next")
+            self.pre(self.get, "/playback/consume")
 
-                self.pre(self.get, "/queue/count")
-                if self.response["result"]:
-                    self.printl("There are " + str(self.response["result"]) + " songs in the queue.")
+            while True:
+                self.pre(self.get, "/playback/state")
+                if "result" in self.response \
+                        and  self.response["result"] == "stopped":
+                    self.printl("Nothing is playing...")
 
-                    self.printl("Getting queue...")
-                    self.pre(self.get, "/queue/0")
-                    song = self.response["result"][0]
+                    self.pre(self.get, "/queue/count")
+                    if self.response["result"]:
+                        self.printl("There are " + str(self.response["result"]) + " songs in the queue.")
 
-                    payload = {'song': song["youtubeKey"]}
-                    self.pre(self.post, "/playback/add", payload=payload)
-                    self.printl("Queueing song...")
+                        self.printl("Getting queue...")
+                        self.pre(self.get, "/queue/0")
+                        song = self.response["result"][0]
 
-                    self.pre(self.get, "/playback/play")
-                    junk = self.response
-                    self.printl("Playing song...")
+                        payload = {'song': song["youtubeKey"]}
+                        self.pre(self.post, "/playback/add", payload=payload)
+                        self.printl("Queueing song...")
+
+                        self.pre(self.get, "/playback/play")
+                        junk = self.response
+                        self.printl("Playing song...")
 
 
-                    while True:
-                        # check if it is done...
-                        self.pre(self.get, "/playback/state")
-                        if self.response["result"] == "stopped":
-                            self.printl("Song ended. Removing from queue if it is still there.")
+                        while True:
+                            # check if it is done...
+                            self.pre(self.get, "/playback/state")
+                            if self.response["result"] == "stopped":
+                                self.printl("Song ended. Removing from queue if it is still there.")
 
-                            self.printl("Getting queue...")
-                            self.pre(self.get, "/queue/0")
-                            song = self.response["result"][0]
+                                self.printl("Getting queue...")
+                                self.pre(self.get, "/queue/0")
+                                song = self.response["result"][0]
 
-                            if(junk == song["key"]):
-                                junk = self.pre(self.delete, "/queue/" +  str(song[0]["key"]))
-                            break
-                        else:
-                            self.printl("Waiting for song to end...")
-                            sleep(5)
+                                self.printl("junk: " + str(junk))
+                                self.printl("key: " + str(song["key"]))
+                                if(junk == song["key"]):
+                                    junk = self.pre(self.delete, "/queue/" +  str(song[0]["key"]))
 
+                                self.printl("Clearing mopidy queue...")
+                                self.pre(self.get, "/playback/clear")
+                                break
+                            else:
+                                self.printl("Waiting for song to end...")
+                                sleep(5)
+
+                    else:
+                        self.printl("There are no songs in the queue.")
+                        sleep(2)
                 else:
-                    self.printl("There are no songs in the queue.")
+                    self.printl("Something is playing...")
                     sleep(2)
-            else:
-                self.printl("Something is playing...")
-                sleep(2)
 
-        print "There was an error. Exiting."
+        except:
+            self.printl("There was an error. Restarting.")
+            self.main()
 
 
 
@@ -77,7 +89,6 @@ class Service:
 
         req = requests.post(self.baseUrl + "/authenticate", data=json.dumps(credentials), headers=self.header)
 
-        self.printl(req.json())
         if "access_token" in req.json():
             self.token = req.json()["access_token"]
             self.auth = self.authHeader(self.token)

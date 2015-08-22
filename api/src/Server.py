@@ -14,6 +14,7 @@ from SearchApi import youtubeSearch
 from RegexApi import *
 from RequestsApi import *
 from MopidyApi import *
+from time import sleep
 
 
 ##################
@@ -342,6 +343,15 @@ def GetState():
     """
     return getState()
 
+@app.route('/playback/consume', methods=["GET"])
+@nocache
+@requireAdmin
+def SetConsume():
+    """
+    Require Admin Authentication
+    """
+    return jsonify({"result": "null"})
+
 @app.route('/volume/up', methods=["GET"])
 @nocache
 #@requireAdmin
@@ -380,17 +390,15 @@ def SetVolume():
 
 
 
+
+
 ##################
 ## Requests Api ##
 ##################
 
 @app.route('/queue/<int:page>', methods=["GET"])
 @nocache
-@requireAuth
 def GetRequests(page):
-    """
-    Require Authentication
-    """
     return getRequests(page)
 
 @app.route('/queue/<int:key>', methods=["DELETE"])
