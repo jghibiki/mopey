@@ -9,4 +9,4 @@ else
 fi
 
 docker-compose -f dev.yml stop;
-docker-compose -f dev.yml up -d --x-smart-recreate;
+docker-compose -f dev.yml up -d ;

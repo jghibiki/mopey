@@ -15,6 +15,7 @@ class Service:
         self.auth = ""
         self.token = ""
         self.response = None
+	self.maxTime = timedelta(minutes=10)
 
     def main(self):
         try:
@@ -55,9 +56,12 @@ class Service:
 
                         self.printl("Song length: " + str(waitTime) + " Play time: " + str(elapsed))
 
-                        if self.response["result"] == "stopped." or elapsed >= waitTime:
+                        if waitTime > self.maxTime or self.response["result"] == "stopped." or elapsed >= waitTime:
+			    if waitTime > self.maxTime:
+				self.prinl("Song too long. Skipping.")
 
-                            self.printl("Song ended. Removing from queue if it is still there.")
+			    else:
+				    self.printl("Song ended. Removing from queue if it is still there.")
                             self.pre(self.get, "/queue/0")
 
                             newSong = None

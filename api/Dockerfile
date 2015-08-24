@@ -5,8 +5,7 @@ RUN apt-get update
 RUN apt-get install --yes curl build-essential
 RUN curl --silent --location https://deb.nodesource.com/setup_0.12 | bash -
 RUN apt-get install --yes nodejs
-RUN npm install -g rtail
-
+RUN npm install rtail
 
 RUN easy_install pip==1.2.1
 
