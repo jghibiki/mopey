@@ -15,7 +15,7 @@ class Service:
         self.auth = ""
         self.token = ""
         self.response = None
-	self.maxTime = timedelta(minutes=10)
+        self.maxTime = timedelta(minutes=6)
 
     def main(self):
        self.pre(self.get, "/playback/clear")
@@ -30,61 +30,61 @@ class Service:
 
                self.printl("Getting queue...")
                self.pre(self.get, "/queue/0")
-               song = self.response["result"][0]
+               song = None
+               if len(self.response["result"]) > 0:
+                   song = self.response["result"][0]
+    
+                   payload = {'song': song["youtubeKey"]}
+                   self.pre(self.post, "/playback/add", payload=payload)
+                   self.printl("Queueing song...")
 
-               payload = {'song': song["youtubeKey"]}
-               self.pre(self.post, "/playback/add", payload=payload)
-               self.printl("Queueing song...")
+                   self.pre(self.get, "/playback/list")
+                   if len(self.response["result"]) > 0:
+                       songLength = self.response["result"][0]["length"]
+                       waitTime = timedelta(milliseconds=int(songLength))
 
-               self.pre(self.get, "/playback/list")
-               songLength = self.response["result"][0]["length"]
+                       self.pre(self.get, "/playback/play")
+                       start = datetime.utcnow() 
+                       self.printl("Playing song...") 
 
-               self.pre(self.get, "/playback/play")
-               start = datetime.utcnow()
-               self.printl("Playing song...")
+                       while True:
 
-               waitTime = timedelta(milliseconds=songLength+200)
+                           #calculate elapsed time
+                           elapsed = datetime.utcnow() - start
 
-               while True:
+                           self.pre(self.get, "/playback/state")
 
-                   #calculate elapsed time
-                   elapsed = datetime.utcnow() - start
+                           self.printl("Song length: " + str(waitTime) + " Play time: " + str(elapsed))
 
-                   self.pre(self.get, "/playback/state")
+                           if waitTime > self.maxTime or self.response["result"] == "stopped." or elapsed >= waitTime:
+                               if waitTime > self.maxTime:
+                                   self.prinl("Song too long. Skipping.")
+                               else:
+                                   self.printl("Song ended. Removing from queue if it is still there.")
 
-                   self.printl("Song length: " + str(waitTime) + " Play time: " + str(elapsed))
+                               self.pre(self.get, "/queue/0")
 
-                   if waitTime > self.maxTime or self.response["result"] == "stopped." or elapsed >= waitTime:
-           	       if waitTime > self.maxTime:
-           	           self.prinl("Song too long. Skipping.")
-           	       else:
-		           self.printl("Song ended. Removing from queue if it is still there.")
-
-                       self.pre(self.get, "/queue/0")
-
-                       newSong = None
-                       if len(self.response["result"]) > 0:
-                           newSong = self.response["result"][0]
+                               newSong = None
+                               if len(self.response["result"]) > 0:
+                                   newSong = self.response["result"][0]
 
 
-                       if(newSong is not None and  song["key"] == newSong["key"]):
-                           self.pre(self.delete, "/queue/" +  str(song["key"]))
+                               if(newSong is not None and  song["key"] == newSong["key"]):
+                                   self.pre(self.delete, "/queue/" +  str(song["key"]))
 
-                       self.printl("Clearing mopidy queue...")
-                       self.pre(self.get, "/playback/clear")
-                       self.pre(self.get, "/playback/next")
+                                   self.printl("Clearing mopidy queue...")
+                                   self.pre(self.get, "/playback/clear")
+                                   self.pre(self.get, "/playback/next")
 
-                       # break out if loop
-                       break
-                   else:
-                       self.printl("Waiting for song to end...")
-                       sleep(2)
+                                   # break out if loop
+                                   break
+               else:
+                   self.printl("Waiting for song to end...")
+                   sleep(2)
 
            else:
                self.printl("There are no songs in the queue.")
                sleep(2)
-
-
 
 
 
