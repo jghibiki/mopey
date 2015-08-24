@@ -18,80 +18,72 @@ class Service:
 	self.maxTime = timedelta(minutes=10)
 
     def main(self):
-        try:
+       self.pre(self.get, "/playback/clear")
+       self.pre(self.get, "/playback/next")
+       self.pre(self.get, "/playback/consume")
 
-            self.pre(self.get, "/playback/clear")
-            self.pre(self.get, "/playback/next")
-            self.pre(self.get, "/playback/consume")
+       while True:
 
-            while True:
+           self.pre(self.get, "/queue/count")
+           if self.response["result"]:
+               self.printl("There are " + str(self.response["result"]) + " songs in the queue.")
 
-                self.pre(self.get, "/queue/count")
-                if self.response["result"]:
-                    self.printl("There are " + str(self.response["result"]) + " songs in the queue.")
+               self.printl("Getting queue...")
+               self.pre(self.get, "/queue/0")
+               song = self.response["result"][0]
 
-                    self.printl("Getting queue...")
-                    self.pre(self.get, "/queue/0")
-                    song = self.response["result"][0]
+               payload = {'song': song["youtubeKey"]}
+               self.pre(self.post, "/playback/add", payload=payload)
+               self.printl("Queueing song...")
 
-                    payload = {'song': song["youtubeKey"]}
-                    self.pre(self.post, "/playback/add", payload=payload)
-                    self.printl("Queueing song...")
+               self.pre(self.get, "/playback/list")
+               songLength = self.response["result"][0]["length"]
 
-                    self.pre(self.get, "/playback/list")
-                    songLength = self.response["result"][0]["length"]
+               self.pre(self.get, "/playback/play")
+               start = datetime.utcnow()
+               self.printl("Playing song...")
 
-                    self.pre(self.get, "/playback/play")
-                    start = datetime.utcnow()
-                    self.printl("Playing song...")
+               waitTime = timedelta(milliseconds=songLength+200)
 
-                    waitTime = timedelta(milliseconds=songLength+200)
+               while True:
 
-                    while True:
+                   #calculate elapsed time
+                   elapsed = datetime.utcnow() - start
 
-                        #calculate elapsed time
-                        elapsed = datetime.utcnow() - start
+                   self.pre(self.get, "/playback/state")
 
-                        self.pre(self.get, "/playback/state")
+                   self.printl("Song length: " + str(waitTime) + " Play time: " + str(elapsed))
 
-                        self.printl("Song length: " + str(waitTime) + " Play time: " + str(elapsed))
+                   if waitTime > self.maxTime or self.response["result"] == "stopped." or elapsed >= waitTime:
+           	       if waitTime > self.maxTime:
+           	           self.prinl("Song too long. Skipping.")
+           	       else:
+		           self.printl("Song ended. Removing from queue if it is still there.")
 
-                        if waitTime > self.maxTime or self.response["result"] == "stopped." or elapsed >= waitTime:
-			    if waitTime > self.maxTime:
-				self.prinl("Song too long. Skipping.")
+                       self.pre(self.get, "/queue/0")
 
-			    else:
-				    self.printl("Song ended. Removing from queue if it is still there.")
-                            self.pre(self.get, "/queue/0")
-
-                            newSong = None
-                            if len(self.response["result"]) > 0:
-                                newSong = self.response["result"][0]
+                       newSong = None
+                       if len(self.response["result"]) > 0:
+                           newSong = self.response["result"][0]
 
 
-                            if(newSong is not None and  song["key"] == newSong["key"]):
-                                self.pre(self.delete, "/queue/" +  str(song["key"]))
+                       if(newSong is not None and  song["key"] == newSong["key"]):
+                           self.pre(self.delete, "/queue/" +  str(song["key"]))
 
-                            self.printl("Clearing mopidy queue...")
-                            self.pre(self.get, "/playback/clear")
-                            self.pre(self.get, "/playback/next")
+                       self.printl("Clearing mopidy queue...")
+                       self.pre(self.get, "/playback/clear")
+                       self.pre(self.get, "/playback/next")
 
-                            # break out if loop
-                            break
-                        else:
-                            self.printl("Waiting for song to end...")
-                            sleep(2)
+                       # break out if loop
+                       break
+                   else:
+                       self.printl("Waiting for song to end...")
+                       sleep(2)
 
-                else:
-                    self.printl("There are no songs in the queue.")
-                    sleep(2)
+           else:
+               self.printl("There are no songs in the queue.")
+               sleep(2)
 
-        except:
-
-            self.printl("There was an error:")
-            traceback.print_exc()
-            self.printl("Restarting...")
-            self.main()
 
 
 
