@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 import traceback
 import requests
 import json
-import sys
+import sys, os
 
 
 
@@ -84,7 +84,7 @@ class Service:
 
            else:
                self.printl("There are no songs in the queue.")
-               sleep(2)
+               sleep(10)
 
 
 
@@ -140,9 +140,10 @@ class Service:
 
     def printl(self, msg):
         print msg
-        sys.stdout.flush()
+        #sys.stdout.flush()
 
 if __name__ == "__main__":
     # wait for mopidy to start or else their is a connection error
     sleep(10)
+    sys.stdout = os.fdopen(sys.stdout.fileno(), 'w', 0)
     Service().main()

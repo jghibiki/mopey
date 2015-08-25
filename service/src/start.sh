@@ -3,7 +3,7 @@ echo "Configuration: $CONFIGURATION";
 
 if  [ "$CONFIGURATION" == "DEBUG" ]; then
     echo "Starting server in debug mode...";
-    python Service.py 2>&1 | rtail --id "Service" --tty --host logs;
+    stdbuf -oL python -u Service.py 2>&1 | rtail --id "Service" --tty --host logs;
     echo "Server stopped.";
 fi
 
