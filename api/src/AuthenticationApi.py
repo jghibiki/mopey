@@ -89,7 +89,7 @@ def requireAuth(view):
         except:
             raise GeneralApiException("Access denied", status_code=200)
 
-        if not validateAuthToken(token, True):
+        if not validateAuthToken(token, False):
             raise GeneralApiException("Access denied", status_code=200)
 
         return view(*args, **kwargs)
