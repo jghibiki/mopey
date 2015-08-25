@@ -421,11 +421,7 @@ def AddRequest():
 
 @app.route('/queue/count', methods=["GET"])
 @nocache
-@requireAuth
 def CountRequests():
-    """
-    Require Authentication
-    """
     return countRequests()
 
 ####################
