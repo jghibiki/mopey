@@ -100,6 +100,8 @@ define(["ko", "authenticationManager", "nativeCommunicationManager", "chain"], f
         self.hidden = function(){
             if(self._.shown){
                 self._.shown = false;
+
+                clearInterval(self._.timer)
             }
         };
 
