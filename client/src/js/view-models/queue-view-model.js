@@ -83,7 +83,7 @@ define(["ko", "authenticationManager", "nativeCommunicationManager", "chain"], f
                 self.adminSubscription = self._.authenticationManager.admin.subscribe(function(admin){
                     self.isAdmin(admin);
                 });
-                self.isAdmin(self._.authenticationManager.admin);
+                self.isAdmin(self._.authenticationManager.admin());
 
                 self.page(0);
                 self.pageSubscription = self.page.subscribe(function(){
