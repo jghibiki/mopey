@@ -58,7 +58,7 @@ class Service:
 
                            if waitTime > self.maxTime or self.response["result"] == "stopped." or elapsed >= waitTime:
                                if waitTime > self.maxTime:
-                                   self.prinl("Song too long. Skipping.")
+                                   self.printl("Song too long. Skipping.")
                                else:
                                    self.printl("Song ended. Removing from queue if it is still there.")
 
