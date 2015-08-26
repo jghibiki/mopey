@@ -82,6 +82,9 @@ def main():
     print "Adding default regexes"
     Regex.create(pattern=".*(C|c)(O|o)(C|c)(O|o).*")
     Regex.create(pattern=".*(S|s)(A|a)(N|n)(I|i)(C|c).*")
+    Regex.create(pattern=".*(O|o)(\.)?(T|t)(\.)?.*(G|g)(E|e)(N|n)(E|e)(S|s)(I|i)(S|s).*")
+    Regex.create(pattern=".*(R|r)(I|i)(C|c)(K|k).*(A|a)(S|s)(T|t)?(L|l)(E|e)(Y|y).*")
+    Regex.create(pattern=".*(N|n)(E|e)(V|v)(E|e)(R|r).*(G|g)(U|u)((N|n))?(N|n)(A|a).*(G|g)(I|i)(V|v)(E|e).*((Y|y))?((O|o))?(U|u).*(U|u)(P|p).*")
 
     print "############################"
     print "## Completed Server Setup ##"
