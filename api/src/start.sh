@@ -9,6 +9,6 @@ fi
 if [ "$CONFIGURATION" == "PRODUCTION" ]; then
     echo "Starting server in production mode...";
     echo "Starting with $WORKERS workers.";
-    gunicorn -w $WORKERS -b 0.0.0.0:5000 Server:app 2>&1 | node_modules/rtail/cli/rtail-client.js --id "API" --tty --host logs;
+    gunicorn -w $WORKERS -b 0.0.0.0:5000 --keyfile=./ssl/ssl.key --certfile=./ssl/ssl.crt  Server:app 2>&1 | node_modules/rtail/cli/rtail-client.js --id "API" --tty --host logs;
     echo "Server stopped.";
 fi

@@ -10,7 +10,7 @@ import sys, os
 
 class Service:
     def __init__(self):
-        self.baseUrl = "http://api:5000"
+        self.baseUrl = "https://api:5000"
         self.header = {'Content-type': 'application/json', 'Accept': 'application/json'}
         self.auth = ""
         self.token = ""
@@ -93,7 +93,7 @@ class Service:
 
         credentials = {"username":"SYSTEM_DJ", "password": "121"}
 
-        req = requests.post(self.baseUrl + "/authenticate", data=json.dumps(credentials), headers=self.header)
+        req = requests.post(self.baseUrl + "/authenticate", data=json.dumps(credentials), headers=self.header, verify=False)
 
         if "access_token" in req.json():
             self.token = req.json()["access_token"]
@@ -112,22 +112,22 @@ class Service:
 
     def verifyToken(self):
         token = {"token": self.token}
-        req = requests.post(self.baseUrl + "/authenticate/verify/admin", data=json.dumps(token), headers=self.header)
+        req = requests.post(self.baseUrl + "/authenticate/verify/admin", data=json.dumps(token), headers=self.header, verify=False)
         if "result" in req.json():
             return req.json()["result"]
         else:
             return False
 
     def  get(self, endpoint):
-        req = requests.get(self.baseUrl + endpoint, headers=self.header, auth=self.auth)
+        req = requests.get(self.baseUrl + endpoint, headers=self.header, auth=self.auth, verify=False)
         self.response = req.json()
 
     def post(self, endpoint, payload=""):
-        req = requests.post(self.baseUrl + endpoint, data=json.dumps(payload), headers=self.header, auth=self.auth)
+        req = requests.post(self.baseUrl + endpoint, data=json.dumps(payload), headers=self.header, auth=self.auth, verify=False)
         self.response = req.json()
 
     def delete(self, endpoint):
-        req = requests.delete(self.baseUrl + endpoint, headers=self.header, auth=self.auth)
+        req = requests.delete(self.baseUrl + endpoint, headers=self.header, auth=self.auth, verify=False)
         self.response = req.json()
 
 

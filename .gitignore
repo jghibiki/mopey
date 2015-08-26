@@ -65,3 +65,5 @@ dev-api.js
 node_modules
 */api-mappings.js
 
+*.key
+*.crt
