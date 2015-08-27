@@ -16,7 +16,13 @@ def main():
         AccessToken,
         Admin,
         Regex,
-        Request
+        Request,
+        CurrentRequest,
+        Upvote,
+        Downvote,
+        Spam,
+        SpamReport,
+        Command
         ]
     db.drop_tables(tables, safe=True)
     db.create_tables(tables, safe=True)

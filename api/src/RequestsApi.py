@@ -32,7 +32,7 @@ def getRequests(page):
             "youtubeKey": req.youtubeKey,
             "description": req.description,
             "date": str(req.date),
-            "user": req.user.username,
+            "user": req.user.key,
             "key": req.key
         })
     return json.dumps({"result": requests})
@@ -41,7 +41,7 @@ def removeRequest(key):
     try:
         Request.get(Request.key == key)
         Request.delete().where(Request.key == key).execute()
-        return jsonify({"result": True})
+        return jsonify({"result": None})
     except:
         return jsonify({"Error": "Failed to remove request."})
 
@@ -49,3 +49,48 @@ def removeRequest(key):
 def countRequests():
     count = Request.select().count()
     return jsonify({"result": count})
+
+def getCurrentRequest():
+    request = None
+    request = CurrentRequest.first(Request.key != None)
+
+    try:
+        if request:
+            resp = {
+                "title": request.title,
+                "uploader": request.uploader,
+                "youtubeKey": request.youtubeKey,
+                "description": request.description,
+                "date": request.date,
+                "user": request.user.key,
+                "key": request.key
+            }
+
+            return jsonify({"result": resp})
+        else:
+            return jsonify({"result": None})
+
+    except:
+        return jsonify({"Error": "Failed to get current request."})
+
+def setCurrentRequest(json):
+
+    currentRequest = CurrentRequest.get(CurrentRequest.key != None)
+
+    if not currentRequest:
+            requestKey = json["key"]
+
+            returnedRequest = Request.get(Request.key == requestKey)
+
+            if not returnedRequest:
+
+                try:
+                    newRequest = CurrentRequest.create(request=returnedRequest)
+                    return jsonify({"result": currentRequest.key})
+                except:
+                    return jsonify({"Error": "Failed to set current request"})
+            else:
+                return jsonify({"Error": "Could not find a valid request with a key matchng the one provided."})
+    else:
+        return jsonify({"Error": "There is already another song listed as the current song."})
+

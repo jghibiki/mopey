@@ -358,7 +358,34 @@ requirejs.config({
             "COUNT_REQUESTS": {
                 verb: "GET",
                 uri: "/queue/count"
-            }   
+            },
+
+            /* Karma */
+            "RESET_KARMA":{
+                verb: "GET",
+                uri: "/karma/reset"
+            },
+            
+            /* Spam */
+            "RESET_SPAM":{
+                verb: "GET",
+                uri: "/spam/reset"
+            },
+
+            /* Service Api*/
+            "SERVICE_SKIP_SONG": {
+                verb: "GET",
+                uri: "/service/skip"
+            },
+
+            "GET_SERVICE_COMMANDS": {
+                verb: "GET",
+                uri: "/service"
+            },
+            "DELETE_SERVICE_COMMAND": {
+                verb: "GET",
+                uri: "/service/{key}"
+            }
         }
     }
 });

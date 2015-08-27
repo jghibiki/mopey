@@ -5,7 +5,7 @@ define(["ko", "authenticationManager", "nativeCommunicationManager", "chain"], f
         self._={
             disposed: false,
             shown: false,
-            unsticking: false,
+            skiping: false,
             authenticationManager: AuthenticationManagerModule.get(),
             nativeCommunicationManager: NativeCommunicationManagerModule.get()
         };
@@ -49,10 +49,19 @@ define(["ko", "authenticationManager", "nativeCommunicationManager", "chain"], f
             }
         };
 
-        self.unstick = function(){
-            if(!self._.unsticking){
-                self._.unsticking = true;
+        self.skip = function(){
+            if(!self._.skiping){
+                self._.skiping = true;
                 chain.get()
+                .cc(function(context, abort, next){
+                    var skip = confirm("Are you sure you wish to skip the current song?");
+                    if(skip){
+                        next()
+                    }
+                    else{
+                        abort()
+                    }
+                })
                 .cc(function(context, abort, next){
                     self._.nativeCommunicationManager.sendNativeRequest(
                         self._.nativeCommunicationManager.endpoints.PLAYBACK_STATE,
@@ -74,7 +83,7 @@ define(["ko", "authenticationManager", "nativeCommunicationManager", "chain"], f
                 })
                 .cc(function(context, abort, next){
                     self._.nativeCommunicationManager.sendNativeRequest(
-                        self._.nativeCommunicationManager.endpoints.PLAYBACK_NEXT,
+                        self._.nativeCommunicationManager.endpoints.SERVICE_SKIP_SONG,
                         function(response){
                             if("Error" in response){
                                 alert("Error:" + response.Error);
@@ -87,7 +96,7 @@ define(["ko", "authenticationManager", "nativeCommunicationManager", "chain"], f
                     );
                 })
                 .end(null, function(){
-                    self._.unsticking = false;   
+                    self._.skiping = false;   
                 });
                         
             }

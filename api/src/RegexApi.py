@@ -17,7 +17,7 @@ def addRegex(pattern):
     except:
         raise GeneralApiException("Failed to create regex with pattern '" + pattern + "'", status_code=200)
 
-    return jsonify({"key":createdRegex.key})
+    return jsonify({"result":createdRegex.key})
 
 def removeRegex(key):
     returnedRegex = None

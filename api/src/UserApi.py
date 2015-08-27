@@ -64,7 +64,7 @@ def createUser(json):
     except Exception,e:
         return jsonify({"Error":"Failed to create user. error: " + str(e)})
 
-    return jsonify({"key":returnedUser.key})
+    return jsonify({"result":returnedUser.key})
 
 
 def getUser(key):

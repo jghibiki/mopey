@@ -15,12 +15,14 @@ from RegexApi import *
 from RequestsApi import *
 from MopidyApi import *
 from time import sleep
+from KarmaApi import *
+from SpamApi import *
+from ServiceApi import *
 
 
 ##################
 ## Server SetUp ##
 ##################
-
 app = Flask(__name__)
 app.wsgi_app = ProxyFix(app.wsgi_app)
 CORS(app, headers=['Content-Type, Authorization'])
@@ -390,11 +392,28 @@ def SetVolume():
 
 
 
-
-
 ##################
 ## Requests Api ##
 ##################
+
+@app.route('/queue/current', methods=["GET"])
+@nocache
+def GetCurrentRequest():
+    return getCurrentRequest()
+
+@app.route('/queue/current', methods=["POST"])
+@nocache
+@requireAdmin
+def SetCurrentRequest():
+    """
+    Sets the currently playing song
+
+    POST Request:
+    {
+        "key": "<request key>"
+    }
+    """
+    return setCurrentRequest(request.json)
 
 @app.route('/queue/<int:page>', methods=["GET"])
 @nocache
@@ -419,10 +438,53 @@ def AddRequest():
     """
     return requestSong(request.json, request.headers)
 
+
 @app.route('/queue/count', methods=["GET"])
 @nocache
 def CountRequests():
     return countRequests()
+
+###############
+## Karma Api ##
+###############
+@app.route('/karma/reset', methods=["GET"])
+@nocache
+@requireAdmin
+def ResetCurrentSongKarmaTrackers():
+    return resetCurrentSongKarmaTrackers()
+
+
+#################
+## Service Api ##
+#################
+@app.route('/service/skip', methods=["GET"])
+@nocache
+@requireAdmin
+def ServiceSkipSong():
+    return serviceSkipSong()
+
+@app.route('/service', methods=["GET"])
+@nocache
+@requireAdmin
+def GetServiceCommands():
+    return getServiceCommands()
+
+@app.route('/service/<int:key>', methods=["DELETE"])
+@nocache
+@requireAdmin
+def RemoveServiceCommand(key):
+    return removeServiceCommand(key)
+
+
+##############
+## Spam Api ##
+##############
+@app.route('/spam/reset', methods=["GET"])
+@nocache
+@requireAdmin
+def ResetCurrentSongSpamTrackers():
+    return resetCurrentSongSpamTrackers()
+
 
 ####################
 ## Build Database ##
