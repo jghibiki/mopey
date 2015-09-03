@@ -18,6 +18,7 @@ from time import sleep
 from KarmaApi import *
 from SpamApi import *
 from ServiceApi import *
+from BackupApi import *
 
 
 ##################
@@ -489,7 +490,6 @@ def ResetCurrentSongSpamTrackers():
 ####################
 ## Build Database ##
 ####################
-
 @app.route('/buildDb')
 @nocache
 #@requireAdmin
@@ -500,7 +500,30 @@ def BuildDb():
     SetUp.main()
     return "Database rebuilt"
 
+###################
+## Backup Models ##
+###################
+@app.route('/exportDb')
+@nocache
+#@requireAdmin
+def BackupDb():
+    """
+    Requires Admin Authentication
+    """
+    backupDb()
+    return "Exported database"
 
+###################
+## Import Models ##
+###################
+@app.route('/importDb')
+@nocache
+#@requireAdmin
+def ImportDb():
+    """
+    Requires Admin Authentication
+    """
+    return importDb()
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)
