@@ -12,7 +12,7 @@ class ServiceCommand:
 
 class Service:
     def __init__(self):
-        if os.environ.get("CONFIGURATION") is "PRODUCTION":
+        if os.environ["CONFIGURATION"] == "PRODUCTION":
             self.baseUrl = "https://api:5000"
         else:
             self.baseUrl = "http://api:5000"
@@ -22,7 +22,10 @@ class Service:
         self.token = ""
         self.response = None
         self.maxTime = timedelta(minutes=6)
-        self.ssl = os.environ.get("CONFIGURATION") is "DEBUG"
+        self.ssl = os.environ["CONFIGURATION"] == "PRODUCTION"
+
+	self.printl("baseUrl: " + self.baseUrl)
+	self.printl("ssl: " + str(self.ssl))
 
 
     def main(self):
