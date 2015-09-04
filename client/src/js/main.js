@@ -53,6 +53,7 @@ requirejs.config({
             "regexViewModel": "singleton!viewModel!views/regex.html:view-models/regex-view-model",
             "addUserViewModel": "singleton!viewModel!views/add-user.html:view-models/add-user-view-model",
             "helpViewModel": "singleton!viewModel!views/help.html:view-models/help-view-model",
+            "favoritesViewModel": "singleton!viewModel!views/favorites.html:view-models/favorites-view-model",
 
             //managers
             "singletonManager": "managers/singleton-manager",
@@ -234,6 +235,16 @@ requirejs.config({
                 presedence: 99,
                 admin: false,
                 loggedIn: false,
+                children: [],
+                config: {}
+            },
+            {
+                route: "favorites",
+                friendlyName: "Favorites",
+                viewModel: "favoritesViewModel",
+                presedence: 10,
+                admin: false,
+                loggedIn: true,
                 children: [],
                 config: {}
             }
