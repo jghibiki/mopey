@@ -91,3 +91,13 @@ class Command(BaseModel):
 
     command = IntegerField()
     date = DateTimeField()
+
+class Favorite(BaseModel):
+    key = PrimaryKeyField()
+
+    youtubeKey = TextField()
+    title = TextField()
+    uploader = TextField()
+    description = TextField()
+    user = ForeignKeyField(rel_model=User, related_name="favorites")
+

@@ -22,7 +22,8 @@ def main():
         Downvote,
         Spam,
         SpamReport,
-        Command
+        Command,
+        Favorite
         ]
     db.drop_tables(tables, safe=True)
     db.create_tables(tables, safe=True)

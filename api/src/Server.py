@@ -19,6 +19,7 @@ from KarmaApi import *
 from SpamApi import *
 from ServiceApi import *
 from BackupApi import *
+from FavoritesApi import *
 
 
 ##################
@@ -486,6 +487,26 @@ def RemoveServiceCommand(key):
 def ResetCurrentSongSpamTrackers():
     return resetCurrentSongSpamTrackers()
 
+###################
+## Favorites Api ##
+###################
+@app.route('/favorites', methods=["GET"])
+@nocache
+@requireAuth
+def GetFavorites():
+    return getFavorites(request.headers)
+
+@app.route('/favorites', methods=["POST"])
+@nocache
+@requireAuth
+def AddFavorite():
+    return addFavorite(request.json, request.headers)
+
+@app.route('/favorites/<int:key>', methods=["DELETE"])
+@nocache
+@requireAuth
+def RemoveFavorite(key):
+    return removeFavorite(key)
 
 ####################
 ## Build Database ##
