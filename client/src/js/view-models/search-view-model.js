@@ -1,4 +1,4 @@
-define(["ko", "chain", "nativeCommunicationManager"], function(ko, chain, NativeCommunicationManagerModule){
+define(["ko", "chain", "nativeCommunicationManager", "navigationManager"], function(ko, chain, NativeCommunicationManagerModule, NavigationManagerModule){
 
     function SearchViewModel(){
         var self = this;
@@ -6,7 +6,8 @@ define(["ko", "chain", "nativeCommunicationManager"], function(ko, chain, Native
         self._ = {
             shown: false,
             disposed: false,
-            nativeCommunicationManager: NativeCommunicationManagerModule.get()
+            nativeCommunicationManager: NativeCommunicationManagerModule.get(),
+            navigationManager: NavigationManagerModule.get()
         };
 
         self.query = ko.observable();
@@ -73,51 +74,24 @@ define(["ko", "chain", "nativeCommunicationManager"], function(ko, chain, Native
         };
 
         self.requestSong = function(song){
-                chain.get()
-                    .cc(function(context, error, next){
-                        self._.nativeCommunicationManager.sendNativeRequest(
-                            self._.nativeCommunicationManager.endpoints.PLAYBACK_ADD_SONG,
-                            function(response){
-                                context.response = response
-                                next(context);
-                            },
-                            null,
-                            {"song": song.id}
-                        );
-                    })
-                    .cc(function(context,error,next){
-                        if("Error" in context.response){
-                            alert(context.response.Error);
-                        }
-                        else{
-                            self._.nativeCommunicationManager.sendNativeRequest(
-                                self._.nativeCommunicationManager.endpoints.PLAYBACK_STATE,
-                                function(response){
-                                    context.response = response
-                                    next(context);
-                            });
-                        }
-                    })
-                    .cc(function(context,error,next){
-                        if("Error" in context.response){
-                            alert(context.response.Error);
-                            next();
-                        }
-                        else{
-                            if(context.response.result !== "playing"){
-                                self._.nativeCommunicationManager.sendNativeRequest(
-                                    self._.nativeCommunicationManager.endpoints.PLAYBACK_PLAY,
-                                    function(response){
-                                        context.response = response
-                                        next(context);
-                                    });
-                            }
-                            else{
-                                next();
-                            }
-                        }
-                    })
-                    .end();
+            self.errorMessage(null);
+
+            self._.nativeCommunicationManager.sendNativeRequest(
+                self._.nativeCommunicationManager.endpoints.CREATE_REQUEST,
+                function(response){
+                    if("Error" in response){
+                        self.errorMessage("Error: " + response.Error); 
+                    }
+                    else{
+                        alert("'" + song.title + "' requested!");
+                        self._.navigationManager.setRoute("queue");
+                    }
+                },
+                null,
+                {
+                    "song": song.id
+                }
+            );
         }
     }
 

@@ -65,7 +65,7 @@ define(["ko", "jquery", "navigationManager", "chain", "authenticationManager"], 
                         self._.navigationManager.setRoute("_");
                         next()
                     })
-                    .pause(100) //adds a slight pause so that the updates happen the correct order
+                    .pause(500) //adds a slight pause so that the updates happen the correct order - issues are caused by blank not loading quickly enough
                     .cc(function(context, error, next){
                         self._.navigationManager.cacheUrlVariable("q", self.searchQuery());
                         self.searchQuery("")

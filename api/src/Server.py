@@ -14,12 +14,16 @@ from SearchApi import youtubeSearch
 from RegexApi import *
 from RequestsApi import *
 from MopidyApi import *
+from time import sleep
+from KarmaApi import *
+from SpamApi import *
+from ServiceApi import *
+from BackupApi import *
 
 
 ##################
 ## Server SetUp ##
 ##################
-
 app = Flask(__name__)
 app.wsgi_app = ProxyFix(app.wsgi_app)
 CORS(app, headers=['Content-Type, Authorization'])
@@ -342,6 +346,15 @@ def GetState():
     """
     return getState()
 
+@app.route('/playback/consume', methods=["GET"])
+@nocache
+@requireAdmin
+def SetConsume():
+    """
+    Require Admin Authentication
+    """
+    return jsonify({"result": "null"})
+
 @app.route('/volume/up', methods=["GET"])
 @nocache
 #@requireAdmin
@@ -384,13 +397,28 @@ def SetVolume():
 ## Requests Api ##
 ##################
 
+@app.route('/queue/current', methods=["GET"])
+@nocache
+def GetCurrentRequest():
+    return getCurrentRequest()
+
+@app.route('/queue/current', methods=["POST"])
+@nocache
+@requireAdmin
+def SetCurrentRequest():
+    """
+    Sets the currently playing song
+
+    POST Request:
+    {
+        "key": "<request key>"
+    }
+    """
+    return setCurrentRequest(request.json)
+
 @app.route('/queue/<int:page>', methods=["GET"])
 @nocache
-@requireAuth
 def GetRequests(page):
-    """
-    Require Authentication
-    """
     return getRequests(page)
 
 @app.route('/queue/<int:key>', methods=["DELETE"])
@@ -411,19 +439,57 @@ def AddRequest():
     """
     return requestSong(request.json, request.headers)
 
+
 @app.route('/queue/count', methods=["GET"])
 @nocache
-@requireAuth
 def CountRequests():
-    """
-    Require Authentication
-    """
     return countRequests()
+
+###############
+## Karma Api ##
+###############
+@app.route('/karma/reset', methods=["GET"])
+@nocache
+@requireAdmin
+def ResetCurrentSongKarmaTrackers():
+    return resetCurrentSongKarmaTrackers()
+
+
+#################
+## Service Api ##
+#################
+@app.route('/service/skip', methods=["GET"])
+@nocache
+@requireAdmin
+def ServiceSkipSong():
+    return serviceSkipSong()
+
+@app.route('/service', methods=["GET"])
+@nocache
+@requireAdmin
+def GetServiceCommands():
+    return getServiceCommands()
+
+@app.route('/service/<int:key>', methods=["DELETE"])
+@nocache
+@requireAdmin
+def RemoveServiceCommand(key):
+    return removeServiceCommand(key)
+
+
+##############
+## Spam Api ##
+##############
+@app.route('/spam/reset', methods=["GET"])
+@nocache
+@requireAdmin
+def ResetCurrentSongSpamTrackers():
+    return resetCurrentSongSpamTrackers()
+
 
 ####################
 ## Build Database ##
 ####################
-
 @app.route('/buildDb')
 @nocache
 #@requireAdmin
@@ -434,7 +500,30 @@ def BuildDb():
     SetUp.main()
     return "Database rebuilt"
 
+###################
+## Backup Models ##
+###################
+@app.route('/exportDb')
+@nocache
+#@requireAdmin
+def BackupDb():
+    """
+    Requires Admin Authentication
+    """
+    backupDb()
+    return "Exported database"
 
+###################
+## Import Models ##
+###################
+@app.route('/importDb')
+@nocache
+#@requireAdmin
+def ImportDb():
+    """
+    Requires Admin Authentication
+    """
+    return importDb()
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)

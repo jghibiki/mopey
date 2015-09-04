@@ -62,3 +62,11 @@ search-api.key
 client/src/js/api-mappings.js
 
 dev-api.js
+node_modules
+*/api-mappings.js
+
+*.key
+*.crt
+
+backup/
+import/

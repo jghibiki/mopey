@@ -83,3 +83,7 @@ Example Authentication Calls:
         $ curl -X {VERB} -H "Authorization:3eeaa1bc-ec9f-430f-bfe9-69abd2d9f9e6" localhost:8080/{API-ENDPOINT} 
     ```
 
+Production Mode SSL Config:
+---------------------------
+
+The production script will look in the root of the repository for a ```ssl.cert``` and a ```ssl.key``` to use for SSL.

@@ -52,6 +52,7 @@ requirejs.config({
             "authenticationViewModel": "singleton!viewModel!views/authentication.html:view-models/authentication-view-model",
             "regexViewModel": "singleton!viewModel!views/regex.html:view-models/regex-view-model",
             "addUserViewModel": "singleton!viewModel!views/add-user.html:view-models/add-user-view-model",
+            "helpViewModel": "singleton!viewModel!views/help.html:view-models/help-view-model",
 
             //managers
             "singletonManager": "managers/singleton-manager",
@@ -225,6 +226,16 @@ requirejs.config({
                 loggedIn: true,
                 children: [],
                 config: {}
+            },
+            {
+                route: "help",
+                friendlyName: "Help",
+                viewModel: "helpViewModel",
+                presedence: 99,
+                admin: false,
+                loggedIn: false,
+                children: [],
+                config: {}
             }
 
         ],
@@ -345,7 +356,7 @@ requirejs.config({
             /* Requests */
             "GET_REQUESTS":{
                 verb: "GET",
-                uri: "/queue"
+                uri: "/queue/{page}"
             },
             "REMOVE_REQUEST": {
                 verb: "DELETE",
@@ -354,6 +365,37 @@ requirejs.config({
             "CREATE_REQUEST": {
                 verb: "POST",
                 uri: "/queue"
+            },
+            "COUNT_REQUESTS": {
+                verb: "GET",
+                uri: "/queue/count"
+            },
+
+            /* Karma */
+            "RESET_KARMA":{
+                verb: "GET",
+                uri: "/karma/reset"
+            },
+            
+            /* Spam */
+            "RESET_SPAM":{
+                verb: "GET",
+                uri: "/spam/reset"
+            },
+
+            /* Service Api*/
+            "SERVICE_SKIP_SONG": {
+                verb: "GET",
+                uri: "/service/skip"
+            },
+
+            "GET_SERVICE_COMMANDS": {
+                verb: "GET",
+                uri: "/service"
+            },
+            "DELETE_SERVICE_COMMAND": {
+                verb: "GET",
+                uri: "/service/{key}"
             }
         }
     }

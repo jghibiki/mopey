@@ -42,7 +42,9 @@ def getState():
 def setConsume():
     consume = blankCommand + '"core.tracklist.set_consume", "params": {"value":"true"}}'
     response = sendRequest(consume)
-    #return jsonify(response)
+    single = blankCommand + '"core.tracklist.set_single", "params": {"value":"true"}}'
+    response = sendRequest(single)
+
 
 def getVolume():
     volume = blankCommand + '"core.mixer.get_volume"}'
