@@ -1,4 +1,81 @@
 <div>
     <h1>Favorites</h1>
     <hr>
+    
+    <!-- ko if: loading -->
+        <div>
+            Loading...
+        </div>
+    <!-- /ko-->
+
+    <!-- ko ifnot: loading -->
+
+        <!-- ko if: hasFavorites -->
+            <div>
+                <table class="pure-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Title</th>
+                            <th>Uploader</th>
+                            <th>Description</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody  data-bind="foreach: favorites">
+                        <!-- ko if: $index() % 2 === 0 -->
+                            <tr>
+                                <td><button data-bind="click: $parent.requestSong">Request</button></td>
+                                <td data-bind="text: title"></td>
+                                <td data-bind="text: uploader"></td>
+                                <td data-bind="text: description"></td>
+                                <td><button data-bind="click: $parent.removeSong">Remove</button></td>
+                            </tr>
+                        <!-- /ko -->
+
+                        <!-- ko ifnot: $index() % 2 === 0 -->
+                            <tr class="pure-table-odd">
+                                <td><button data-bind="click: $parent.requestSong">Request</button></td>
+                                <td data-bind="text: title"></td>
+                                <td data-bind="text: uploader"></td>
+                                <td data-bind="text: description"></td>
+                                <td><button data-bind="click: $parent.removeSong">Remove</button></td>
+                            </tr>
+                        <!-- /ko -->
+                    </tbody>
+                </table>
+                <div>
+                    <!-- ko if: first -->
+                        <button data-bind="touchTap: move_first">&#060;&#060;</button>
+                    <!-- /ko -->
+                    
+                    <!-- ko if: backward -->
+                        <button data-bind="touchTap: move_backward">&#060;</button>&nbsp;
+                    <!-- /ko -->
+
+                    <!-- ko if: forward -->
+                        <button data-bind="touchTap: move_forward">&#062;</button>
+                    <!-- /ko -->
+
+                    <!-- ko if: last -->
+                        <button data-bind="touchTap: move_last">&#062;&#062;</button>
+                    <!-- /ko -->
+                </div>
+            </div>
+        <!-- /ko -->
+        
+        <!-- ko ifnot: hasFavorites -->
+            <div>   
+                No Favorites! Search or request songs to add favorites!
+            </div>
+        <!-- /ko -->
+
+        <!-- ko if: error -->
+            <div data-bind="text: error">
+                Error
+            </div>
+        <!-- /ko -->
+
+    <!-- /ko -->
+    
 </div>

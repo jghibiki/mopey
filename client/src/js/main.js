@@ -407,6 +407,24 @@ requirejs.config({
             "DELETE_SERVICE_COMMAND": {
                 verb: "GET",
                 uri: "/service/{key}"
+            },
+
+            /* Favorites */
+            "COUNT_FAVORITES": {
+                verb: "GET",
+                uri: "/favorites/count"
+            },
+            "GET_FAVORITES": {
+                verb: "GET",
+                uri: "/favorites/{page}"
+            },
+            "ADD_FAVORITE": {
+                verb: "POST",
+                uri: "/favorites"
+            },
+            "REMOVE_FAVORITE": {
+                verb: "DELETE",
+                uri: "/favorites/{key}"
             }
         }
     }

@@ -14,6 +14,7 @@ define(["ko", "chain", "nativeCommunicationManager", "navigationManager"], funct
         self.searchResults = ko.observableArray();
         self.errorMessage = ko.observable();
         self.searching = ko.observable(false);
+        self.loading = ko.observable(false);
 
         self.shown = function(){
             if(!self._.shown){
@@ -92,6 +93,38 @@ define(["ko", "chain", "nativeCommunicationManager", "navigationManager"], funct
                     "song": song.id
                 }
             );
+        }
+
+        self.favorite = function(song){
+            chain.get()
+                .cc(function(context, error, next){
+                    self.errorMessage(null);
+                    self.loading(true);
+                    next()
+                })
+                .cc(function(context, error, next){
+                    self._.nativeCommunicationManager.sendNativeRequest(
+                        self._.nativeCommunicationManager.endpoints.ADD_FAVORITE,
+                        function(response){
+                            if("Error" in response){
+                                self.errorMessage("Error: " + response.Error);
+                            }
+                            else{
+                                alert("Successfully added " + song.title + "to favorites"); 
+                                next()
+                            }
+                        },
+                        null,
+                        {
+                            "youtubeKey": song.id,
+                            "title": song.title,
+                            "description": song.description,
+                            "uploader": song.uploader,
+                        })
+                })
+                .end(null, function(){
+                    self.loading(false)
+                });
         }
     }
 

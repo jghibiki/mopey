@@ -490,11 +490,11 @@ def ResetCurrentSongSpamTrackers():
 ###################
 ## Favorites Api ##
 ###################
-@app.route('/favorites', methods=["GET"])
+@app.route('/favorites/<int:page>', methods=["GET"])
 @nocache
 @requireAuth
-def GetFavorites():
-    return getFavorites(request.headers)
+def GetFavorites(page):
+    return getFavorites(page, request.headers)
 
 @app.route('/favorites', methods=["POST"])
 @nocache
@@ -507,6 +507,12 @@ def AddFavorite():
 @requireAuth
 def RemoveFavorite(key):
     return removeFavorite(key)
+
+@app.route('/favorites/count', methods=["GET"])
+@nocache
+@requireAuth
+def CountFavorites():
+    return countFavorites(request.headers)
 
 ####################
 ## Build Database ##
