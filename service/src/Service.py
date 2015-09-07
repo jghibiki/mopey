@@ -14,21 +14,48 @@ def main():
     system_dj = login()
     if system_dj["access_token"]:
         printl("SYSTEM_DJ has logged in")
+        song = 0
+        currentSong = 0
+        state = 0
         while True:
-            if systemAuth(system_dj)["result"]:
-                song, system_dj = checkIfStillLoggedIn(system_dj, requestApi, system_dj, "get", "/queue", "")
-                if song:
-                    playback, system_dj = checkIfStillLoggedIn(system_dj, requestApi, system_dj, "get", "/playback/state", "")
-                    if playback["result"] == "stopped":
-                        payload = {'song': song[0]["youtubeKey"]}
-                        req, system_dj = checkIfStillLoggedIn(system_dj, requestApi, system_dj, "post2", "/playback/add", payload)
-                        songLength = req["result"][0]["track"]["length"]
-                        junk, system_dj = checkIfStillLoggedIn(system_dj, requestApi, system_dj, "get", "/playback/play", "")
-                        sleep(songLength/1000.0)
-                        junk, system_dj = checkIfStillLoggedIn(system_dj, requestApi, system_dj, "delete", "/queue/" +  str(song[0]["key"]), "")
-            else:
-                printl("SYSTEM_DJ's token expired, renewing...")
-                system_dj = login()
+            if state == 0:
+                song = requestApi(system_dj, "get", "/queue/1", "")
+                if song.get("Error"):
+                    printl("Logining in at get queue state")
+                    system_dj = login()
+                elif song["result"]:
+                    state += 1
+            if state == 1:
+                playback = requestApi(system_dj, "get", "/playback/state", "")
+                if playback.get("Error"):
+                    printl("Logining in at playback state")
+                    system_dj = login()
+                elif playback["result"] == "stopped":
+                    state += 1
+            if state == 2:
+                payload = {"song": song["result"][0]["youtubeKey"]}
+                currentSong = requestApi(system_dj, "post2", "/playback/add", payload)
+                if currentSong.get("Error"):
+                    printl("Logining in at add state")
+                    system_dj = login()
+                else:
+                    state += 1
+            if state == 3:
+                play = requestApi(system_dj, "get", "/playback/play", "")
+                if play.get("Error"):
+                    printl("Logining in at play state")
+                    system_dj = login()
+                else:
+                    songLength = currentSong["result"][0]["track"]["length"]
+                    sleep(songLength/1000.0)
+                    state += 1
+            if state == 4:
+                delete = requestApi(system_dj, "delete", "/queue/" + str(song["result"][0]["key"]), "")
+                if delete.get("Error"):
+                    printl("Logining in at delete queue state")
+                    system_dj = login()
+                else:
+                    state = 0
             sleep(1)
     print "SYSTEM_DJ could not log in. Exiting."
 
@@ -39,11 +66,6 @@ def login():
 
 def authHeader(token):
     return header.update({'Authorization': token})
-
-def systemAuth(dj):
-    token = {"token": dj["access_token"]}
-    system_djToken = requestApi("", "post1", "/authenticate/verify/admin", token)
-    return system_djToken
 
 def requestApi(dj, call, endpoint, payload):
     if call == "get":
@@ -58,13 +80,6 @@ def requestApi(dj, call, endpoint, payload):
     elif call == "delete":
         req = requests.delete(baseUrl + endpoint, headers=header, auth=authHeader(dj["access_token"]))
         return req.json()
-
-def checkIfStillLoggedIn(dj, callback, *args):
-    if systemAuth(dj)["result"]:
-        return callback(*args), dj
-    else:
-        dj = login()
-        checkIfStillLoggedIn(dj, callback, *args)
 
 def printl(msg):
     print msg
