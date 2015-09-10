@@ -34,7 +34,18 @@
                         <tbody  data-bind="foreach: results">
                             <!-- ko if: $index() % 2 === 0 -->
                                 <tr>
-                                    <td data-bind="text: title"></td>
+                                    <td>
+                                        <div data-bind="text: title, css: {text-overflow: titleCollapse}, ">
+                                        </div>
+
+                                        <!-- ko if: titleCollapse -->
+                                            <button data-bind="click: toggleTitleCollapse">+</button>
+                                        <!-- /ko -->
+
+                                        <!-- ko ifnot: titleCollapse -->
+                                            <button data-bind="click: toggleTitleCollapse">-</button>
+                                        <!-- /ko -->
+                                    </td>
                                     <td data-bind="text: uploader"></td>
                                     <td data-bind="text: description"></td>
                                     <!-- ko if: $parent.isAdmin -->

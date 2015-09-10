@@ -23,11 +23,19 @@ define(["ko", "authenticationManager", "nativeCommunicationManager", "chain"], f
 
         self.error = ko.observable();
 
+        self.titleCollapse = ko.observable(true);
+
+        self.uploaderCollapse = ko.observable(true);
+
+        self.descriptionCollapse = ko.observable(true);
+
+
+
         self.hasRequests = ko.computed(function(){
             if( self.results() !== null &&
                 self.results() !== undefined)
             {
-                return self.results().length > 0
+                return self.results().length > 0;
             }
             else{
                 return false;
@@ -35,7 +43,7 @@ define(["ko", "authenticationManager", "nativeCommunicationManager", "chain"], f
         });
 
         self.queue = ko.computed(function(){
-            return self.page() > 0
+            return self.page() > 0;
         });
 
         self.first = ko.computed(function(){
@@ -168,6 +176,10 @@ define(["ko", "authenticationManager", "nativeCommunicationManager", "chain"], f
                 self.loading(false);
             })
         };
+
+        self.toggleTitleCollapse = function(){
+            self.titleCollapse(!self.titleCollapse());
+        }
     }
 
     return {
