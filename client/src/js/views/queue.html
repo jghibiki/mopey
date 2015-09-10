@@ -27,6 +27,7 @@
                                 <th>Description</th>
                                 <!-- ko if: isAdmin -->
                                     <th></th>
+                                    <th></th>
                                 <!-- /ko -->
                             </tr>
                         </thead>
@@ -37,6 +38,7 @@
                                     <td data-bind="text: uploader"></td>
                                     <td data-bind="text: description"></td>
                                     <!-- ko if: $parent.isAdmin -->
+                                        <td data-bind="text: user"></td>
                                         <td><button data-bind="click: $parent.removeSong">Remove</button></td>
                                     <!-- /ko -->
                                 </tr>
