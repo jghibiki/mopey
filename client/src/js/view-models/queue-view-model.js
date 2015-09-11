@@ -23,14 +23,6 @@ define(["ko", "authenticationManager", "nativeCommunicationManager", "chain"], f
 
         self.error = ko.observable();
 
-        self.titleCollapse = ko.observable(true);
-
-        self.uploaderCollapse = ko.observable(true);
-
-        self.descriptionCollapse = ko.observable(true);
-
-
-
         self.hasRequests = ko.computed(function(){
             if( self.results() !== null &&
                 self.results() !== undefined)
@@ -163,6 +155,15 @@ define(["ko", "authenticationManager", "nativeCommunicationManager", "chain"], f
                             error()
                         }
                         else{
+
+                            for( var x=0; x < response.result.length; x++){
+                                response.result[x]["descriptionCollapse"] = ko.observable(true);
+                                response.result[x]["toggleDescriptionCollapse"] = function(){
+                                    this.descriptionCollapse(!this.descriptionCollapse());
+                                };
+ 
+                            }
+
                             self.results(response.result);
                             next()
                         }
@@ -177,9 +178,6 @@ define(["ko", "authenticationManager", "nativeCommunicationManager", "chain"], f
             })
         };
 
-        self.toggleTitleCollapse = function(){
-            self.titleCollapse(!self.titleCollapse());
-        }
     }
 
     return {

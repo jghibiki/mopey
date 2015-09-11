@@ -1,4 +1,4 @@
-<div>
+<div style="width: 100%">
     <h1>Queue</h1>
     <hr>
     <!-- ko if: loading -->
@@ -34,18 +34,7 @@
                         <tbody  data-bind="foreach: results">
                             <!-- ko if: $index() % 2 === 0 -->
                                 <tr>
-                                    <td>
-                                        <div data-bind="text: title, css: {text-overflow: titleCollapse}, ">
-                                        </div>
-
-                                        <!-- ko if: titleCollapse -->
-                                            <button data-bind="click: toggleTitleCollapse">+</button>
-                                        <!-- /ko -->
-
-                                        <!-- ko ifnot: titleCollapse -->
-                                            <button data-bind="click: toggleTitleCollapse">-</button>
-                                        <!-- /ko -->
-                                    </td>
+                                    <td data-bind="text: title"></td>
                                     <td data-bind="text: uploader"></td>
                                     <td data-bind="text: description"></td>
                                     <!-- ko if: $parent.isAdmin -->
@@ -60,10 +49,6 @@
                                     <td data-bind="text: title"></td>
                                     <td data-bind="text: uploader"></td>
                                     <td data-bind="text: description"></td>
-                                    <!-- ko if: $parent.isAdmin -->
-                                        <td data-bind="text: user"></td>
-                                        <td><button data-bind="click: $parent.removeSong">Remove</button></td>
-                                    <!-- /ko -->
                                 </tr>
                             <!-- /ko -->
                         </tbody>
