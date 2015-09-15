@@ -60,12 +60,13 @@ def backupDb():
 
 
     # Export Favorites
-    out = "youtubeKey,title,uploader,description,user\n"
+    out = "youtubeKey,title,uploader,description,thumbnail,user\n"
     for favorite in Favorite.select().order_by(Favorite.key):
-        line = favorite.youtubeKey.encode('utf-8') + "," 
-	line += favorite.title.replace(",", "&#44;").encode('utf-8') + "," 
-	line += favorite.uploader.replace(",", "&#44;").encode('utf-8') + "," 
-	line += favorite.description.replace(",", "&#44;").encode('utf-8') + "," 
+        line = favorite.youtubeKey.encode('utf-8') + ","
+	line += favorite.title.replace(",", "&#44;").encode('utf-8') + ","
+	line += favorite.uploader.replace(",", "&#44;").encode('utf-8') + ","
+	line += favorite.description.replace(",", "&#44;").encode('utf-8') + ","
+        line += favorite.thumbnail.encode('utf-8') + ","
 	line +=  str(favorite.user.key) + "\n"
         out += line
     fh = open("backup/Favorite.csv", "w")
