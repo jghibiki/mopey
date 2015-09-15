@@ -34,8 +34,7 @@ define(["ko", "nativeCommunicationManager", "chain"], function(ko, NativeCommuni
         });
 
         self.last = ko.computed(function(){
-            pages = Math.floor(self.favoriteCount() / 10) 
-            return self.page() !== pages && 0 < pages;
+            return self.page() !== Math.floor(self.userCount() /10);
         });
 
         self.pageSubscription = null;
