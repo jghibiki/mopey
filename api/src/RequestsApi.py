@@ -14,6 +14,10 @@ def requestSong(json, headers):
 
     result = SearchApi.searchByKey(song)
 
+    for regex in Regex.select():
+        if re.search(regex.pattern, result["title"]):
+            raise GeneralApiException("Search request for query='" + query + "' has been denied, requested query failed to pass acceptance testing.")
+
     returnedRequest = Request.create(youtubeKey=song,
                    title = result["title"],
                    uploader = result["uploader"],
@@ -23,6 +27,7 @@ def requestSong(json, headers):
                    user = returnedUser)
 
     return jsonify({"key":returnedRequest.key})
+
 
 def getRequests(page):
     requests = []
