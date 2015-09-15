@@ -116,7 +116,7 @@ define(["ko", "chain", "nativeCommunicationManager", "navigationManager"], funct
                         },
                         null,
                         {
-                            "youtubeKey": song.id,
+                            "youtubeKey": song.id, 
                             "title": song.title,
                             "description": song.description,
                             "uploader": song.uploader,

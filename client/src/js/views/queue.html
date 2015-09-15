@@ -1,4 +1,4 @@
-<div style="width: 100%">
+<div>
     <h1>Queue</h1>
     <hr>
     <!-- ko if: loading -->
@@ -18,62 +18,67 @@
             <!-- /ko -->
 
             <!-- ko if: hasRequests -->
-                <div>
-                    <table class="pure-table">
-                        <thead>
+                <table class="pure-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Title</th>
+                            <th>Uploader</th>
+                            <th>Description</th>
+                            <!-- ko if: isAdmin -->
+                                <th>Requestor</th>
+                                <th></th>
+                            <!-- /ko -->
+                        </tr>
+                    </thead>
+                    <tbody  data-bind="foreach: results">
+                        <!-- ko if: $index() % 2 === 0 -->
                             <tr>
-                                <th>Title</th>
-                                <th>Uploader</th>
-                                <th>Description</th>
-                                <!-- ko if: isAdmin -->
-                                    <th>Requestor</th>
-                                    <th></th>
+                                <td>
+                                    <img data-bind="attr: { src: thumbnail }" class="thumbnail"/>
+                                </td>
+                                <td data-bind="text: title"></td>
+                                <td data-bind="text: uploader"></td>
+                                <td data-bind="text: description" style="max-height: 100%"></td>
+                                <!-- ko if: $parent.isAdmin -->
+                                    <td data-bind="text: user"></td>
+                                    <td><button data-bind="click: $parent.removeSong">Remove</button></td>
                                 <!-- /ko -->
                             </tr>
-                        </thead>
-                        <tbody  data-bind="foreach: results">
-                            <!-- ko if: $index() % 2 === 0 -->
-                                <tr>
-                                    <td data-bind="text: title"></td>
-                                    <td data-bind="text: uploader"></td>
-                                    <td data-bind="text: description"></td>
-                                    <!-- ko if: $parent.isAdmin -->
-                                        <td data-bind="text: user"></td>
-                                        <td><button data-bind="click: $parent.removeSong">Remove</button></td>
-                                    <!-- /ko -->
-                                </tr>
-                            <!-- /ko -->
-
-                            <!-- ko ifnot: $index() % 2 === 0 -->
-                                <tr class="pure-table-odd">
-                                    <td data-bind="text: title"></td>
-                                    <td data-bind="text: uploader"></td>
-                                    <td data-bind="text: description"></td>
-                                    <!-- ko if: $parent.isAdmin -->
-                                        <td data-bind="text: user"></td>
-                                        <td><button data-bind="click: $parent.removeSong">Remove</button></td>
-                                    <!-- /ko -->
-                                </tr>
-                            <!-- /ko -->
-                        </tbody>
-                    </table>
-                    <div>
-                        <!-- ko if: first -->
-                            <button data-bind="touchTap: move_first">&#060;&#060;</button>
-                        <!-- /ko -->
-                        
-                        <!-- ko if: backward -->
-                            <button data-bind="touchTap: move_backward">&#060;</button>&nbsp;
                         <!-- /ko -->
 
-                        <!-- ko if: forward -->
-                            <button data-bind="touchTap: move_forward">&#062;</button>
+                        <!-- ko ifnot: $index() % 2 === 0 -->
+                            <tr class="pure-table-odd">
+                                <td>
+                                    <img data-bind="attr: { src: thumbnail }" class="thumbnail"/>
+                                </td>
+                                <td data-bind="text: title"></td>
+                                <td data-bind="text: uploader"></td>
+                                <td data-bind="text: description"></td>
+                                <!-- ko if: $parent.isAdmin -->
+                                    <td data-bind="text: user"></td>
+                                    <td><button data-bind="click: $parent.removeSong">Remove</button></td>
+                                <!-- /ko -->
+                            </tr>
                         <!-- /ko -->
+                    </tbody>
+                </table>
+                <div>
+                    <!-- ko if: first -->
+                        <button data-bind="touchTap: move_first">&#060;&#060;</button>
+                    <!-- /ko -->
+                    
+                    <!-- ko if: backward -->
+                        <button data-bind="touchTap: move_backward">&#060;</button>&nbsp;
+                    <!-- /ko -->
 
-                        <!-- ko if: last -->
-                            <button data-bind="touchTap: move_last">&#062;&#062;</button>
-                        <!-- /ko -->
-                    </div>
+                    <!-- ko if: forward -->
+                        <button data-bind="touchTap: move_forward">&#062;</button>
+                    <!-- /ko -->
+
+                    <!-- ko if: last -->
+                        <button data-bind="touchTap: move_last">&#062;&#062;</button>
+                    <!-- /ko -->
                 </div>
             <!-- /ko -->
         <!-- /ko -->

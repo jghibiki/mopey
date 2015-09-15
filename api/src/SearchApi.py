@@ -47,6 +47,8 @@ def filterData(original):
         temp["title"] = item["snippet"]["title"]
         temp["description"] = item["snippet"]["description"]
         temp["uploader"] = item["snippet"]["channelTitle"]
+        temp["thumbnail"] = item["snippet"]["thumbnails"]["high"]["url"]
+
         try:
             temp["id"] = item["id"]["videoId"]
         except:
@@ -64,9 +66,12 @@ def searchByKey(key):
     youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
     developerKey=DEVELOPER_KEY)
 
-    search_request = youtube.videos().list(
+    search_request = youtube.search().list(
         part="id,snippet",
-        id=key
+        q=key,
+        type="video",
+        maxResults=1,
+        order="relevance"
     )
 
     searchResponse = json.dumps(search_request.execute(), separators=[',',':'])

@@ -19,6 +19,7 @@
                 <thead>
                     <tr>
                         <th></th>
+                        <th></th>
                         <th>Title</th>
                         <th>Uploader</th>
                         <th>Description</th>
@@ -29,6 +30,9 @@
                     <!-- ko if: $index() % 2 === 0 -->
                         <tr>
                             <td><button data-bind="click: $parent.requestSong">Request</button></td>
+                            <td>
+                                <img data-bind="attr: { src: thumbnail }" class="thumbnail"/>
+                            </td>
                             <td data-bind="text: title"></td>
                             <td data-bind="text: uploader"></td>
                             <td data-bind="text: description"></td>
@@ -39,6 +43,9 @@
                     <!-- ko ifnot: $index() % 2 === 0 -->
                         <tr class="pure-table-odd">
                             <td><button data-bind="click: $parent.requestSong">Request</button></td>
+                            <td>
+                                <img data-bind="attr: { src: thumbnail }" class="thumbnail"/>
+                            </td>
                             <td data-bind="text: title"></td>
                             <td data-bind="text: uploader"></td>
                             <td data-bind="text: description"></td>

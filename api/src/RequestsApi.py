@@ -18,6 +18,7 @@ def requestSong(json, headers):
                    title = result["title"],
                    uploader = result["uploader"],
                    description = result["description"],
+                   thumbnail = result["thumbnail"],
                    date = datetime.utcnow(),
                    user = returnedUser)
 
@@ -31,6 +32,7 @@ def getRequests(page):
             "uploader": req.uploader,
             "youtubeKey": req.youtubeKey,
             "description": req.description,
+            "thumbnail": req.thumbnail,
             "date": str(req.date),
             "user": req.user.key,
             "key": req.key
@@ -61,6 +63,7 @@ def getCurrentRequest():
                 "uploader": request.uploader,
                 "youtubeKey": request.youtubeKey,
                 "description": request.description,
+                "thumbnail": request.thumbnail,
                 "date": request.date,
                 "user": request.user.key,
                 "key": request.key
