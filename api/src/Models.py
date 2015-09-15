@@ -100,5 +100,6 @@ class Favorite(BaseModel):
     title = TextField()
     uploader = TextField()
     description = TextField()
+    thumbnail = TextField()
     user = ForeignKeyField(rel_model=User, related_name="favorites")
 

@@ -13,11 +13,13 @@ def getFavorites(page, headers):
             "youtubeKey": fav.youtubeKey,
             "title": fav.title,
             "description": fav.description,
+            "thumbnail": fav.thumbnail,
             "uploader": fav.uploader,
            })
     return jsonify({"result": favs})
 
 def addFavorite(json, headers):
+    user = ForeignKeyField
     token = headers['Authorization']
     requestUser = AccessToken.get(AccessToken.token == token).user
 
@@ -25,6 +27,7 @@ def addFavorite(json, headers):
                     title=json["title"],
                     uploader=json["uploader"],
                     description=json["description"],
+                    thumbnail=json["thumbnail"],
                     user=requestUser)
 
     if fav is not None:

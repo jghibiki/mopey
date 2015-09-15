@@ -119,6 +119,7 @@ define(["ko", "chain", "nativeCommunicationManager", "navigationManager"], funct
                             "youtubeKey": song.id, 
                             "title": song.title,
                             "description": song.description,
+                            "thumbnail": song.thumbnail,
                             "uploader": song.uploader,
                         })
                 })

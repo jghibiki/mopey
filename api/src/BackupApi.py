@@ -59,6 +59,21 @@ def backupDb():
     fh.close()
 
 
+    # Export Favorites
+    out = "youtubeKey,title,uploader,description,user,thumbnail\n"
+    for favorite in Favorite.select().order_by(Favorite.key):
+        line = str(favorite.youtubeKey) + "," \
+             + str(favorite.title) + "," \
+             + str(favorite.uploader) + "," \
+             + str(favorite.description) + "," \
+             + str(favorite.user.key) + "\n"
+             #+ str(favorite.thumbnail) + "," \
+        out += line
+    fh = open("backup/Favorite.csv", "w")
+    fh.write(out)
+    fh.close()
+
+
 
 
 def importDb():
@@ -86,6 +101,7 @@ def importDb():
         load_csv(Admin, "import/Admin.csv")
         load_csv(Regex, "import/Regex.csv")
         load_csv(SpamReport, "import/SpamReport.csv")
+        load_csv(Favorite, "import/Favorite.csv")
         return "Imported Models"
     else:
         return "No import dir"
