@@ -55,19 +55,19 @@ define(["ko", "authenticationManager"], function(ko, AuthenticationManagerModule
                 self.errorMessage("Please enter a username.");
                 return;
             }
-            self.username("");
 
             pass = self.password();
             if(pass === "" || pass === null || pass === undefined){
                 self.errorMessage("Please enter a password.")
                 return;
             }
-            self.password("");
+            self.username("");
 
             self.loggingIn(true)
             self._.authenticationManager.login(user, pass, 
                     function(){
                         self.loggingIn(false)
+                        self.password("");
                     },
                     function(error){
                         self.errorMessage(error);
