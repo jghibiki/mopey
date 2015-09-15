@@ -49,9 +49,9 @@ def backupDb():
         line = str(pamReport.offender.key) + "," \
              + str(spamReport.reporter.key) + "," \
              + spamReport.youtubeKey + "," \
-             + spamReport.title + "," \
-             + spamReport.uploader + "," \
-             + spamReport.description + "," \
+             + spamReport.title.replace(",", "&#44;").encodE('utf-8') + "," \
+             + spamReport.uploader.replace(",", "&#44;").encodE('utf-8') + "," \
+             + spamReport.description.replace(",", "&#44;").encodE('utf-8') + "," \
              + str(spamReport.date) + "\n"
         out += line
     fh = open("backup/SpamReport.csv", "w")
@@ -60,14 +60,13 @@ def backupDb():
 
 
     # Export Favorites
-    out = "youtubeKey,title,uploader,description,user,thumbnail\n"
+    out = "youtubeKey,title,uploader,description,user\n"
     for favorite in Favorite.select().order_by(Favorite.key):
-        line = str(favorite.youtubeKey) + "," \
-             + str(favorite.title) + "," \
-             + str(favorite.uploader) + "," \
-             + str(favorite.description) + "," \
-             + str(favorite.user.key) + "\n"
-             #+ str(favorite.thumbnail) + "," \
+        line = favorite.youtubeKey.encode('utf-8') + "," 
+	line += favorite.title.replace(",", "&#44;").encode('utf-8') + "," 
+	line += favorite.uploader.replace(",", "&#44;").encode('utf-8') + "," 
+	line += favorite.description.replace(",", "&#44;").encode('utf-8') + "," 
+	line +=  str(favorite.user.key) + "\n"
         out += line
     fh = open("backup/Favorite.csv", "w")
     fh.write(out)
