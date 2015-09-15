@@ -2,7 +2,10 @@
     <h1>Search</h1>
     <hr>
 
-    <div data-bind="text: errorMessage">
+    <div data-bind="if: errorMessage">
+	    <div data-bind="text: errorMessage">
+	    </div>
+	    <hr>
     </div>
     
     <div data-bind="if : searching">

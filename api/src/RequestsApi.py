@@ -4,6 +4,7 @@ from flask import jsonify
 import UserApi
 import SearchApi
 import json
+import re
 
 def requestSong(json, headers):
 
@@ -16,7 +17,7 @@ def requestSong(json, headers):
 
     for regex in Regex.select():
         if re.search(regex.pattern, result["title"]):
-            raise GeneralApiException("Search request for query='" + query + "' has been denied, requested query failed to pass acceptance testing.")
+            return jsonify({"Error": "Search request for '" + result["title"] + "' has been denied, requested query failed to pass acceptance testing."})
 
     returnedRequest = Request.create(youtubeKey=song,
                    title = result["title"],
