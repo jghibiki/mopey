@@ -132,8 +132,11 @@ define(["ko", "authenticationManager", "nativeCommunicationManager", "chain"], f
                         }
                         else{
                             if(response.result !== null){
-                                self.currentRequest(response.result);
-                                self.thumbnail(response.result.thumbnail);
+					if(self.currentRequest() === null 
+                                            || response.result.title !== self.currentRequest().title){
+					self.currentRequest(response.result);
+					self.thumbnail(response.result.thumbnail);
+                                }
                             }
                             else{
                                 self.currentRequest(null);
