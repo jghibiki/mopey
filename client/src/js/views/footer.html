@@ -1,13 +1,56 @@
 <div id="footer" class="pure-g">
     <div class="pure-u-1-5">
-        album art
+        <img data-bind="attr: { src: thumbnail }" class="thumbnail"> 
     </div>
     <div class="pure-u-2-5">
-        asdf
+        <!-- ko if: loading -->
+            <div>
+                Loading...
+            </div>
+        <!-- /ko -->
+
+        <!-- ko ifnot: loading -->
+            
+            <!-- ko if errorMessage -->
+                <div data-bind="text: errorMessage"></div>
+            <!-- /ko -->
+            
+            <!-- ko ifnot: errorMessage -->
+                
+                <!-- ko if: currentRequest -->
+                    <div>
+                        <div>
+                            <h1 data-bind="text: currentRequest().title"></h1>
+                            <h2 data-bind="text: currentRequest().uploader"></h2>
+                            <div data-bind="text: currentRequest().description"></div>
+
+                        </div>
+                    </div>
+                <!-- /ko -->
+
+                <!-- ko ifnot: currentRequest -->
+                    <div>
+                        Nothing is playing.
+                    </div>
+                <!-- /ko -->
+
+            <!-- /ko -->
+
+        <!-- /ko -->
     </div>
     <div class="pure-u-2-5">
         <!-- ko if: admin -->
-        <button data-bind="touchTap: skip">Skip</button>
+            <div class="pure-g">
+                <div class="pure-u-2-3">
+                    <!-- ko if: currentRequest -->
+                        Requestor: <span data-bind="text: currentRequest().user"></span>
+                    <!-- /ko -->
+                </div>
+
+                <div class="pure-u-1-3">
+                    <button data-bind="touchTap: skip">Skip</button>
+                </div>
+            </div>
         <!-- /ko -->
     </div>
 </div>

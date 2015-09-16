@@ -6,6 +6,8 @@ define(["ko", "authenticationManager", "nativeCommunicationManager", "chain"], f
             disposed: false,
             shown: false,
             skiping: false,
+            timer: null, 
+            defaultThumbnail: "/img/missing.png",
             authenticationManager: AuthenticationManagerModule.get(),
             nativeCommunicationManager: NativeCommunicationManagerModule.get()
         };
@@ -13,6 +15,12 @@ define(["ko", "authenticationManager", "nativeCommunicationManager", "chain"], f
         self.admin = ko.observable();
 
         self.adminSubscription = null; 
+
+        self.currentRequest = ko.observable(null);
+        self.thumbnail = ko.observable(self._.defaultThumbnail);
+        self.loading = ko.observable(false);
+        self.errorMessage = ko.observable(null);
+
 
         self.shown = function(){
             if(!self._.shown){
@@ -22,12 +30,18 @@ define(["ko", "authenticationManager", "nativeCommunicationManager", "chain"], f
                 });
                 self.admin(self._.authenticationManager.admin());
 
+                self._.timer = setInterval(self.getCurrentRequest, 10000);
+                self.getCurrentRequest();
+
                 self._.shown = true;
             }
         };
 
         self.hidden = function(){
             if(self._.shown){
+
+                clearInterval(self._.timer)
+
                 self._.shown = false;
             }
         };
@@ -103,6 +117,37 @@ define(["ko", "authenticationManager", "nativeCommunicationManager", "chain"], f
         }
         
 
+        self.getCurrentRequest = function(){
+            if(!self.loading()){
+
+                self.loading(true);
+                self.errorMessage(null);
+
+                self._.nativeCommunicationManager.sendNativeRequest(
+                    self._.nativeCommunicationManager.endpoints.GET_CURRENT_REQUEST,
+                    function(response){
+                        if("Error" in response){
+                            self.errorMessage(response.Error);
+                            self.loading(false);
+                        }
+                        else{
+                            if(response.result !== null){
+                                self.currentRequest(response.result);
+                                self.thumbnail(response.result.thumbnail);
+                            }
+                            else{
+                                self.currentRequest(null);
+                                self.thumbnail(self._.defaultThumbnail);
+                            }
+                            self.loading(false);
+                        }
+                    },
+                    null,
+                    null
+                );
+
+            }
+        }
     }
     
     return {
