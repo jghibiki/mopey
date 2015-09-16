@@ -53,7 +53,14 @@ class Request(BaseModel):
 class CurrentRequest(BaseModel):
     key = PrimaryKeyField()
 
-    request = ForeignKeyField(rel_model=Request, related_name="currentRequest")
+    youtubeKey = TextField()
+    title = TextField()
+    uploader = TextField()
+    description = TextField()
+    thumbnail = TextField()
+    date = DateTimeField()
+    user = ForeignKeyField(rel_model=User, related_name="currentRequest")
+
 
 class Upvote(BaseModel):
     key = PrimaryKeyField()

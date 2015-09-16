@@ -417,6 +417,16 @@ def SetCurrentRequest():
     """
     return setCurrentRequest(request.json)
 
+@app.route("/queue/current", methods=["DELETE"])
+@nocache
+@requireAdmin
+def DeleteCurrentRequest():
+    """
+    Deletes the currently playing song
+    """
+    return deleteCurrentRequest()
+
+
 @app.route('/queue/<int:page>', methods=["GET"])
 @nocache
 def GetRequests(page):

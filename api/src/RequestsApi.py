@@ -60,46 +60,61 @@ def countRequests():
 
 def getCurrentRequest():
     request = None
-    request = CurrentRequest.first(Request.key != None)
 
     try:
-        if request:
-            resp = {
-                "title": request.title,
-                "uploader": request.uploader,
-                "youtubeKey": request.youtubeKey,
-                "description": request.description,
-                "thumbnail": request.thumbnail,
-                "date": request.date,
-                "user": request.user.key,
-                "key": request.key
-            }
-
-            return jsonify({"result": resp})
-        else:
-            return jsonify({"result": None})
+        request = CurrentRequest.select().where(CurrentRequest.key != None).first()
 
     except:
         return jsonify({"Error": "Failed to get current request."})
 
+    if request:
+        resp = {
+            "title": request.title,
+            "uploader": request.uploader,
+            "youtubeKey": request.youtubeKey,
+            "description": request.description,
+            "thumbnail": request.thumbnail,
+            "date": request.date,
+            "user": request.user.key,
+            "key": request.key
+        }
+
+        return jsonify({"result": resp})
+    else:
+        return jsonify({"result": None})
+
+
 def setCurrentRequest(json):
 
-    currentRequest = CurrentRequest.get(CurrentRequest.key != None)
+    currentRequest = None
+    try:
+        currentRequest = CurrentRequest.get(CurrentRequest.key != None)
+    except:
+        pass
 
-    if not currentRequest:
-            requestKey = json["key"]
+    if currentRequest is None:
 
-            returnedRequest = Request.get(Request.key == requestKey)
+        returnedUser = User.get(User.key == int(json["user"]))
 
-            if not returnedRequest:
-
-                try:
-                    newRequest = CurrentRequest.create(request=returnedRequest)
-                    return jsonify({"result": currentRequest.key})
-                except:
-                    return jsonify({"Error": "Failed to set current request"})
-            else:
-                return jsonify({"Error": "Could not find a valid request with a key matchng the one provided."})
+        newRequest = CurrentRequest.create(
+            youtubeKey=json["youtubeKey"],
+            title=json["title"],
+            uploader=json["uploader"],
+            description=json["description"],
+            thumbnail=json["thumbnail"],
+            date=datetime.utcnow(),
+            user=returnedUser
+        )
+        return jsonify({"result": newRequest.key})
     else:
         return jsonify({"Error": "There is already another song listed as the current song."})
 
+
+def deleteCurrentRequest():
+    currentRequest = CurrentRequest.select().where(CurrentRequest.key != None).first()
+
+    try:
+        currentRequest.delete_instance()
+        return jsonify({"return": None})
+    except:
+        return jsonify({"Error": "Failed to delete current request"})

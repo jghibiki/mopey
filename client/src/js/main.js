@@ -54,6 +54,7 @@ requirejs.config({
             "addUserViewModel": "singleton!viewModel!views/add-user.html:view-models/add-user-view-model",
             "helpViewModel": "singleton!viewModel!views/help.html:view-models/help-view-model",
             "favoritesViewModel": "singleton!viewModel!views/favorites.html:view-models/favorites-view-model",
+            "nowPlayingViewModel": "singleton!viewModel!views/now-playing.html:view-models/now-playing-view-model",
 
             //managers
             "singletonManager": "managers/singleton-manager",
@@ -151,7 +152,7 @@ requirejs.config({
             {
                 route: "account",
                 friendlyName: "Account",
-                presedence: 2,
+                presedence: 3,
                 viewModel: "accountViewModel",
                 admin: false,
                 loggedIn: true,
@@ -161,7 +162,7 @@ requirejs.config({
             {
                 route: "karma",
                 friendlyName: "Karma",
-                presedence: 3,
+                presedence: 4,
                 viewModel: "karmaViewModel",
                 admin: false,
                 loggedIn:true,
@@ -212,7 +213,7 @@ requirejs.config({
                 route: "regex",
                 friendlyName: "Regex Config",
                 viewModel: "regexViewModel",
-                presedence: 10,
+                presedence: 5,
                 admin: true,
                 loggedIn: true,
                 children: [],
@@ -222,7 +223,7 @@ requirejs.config({
                 route: "add-user",
                 friendlyName: "Add User",
                 viewModel: "addUserViewModel",
-                presedence: 9,
+                presedence: 6,
                 admin: true,
                 loggedIn: true,
                 children: [],
@@ -242,7 +243,17 @@ requirejs.config({
                 route: "favorites",
                 friendlyName: "Favorites",
                 viewModel: "favoritesViewModel",
-                presedence: 10,
+                presedence: 7,
+                admin: false,
+                loggedIn: true,
+                children: [],
+                config: {}
+            },
+            {
+                route: "now-playing",
+                friendlyName: "Now Playing",
+                viewModel: "nowPlayingViewModel",
+                presedence: 1,
                 admin: false,
                 loggedIn: true,
                 children: [],
@@ -380,6 +391,14 @@ requirejs.config({
             "COUNT_REQUESTS": {
                 verb: "GET",
                 uri: "/queue/count"
+            },
+            "GET_CURRENT_REQUEST": {
+                verb: "GET",
+                uri: "/queue/current"
+            },
+            "SET_CURRENT_REQUEST": {
+                verb: "POST",
+                uri: "/queue/current"
             },
 
             /* Karma */

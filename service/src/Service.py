@@ -44,6 +44,12 @@ class Service:
                song = None
                if len(self.response["result"]) > 0:
                    song = self.response["result"][0]
+                   self.pre(self.delete, "/queue/" +  str(song["key"]))
+
+                   payload = song
+                   self.pre(self.post, "/queue/current", payload=payload)
+                   self.printl("Setting current request: ")
+                   self.printl((self.response["Error"] if "Error" in self.response else self.response["result"]))
 
                    payload = {'song': song["youtubeKey"]}
                    self.pre(self.post, "/playback/add", payload=payload)
@@ -88,24 +94,15 @@ class Service:
                                     command = None
                                     commandKey = None
                                else:
-                                    self.printl("Song ended. Removing from queue if it is still there.")
+                                    self.printl("Song ended.")
 
-                               self.pre(self.get, "/queue/0")
+                                    self.printl("Clearing mopidy queue...")
+                                    self.pre(self.delete, "/queue/current")
+                                    self.pre(self.get, "/playback/clear")
+                                    self.pre(self.get, "/playback/next")
 
-                               newSong = None
-                               if len(self.response["result"]) > 0:
-                                   newSong = self.response["result"][0]
-
-
-                               if(newSong is not None and  song["key"] == newSong["key"]):
-                                   self.pre(self.delete, "/queue/" +  str(song["key"]))
-
-                                   self.printl("Clearing mopidy queue...")
-                                   self.pre(self.get, "/playback/clear")
-                                   self.pre(self.get, "/playback/next")
-
-                                   # break out if loop
-                                   break
+                                    # break out if loop
+                                    break
                            else:
                                self.printl("Waiting for song to end...")
                                sleep(2)
