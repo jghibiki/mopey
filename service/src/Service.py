@@ -96,13 +96,13 @@ class Service:
                                else:
                                     self.printl("Song ended.")
 
-                                    self.printl("Clearing mopidy queue...")
-                                    self.pre(self.delete, "/queue/current")
-                                    self.pre(self.get, "/playback/clear")
-                                    self.pre(self.get, "/playback/next")
+                               self.printl("Clearing mopidy queue...")
+                               self.pre(self.delete, "/queue/current")
+                               self.pre(self.get, "/playback/clear")
+                               self.pre(self.get, "/playback/next")
 
-                                    # break out if loop
-                                    break
+                               # break out if loop
+                               break
                            else:
                                self.printl("Waiting for song to end...")
                                sleep(2)
