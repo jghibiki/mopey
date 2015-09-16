@@ -22,6 +22,8 @@ define(["ko", "authenticationManager", "nativeCommunicationManager", "chain"], f
         self.loading = ko.observable(false);
 
         self.error = ko.observable();
+	
+	self.currentRequest = ko.observable();
 
         self.hasRequests = ko.computed(function(){
             if( self.results() !== null &&
@@ -155,15 +157,6 @@ define(["ko", "authenticationManager", "nativeCommunicationManager", "chain"], f
                             error()
                         }
                         else{
-
-                            for( var x=0; x < response.result.length; x++){
-                                response.result[x]["descriptionCollapse"] = ko.observable(true);
-                                response.result[x]["toggleDescriptionCollapse"] = function(){
-                                    this.descriptionCollapse(!this.descriptionCollapse());
-                                };
- 
-                            }
-
                             self.results(response.result);
                             next()
                         }
@@ -172,6 +165,31 @@ define(["ko", "authenticationManager", "nativeCommunicationManager", "chain"], f
                         "page": self.page()
                     },
                     null);
+            })
+            .cc(function(context, error, next){
+
+		self._.nativeCommunicationManager.sendNativeRequest(
+		    self._.nativeCommunicationManager.endpoints.GET_CURRENT_REQUEST,
+		    function(response){
+			if("Error" in response){
+			    self.errorMessage(response.Error);
+			    self.loading(false);
+			    error()
+			}
+			else{
+			    if(response.result !== null){
+				self.currentRequest(response.result);
+			    }
+			    else{
+				self.currentRequest(null);
+			    }
+			    next()
+			}
+		    },
+		    null,
+		    null
+		);
+
             })
             .end(null, function(){
                 self.loading(false);

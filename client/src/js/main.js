@@ -255,7 +255,7 @@ requirejs.config({
                 viewModel: "nowPlayingViewModel",
                 presedence: 1,
                 admin: false,
-                loggedIn: true,
+                loggedIn: false,
                 children: [],
                 config: {}
             }

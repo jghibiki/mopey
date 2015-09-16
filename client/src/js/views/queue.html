@@ -11,11 +11,43 @@
 
         <!-- ko ifnot: error -->
 
+	    <h2>Now Playing:</h2>
+	    <!-- ko ifnot: currentRequest -->  
+		Nothing is playing!
+            <!-- /ko -->
+
+            <!-- ko if: currentRequest -->
+                <table class="pure-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Title</th>
+                            <th>Uploader</th>
+                            <th>Description</th>
+                    </thead>
+                    <tbody>
+                            <tr>
+                                <td>
+                                    <img data-bind="attr: { src: currentRequest().thumbnail }" class="thumbnail"/>
+                                </td>
+                                <td data-bind="text: currentRequest().title"></td>
+                                <td data-bind="text: currentRequest().uploader"></td>
+                                <td data-bind="text: currentRequest().description" style="max-height: 100%"></td>
+                            </tr>
+                    </tbody>
+                </table>
+            <!-- /ko -->
+	
+            <br>
+            <br>
+            <h2>Requests:</h2>
+
             <!-- ko ifnot: hasRequests -->
                 <div>
-                    No requests queued!
+                    No requests in the queue!
                 </div>
             <!-- /ko -->
+
 
             <!-- ko if: hasRequests -->
                 <table class="pure-table">
