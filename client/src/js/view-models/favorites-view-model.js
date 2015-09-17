@@ -52,7 +52,7 @@ define(["ko", "nativeCommunicationManager", "chain"], function(ko, NativeCommuni
         }
 
         self.move_last = function(){
-            self.page(Math.floor(self.userCount()/10));
+            self.page(Math.floor(self.favoriteCount()/10));
         }
 
 
